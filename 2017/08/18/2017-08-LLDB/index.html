@@ -173,11 +173,11 @@
   </header>
 
   <section class="post">
-    <h1 id="一些基础知识"><a href="#一些基础知识" class="headerlink" title="一些基础知识"></a>一些基础知识</h1><h2 id="增加断点"><a href="#增加断点" class="headerlink" title="增加断点"></a>增加断点</h2><p>使用 b 后面加上 selector，就可以增加一个断点，lldb 会打印断点的编号、描述以及断点的内存地址。</p>
+    <h1 id="一些基础知识">一些基础知识</h1><h2 id="增加断点">增加断点</h2><p>使用 b 后面加上 selector，就可以增加一个断点，lldb 会打印断点的编号、描述以及断点的内存地址。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(lldb) b -[NSView hitTest:]</span><br><span class="line">Breakpoint 1: where = AppKit`-[NSView hitTest:], address = 0x00007fff4f088798</span><br><span class="line">(lldb)continue</span><br></pre></td></tr></table></figure>
 <p>因为使用 lldb 的 b 命令会让 App 暂停，因此使用 continue 命令让 App 继续运行，然后我们通过一些动作来主动触发这个断点。</p>
 <a id="more"></a>
-<h2 id="触发断点"><a href="#触发断点" class="headerlink" title="触发断点"></a>触发断点</h2><p>当增加了断点后，比如上面这个 hitTest 方法，我们知道是 view 被点击后，就会被调用。因此可以点击后尝试一下：</p>
+<h2 id="触发断点">触发断点</h2><p>当增加了断点后，比如上面这个 hitTest 方法，我们知道是 view 被点击后，就会被调用。因此可以点击后尝试一下：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">(lldb) continue</span><br><span class="line"><span class="meta">#</span><span class="bash"> 进程已经恢复</span></span><br><span class="line">Process 1230 resuming</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 触发断点后，进程暂停</span></span><br><span class="line">Process 1230 stopped</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 打印出线程信息，暂停原因，以及部分汇编代码</span></span><br><span class="line">* thread #1, queue = 'com.apple.main-thread', stop reason = breakpoint 1.1</span><br><span class="line"></span><br><span class="line">    frame #0: 0x00007fff4f088798 AppKit`-[NSView hitTest:]</span><br><span class="line">AppKit`-[NSView hitTest:]: （# 栈帧）</span><br><span class="line"><span class="meta">-&gt;</span><span class="bash">  0x7fff4f088798 &lt;+0&gt;: pushq  %rbp</span></span><br><span class="line">    0x7fff4f088799 &lt;+1&gt;: movq   %rsp, %rbp</span><br><span class="line">    0x7fff4f08879c &lt;+4&gt;: pushq  %r15</span><br><span class="line">    0x7fff4f08879e &lt;+6&gt;: pushq  %r14</span><br><span class="line">Target 0: (Xcode) stopped.</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>  在 X86-64 架构中，所有的寄存器都是 64 位，并且有 16 个寄存器。</p>
@@ -232,7 +232,7 @@
 </li>
 </ul>
 </blockquote>
-<h3 id="栈帧（32Bit）"><a href="#栈帧（32Bit）" class="headerlink" title="栈帧（32Bit）"></a>栈帧（32Bit）</h3><p>计算机应用程序的运行，可以理解为一个个的函数调用。App 调用 main 函数开始，然后在 main 函数中执行代码并调用其他函数。</p>
+<h3 id="栈帧（32Bit）">栈帧（32Bit）</h3><p>计算机应用程序的运行，可以理解为一个个的函数调用。App 调用 main 函数开始，然后在 main 函数中执行代码并调用其他函数。</p>
 <p>调用函数，那么就需要进行参数传递、局部变量分配，上下文环境的保存和恢复。而这些操作，都是通过进栈和出栈来完成的。</p>
 <p>每次调用函数时，给函数实例分配的内存空间就是栈帧。另外，在内存中，栈是从高地址️向低地址延伸。</p>
 <p>下图，为 DrawSquare 函数调用 DrawLine 函数的调用栈布局（call stack layout），在这里注意下几个特殊的寄存器：</p>
@@ -250,12 +250,12 @@
 <li>函数执行完成，将保存寄存器里的值压栈。</li>
 </ol>
 <p><img src="/images/2C1D6070-CF81-42BB-9EF6-7D9D107A3497.png" alt="2C1D6070-CF81-42BB-9EF6-7D9D107A3497"></p>
-<h3 id="DrawLine-函数中的寻址"><a href="#DrawLine-函数中的寻址" class="headerlink" title="DrawLine 函数中的寻址"></a>DrawLine 函数中的寻址</h3><p>DrawLine 函数的栈帧中，所有栈内存的寻址方式为相对寻址，也就是与 EBP 的偏移量。在上图右边指出来了，例如 Local Var #1 这个局部变量，内存地址为 <code>-4</code> ，因为相对于 EBP（当前栈帧），它的位置小于 EBP 32bit，也就是 4 字节。</p>
+<h3 id="DrawLine_函数中的寻址">DrawLine 函数中的寻址</h3><p>DrawLine 函数的栈帧中，所有栈内存的寻址方式为相对寻址，也就是与 EBP 的偏移量。在上图右边指出来了，例如 Local Var #1 这个局部变量，内存地址为 <code>-4</code> ，因为相对于 EBP（当前栈帧），它的位置小于 EBP 32bit，也就是 4 字节。</p>
 <blockquote>
 <p>  - 4 表示小于，因为栈的创建是从高地址到低地址。</p>
 </blockquote>
 <p>而 DrawSquare 函数栈帧最后面传递下来的参数，我们也是用相对寻址，不过就是大于号了。这样子也能很方便的获取当前函数的参数。</p>
-<h3 id="栈帧的销毁"><a href="#栈帧的销毁" class="headerlink" title="栈帧的销毁"></a>栈帧的销毁</h3><p>当 drawLine 函数完成后，那么就需要将结果返回，并销毁当前栈帧。</p>
+<h3 id="栈帧的销毁">栈帧的销毁</h3><p>当 drawLine 函数完成后，那么就需要将结果返回，并销毁当前栈帧。</p>
 <ol>
 <li>将之前使用的通用寄存器等的值恢复。</li>
 <li>将 Frame Point 恢复其旧值，因为也用不到了</li>
@@ -265,31 +265,31 @@
 <blockquote>
 <p>  在 32bit 的 CPU 架构中，前缀都是 e，也就是 EBP，EIP等，在 64 bit CPU 架构（Risc 架构）中，前缀都是 r。所以对于文章中一会儿 e 一会儿 r 不要特别纠结。</p>
 </blockquote>
-<h3 id="分析下之前的汇编代码"><a href="#分析下之前的汇编代码" class="headerlink" title="分析下之前的汇编代码"></a>分析下之前的汇编代码</h3><p>阅读了上面关于寄存器的介绍，再次重新看看那部分汇编代码：</p>
+<h3 id="分析下之前的汇编代码">分析下之前的汇编代码</h3><p>阅读了上面关于寄存器的介绍，再次重新看看那部分汇编代码：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 栈帧在这里开始，也就是说，hitTest 函数被调用了，EBP 也就是基地址是 0x00007fff4f088798</span></span><br><span class="line">frame #0: 0x00007fff4f088798 AppKit`-[NSView hitTest:]</span><br><span class="line">AppKit`-[NSView hitTest:]: （# 栈帧）</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 旧的 RBP 基地址入栈, 保存<span class="built_in">caller</span>的%rbp寄存器值，这个%rbp在函数返回给<span class="built_in">caller</span>的时候需要恢复原来值，通过leave指令完成。</span></span><br><span class="line"><span class="meta">-&gt;</span><span class="bash">  0x7fff4f088798 &lt;+0&gt;: pushq  %rbp</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 当前的 %rsp 覆盖旧的地址，作为 callee 基地址入栈</span></span><br><span class="line">    0x7fff4f088799 &lt;+1&gt;: movq   %rsp, %rbp</span><br><span class="line">    </span><br><span class="line"><span class="meta">#</span><span class="bash"> 参数入栈</span></span><br><span class="line">    0x7fff4f08879c &lt;+4&gt;: pushq  %r15</span><br><span class="line">    0x7fff4f08879e &lt;+6&gt;: pushq  %r14</span><br></pre></td></tr></table></figure>
-<h3 id="打印寄存器中的值试试看"><a href="#打印寄存器中的值试试看" class="headerlink" title="打印寄存器中的值试试看"></a>打印寄存器中的值试试看</h3><p>现在 lldb 停在了断点这个位置，且知道 %rdi、%rsi、%rdx、%rcx、r8、r9 分别是参数。那么我们可以打印寄存器中的值看一下都是啥：</p>
+<h3 id="打印寄存器中的值试试看">打印寄存器中的值试试看</h3><p>现在 lldb 停在了断点这个位置，且知道 %rdi、%rsi、%rdx、%rcx、r8、r9 分别是参数。那么我们可以打印寄存器中的值看一下都是啥：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">(lldb) po $rdi</span><br><span class="line"><span class="meta">#</span><span class="bash"> 这里打印的地方与触发断点的 view 有关系</span></span><br><span class="line">&lt;_NSThemeCloseWidget: 0x10fee4ee0&gt;</span><br><span class="line"></span><br><span class="line">(lldb) po $rsi</span><br><span class="line">140734531706171</span><br><span class="line"></span><br><span class="line">(lldb) po $rdx</span><br><span class="line">NSButton</span><br><span class="line"></span><br><span class="line">(lldb) po $rcx</span><br><span class="line">21474836486</span><br><span class="line"></span><br><span class="line">(lldb) po $r8</span><br><span class="line">16</span><br><span class="line"></span><br><span class="line">(lldb) po $r9</span><br><span class="line">3202</span><br></pre></td></tr></table></figure>
-<h4 id="PO-（Print-Object）"><a href="#PO-（Print-Object）" class="headerlink" title="PO （Print Object）"></a>PO （Print Object）</h4><p>顺便介绍下 po 指令，lldb 中 po （print object）用来打印对象，会自动调用对象的 description 或者 debugDespriction，这也是为什么 po $rdi 能打印出对象名的原因。</p>
+<h4 id="PO_（Print_Object）">PO （Print Object）</h4><p>顺便介绍下 po 指令，lldb 中 po （print object）用来打印对象，会自动调用对象的 description 或者 debugDespriction，这也是为什么 po $rdi 能打印出对象名的原因。</p>
 <p>当前如果没有实现这两个方法，那么就是打印内存中的值了。</p>
-<h4 id="continue"><a href="#continue" class="headerlink" title="continue"></a>continue</h4><p>使用该指令跳过此次断点，如果之后的调用没有触发断点，那么 App 继续运行，否则跳到下一个断点。</p>
+<h4 id="continue">continue</h4><p>使用该指令跳过此次断点，如果之后的调用没有触发断点，那么 App 继续运行，否则跳到下一个断点。</p>
 <p>在下一个断点仍然可以通过打印寄存器中的值来查看。</p>
-<h3 id="只关注部分断点"><a href="#只关注部分断点" class="headerlink" title="只关注部分断点"></a>只关注部分断点</h3><p>Debug 时，我们不会关注所有的 hitTest 方法，因为几乎所有的 UIView 和其子类都会调用该方法，假如我们只想查看自己 view 的调用，那么可以给断点增加一个条件，只有在满足条件的时候调用。</p>
+<h3 id="只关注部分断点">只关注部分断点</h3><p>Debug 时，我们不会关注所有的 hitTest 方法，因为几乎所有的 UIView 和其子类都会调用该方法，假如我们只想查看自己 view 的调用，那么可以给断点增加一个条件，只有在满足条件的时候调用。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 给断点添加条件的语法</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 修改断点序号 1 ，并且设置一个条件</span></span><br><span class="line">breakpoint modify 1 -c 'condition'</span><br></pre></td></tr></table></figure>
 <p>在上面的汇编代码分析中，我们其实看出来了 $rdi 打印的是 self 的值。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">breakpoint modify 1 -c '(BOOL)[$rdi isKindOfClass:(id)NSClassFromString(@"UICustomView")]'</span><br></pre></td></tr></table></figure>
 <p>这样子，我们就能够让只有 UICustomView 的 HitTest 被调用时，才触发断点。</p>
-<h3 id="做一些坏事"><a href="#做一些坏事" class="headerlink" title="做一些坏事"></a>做一些坏事</h3><p>有时候，使用 po 命令会打印对象的 description，但是我们又想知道对象的内存地址，使用 print formatting 即可。</p>
-<h4 id="print-formatting"><a href="#print-formatting" class="headerlink" title="print formatting"></a>print formatting</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">(lldb) po $rdi</span><br><span class="line">SourceCodeEditorView: Frame: (0.0, 0.0, 625.0, 990.0), Bounds: (0.0, 0.0, 625.0, 990.0) contentViewOffset: 0.0</span><br><span class="line"></span><br><span class="line">(lldb) p/x $rdi</span><br><span class="line">(unsigned long) $22 = 0x000000010ab58a00</span><br></pre></td></tr></table></figure>
+<h3 id="做一些坏事">做一些坏事</h3><p>有时候，使用 po 命令会打印对象的 description，但是我们又想知道对象的内存地址，使用 print formatting 即可。</p>
+<h4 id="print_formatting">print formatting</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">(lldb) po $rdi</span><br><span class="line">SourceCodeEditorView: Frame: (0.0, 0.0, 625.0, 990.0), Bounds: (0.0, 0.0, 625.0, 990.0) contentViewOffset: 0.0</span><br><span class="line"></span><br><span class="line">(lldb) p/x $rdi</span><br><span class="line">(unsigned long) $22 = 0x000000010ab58a00</span><br></pre></td></tr></table></figure>
 <p><code>0x000000010ab58a00</code> 就是 %rdi 寄存器中存储的值了。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(lldb) po 0x000000010ab58a00</span><br><span class="line">SourceCodeEditorView: Frame: (0.0, 0.0, 625.0, 990.0), Bounds: (0.0, 0.0, 625.0, 990.0) contentViewOffset: 0.0</span><br></pre></td></tr></table></figure>
 <p>如上，直接 po 地址与 po %rdi 一样。</p>
-<h4 id="在-lldb-中调用方法"><a href="#在-lldb-中调用方法" class="headerlink" title="在 lldb 中调用方法"></a>在 lldb 中调用方法</h4><p>在 lldb 中可以直接调用对象的方法</p>
+<h4 id="在_lldb_中调用方法">在 lldb 中调用方法</h4><p>在 lldb 中可以直接调用对象的方法</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 调用 self 的 setHidden 方法，并且刷新 UI</span></span><br><span class="line">(lldb) po [$rdi setHidden:!(BOOL)[$rdi isHidden]]; [CATransaction flush]</span><br></pre></td></tr></table></figure>
 <p>这时候界面刷新，view 确实被隐藏了。</p>
-<h3 id="lldb-中的局部变量"><a href="#lldb-中的局部变量" class="headerlink" title="lldb 中的局部变量"></a>lldb 中的局部变量</h3><p>之前在打印 $rdi 时，得到如下值：</p>
+<h3 id="lldb_中的局部变量">lldb 中的局部变量</h3><p>之前在打印 $rdi 时，得到如下值：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(lldb) p/x $rdi</span><br><span class="line">(unsigned long) $22 = 0x000000010ab58a00</span><br></pre></td></tr></table></figure>
 <p>$22 是什么鬼呢？看到后面的等号其实就明白了，使用 $22 等同于使用  <code>0x000000010ab58a00</code> 。</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
+<h2 id="参考">参考</h2><ol>
 <li><p>[^64位 CPU 寄存器]: <a href="https://wiki.cdot.senecacollege.ca/wiki/X86_64_Register_and_Instruction_Quick_Start" target="_blank" rel="noopener">https://wiki.cdot.senecacollege.ca/wiki/X86_64_Register_and_Instruction_Quick_Start</a></p>
 </li>
 <li><p>[^X86-64寄存器的栈帧]: <a href="http://ju.outofmemory.cn/entry/769" target="_blank" rel="noopener">http://ju.outofmemory.cn/entry/769</a></p>

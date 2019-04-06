@@ -182,7 +182,7 @@
   </header>
 
   <section class="post">
-    <h2 id="第一章-AutoLayout-介绍"><a href="#第一章-AutoLayout-介绍" class="headerlink" title="第一章 AutoLayout 介绍"></a>第一章 AutoLayout 介绍</h2><p>###1.1 由来：</p>
+    <h2 id="第一章_AutoLayout_介绍">第一章 AutoLayout 介绍</h2><p>###1.1 由来：</p>
 <p>前身为 Cassowary 约束解析工具包，本质是通过定义的约束构成联立方程组，然后求解，得出界面元素唯一的布局可能。</p>
 <p>###1.2 好处都有啥？</p>
 <p><strong>几何关系</strong></p>
@@ -209,13 +209,13 @@
 <p>在代码中使用约束属于 NSLayoutConstraint 类，使用这个类可以定义上述中的规则。</p>
 <p>约束涉及视图本身，即约束将自己的一个属性与自身关联，例如，约束自己的宽度、高度。<br>约束也可以与多个视图关联，比如 ViewA 和 ViewB 具有相同的宽度、基准线水平对齐。</p>
 <p>总而言之，约束描述了界面的布局方式。</p>
-<h4 id="1-3-1-可满足性"><a href="#1-3-1-可满足性" class="headerlink" title="1.3.1 可满足性"></a>1.3.1 可满足性</h4><p>创建的约束在单独使用和作为整体的一部分使用时都应该没有问题，比如对 ViewIn 创建了约束，单独拿出来，约束是可满足的，将它放入另一个 View 中 ，也应该是可满足的。</p>
+<h4 id="1-3-1_可满足性">1.3.1 可满足性</h4><p>创建的约束在单独使用和作为整体的一部分使用时都应该没有问题，比如对 ViewIn 创建了约束，单独拿出来，约束是可满足的，将它放入另一个 View 中 ，也应该是可满足的。</p>
 <p>IB 提供了一种随时检查和验证的功能保证了其可满足性，有时候还可以自动帮助你补全约束（不过不是特别靠谱）。</p>
 <p>当约束出现错误时，Xcode 会有详细的提示信息。如果有冲突的约束，AutoLayout 会删除一些规则，不过可能导致界面出现意想不到的错误。</p>
-<h4 id="1-3-2-充分性"><a href="#1-3-2-充分性" class="headerlink" title="1.3.2 充分性"></a>1.3.2 充分性</h4><p>系统需要根据你创建的约束得到唯一的布局答案，不能出现模棱两可的情况。充分性保证了每个视图都有明确定义的大小和位置。</p>
+<h4 id="1-3-2_充分性">1.3.2 充分性</h4><p>系统需要根据你创建的约束得到唯一的布局答案，不能出现模棱两可的情况。充分性保证了每个视图都有明确定义的大小和位置。</p>
 <p>充分性不是指严格指定其具体的数值，比如指定具体的宽度和高度，而是需要根据你的约束，能够算出具体的大小。例如水平排列的三个视图 A | B | C :，指定 A 和 C 的宽度，并且使它们贴着屏幕边缘，然后指定 AB 、BC 之间的间距，那么 B 的宽度就是唯一的。</p>
 <p>充分的约束没有歧义，能够确立如何布局在其父视图中。</p>
-<h3 id="1-4-约束属性"><a href="#1-4-约束属性" class="headerlink" title="1.4 约束属性"></a>1.4 约束属性</h3><p>约束使用了几个 <code>术语</code>，<code>属性</code> 是约束系统中的名词，描述视图对齐矩阵内的位置。<code>关系</code> 是动词，指出不同的属性如何比较。</p>
+<h3 id="1-4_约束属性">1.4 约束属性</h3><p>约束使用了几个 <code>术语</code>，<code>属性</code> 是约束系统中的名词，描述视图对齐矩阵内的位置。<code>关系</code> 是动词，指出不同的属性如何比较。</p>
 <ul>
 <li>宽和高：宽度和高度</li>
 <li>中心点 X 坐标（center-X）、中心点 Y 坐标（center-Y）：视图矩阵中心点的坐标</li>
@@ -227,51 +227,51 @@
 <li>NSLayoutRelationEqual：等于</li>
 <li>NSLayoutRelationGreaterThanOrEqual：大于或等于</li>
 </ul>
-<h3 id="视图的丢失"><a href="#视图的丢失" class="headerlink" title="视图的丢失"></a>视图的丢失</h3><p>AutoLayout 布局中会经常丢失视图，一般有 ：</p>
+<h3 id="视图的丢失">视图的丢失</h3><p>AutoLayout 布局中会经常丢失视图，一般有 ：</p>
 <ul>
 <li>视图frame 计算后为 （0，0，0，0）</li>
 <li>视图frame 计算后，超出屏幕</li>
 </ul>
-<h4 id="欠约束导致丢失"><a href="#欠约束导致丢失" class="headerlink" title="欠约束导致丢失"></a>欠约束导致丢失</h4><p>约束不充分，导致高度为 0 或宽度为 0</p>
-<h4 id="规则不一致导致"><a href="#规则不一致导致" class="headerlink" title="规则不一致导致"></a>规则不一致导致</h4><p>例如创建的约束，只有属性为 0 时才满足。</p>
-<h4 id="追踪丢失的视图"><a href="#追踪丢失的视图" class="headerlink" title="追踪丢失的视图"></a>追踪丢失的视图</h4><p>使用调试器，NSAssert 语句检查其几何形状</p>
-<h3 id="有歧义的布局"><a href="#有歧义的布局" class="headerlink" title="有歧义的布局"></a>有歧义的布局</h3><p>可以使用 hasAMbiguousLayout 来测试 View 是否具有充分性，需要注意的是，这个属性只针对具体的 View，比如 ViewA 是满足的，ViewB 是不满足的，然后将 B 添加在 A 上，可能出现意外，但是对于 A的 hasAMbiguousLayout 仍然是 NO。对于这种情况可以使用下面的方法测试：</p>
-<pre><code>// 测试某一个 View 
- -(void)testAmbiguous {
-    NSLog(@&quot;&lt;%@:0x%0x&gt;: %@&quot;,
-        self.class.description,
-        (int)self,
-        self.hasAmbiguousLayout ? @&quot;Ambiguous&quot; : @&quot;UnAmbiguous&quot;
+<h4 id="欠约束导致丢失">欠约束导致丢失</h4><p>约束不充分，导致高度为 0 或宽度为 0</p>
+<h4 id="规则不一致导致">规则不一致导致</h4><p>例如创建的约束，只有属性为 0 时才满足。</p>
+<h4 id="追踪丢失的视图">追踪丢失的视图</h4><p>使用调试器，NSAssert 语句检查其几何形状</p>
+<h3 id="有歧义的布局">有歧义的布局</h3><p>可以使用 hasAMbiguousLayout 来测试 View 是否具有充分性，需要注意的是，这个属性只针对具体的 View，比如 ViewA 是满足的，ViewB 是不满足的，然后将 B 添加在 A 上，可能出现意外，但是对于 A的 hasAMbiguousLayout 仍然是 NO。对于这种情况可以使用下面的方法测试：</p>
+<pre><code><span class="comment">// 测试某一个 View </span>
+ -(<span class="keyword">void</span>)testAmbiguous {
+    <span class="built_in">NSLog</span>(<span class="string">@"&lt;%@:0x%0x&gt;: %@"</span>,
+        <span class="keyword">self</span><span class="variable">.class</span><span class="variable">.description</span>,
+        (<span class="keyword">int</span>)<span class="keyword">self</span>,
+        <span class="keyword">self</span><span class="variable">.hasAmbiguousLayout</span> ? <span class="string">@"Ambiguous"</span> : <span class="string">@"UnAmbiguous"</span>
     );
 }
 
-// test a  viwe 
-for (UIView * view in self.subViews) {
+<span class="comment">// test a  viwe </span>
+<span class="keyword">for</span> (<span class="built_in">UIView</span> * view <span class="keyword">in</span> <span class="keyword">self</span><span class="variable">.subViews</span>) {
      [view testAmbiguity];
 }
-</code></pre><h4 id="纠正有歧义的布局"><a href="#纠正有歧义的布局" class="headerlink" title="纠正有歧义的布局"></a>纠正有歧义的布局</h4><p>Apple 提供了一些帮助以便于对不欠约束的视图进行调整，但是不太靠谱，而且有很大的局限性。</p>
-<h4 id="可视化约束"><a href="#可视化约束" class="headerlink" title="可视化约束"></a>可视化约束</h4><p>使用简单的类拓展可以找出一个视图及其所有子视图的所有约束：</p>
-<pre><code>-（NSArray *）CWAllConstraint
+</code></pre><h4 id="纠正有歧义的布局">纠正有歧义的布局</h4><p>Apple 提供了一些帮助以便于对不欠约束的视图进行调整，但是不太靠谱，而且有很大的局限性。</p>
+<h4 id="可视化约束">可视化约束</h4><p>使用简单的类拓展可以找出一个视图及其所有子视图的所有约束：</p>
+<pre><code>-（<span class="built_in">NSArray</span> *）CWAllConstraint
 {
-    NSMutbaleArray *arr = [NSMutableArray array];
-    [array addObjectsFromArray:self.constraints];
+    <span class="built_in">NSMutbaleArray</span> *arr = [<span class="built_in">NSMutableArray</span> array];
+    [array addObjectsFromArray:<span class="keyword">self</span><span class="variable">.constraints</span>];
 
-    for (UIView *view in self.subViews) {
+    <span class="keyword">for</span> (<span class="built_in">UIView</span> *view <span class="keyword">in</span> <span class="keyword">self</span><span class="variable">.subViews</span>) {
         [array addObjectsFromArray:[view CWAllContraints]];
     }
 
-    return array;
+    <span class="keyword">return</span> array;
 }
-</code></pre><h3 id="内在内容大小（Intrinsic-Content-Size）"><a href="#内在内容大小（Intrinsic-Content-Size）" class="headerlink" title="内在内容大小（Intrinsic Content Size）"></a>内在内容大小（Intrinsic Content Size）</h3><p>每一个视图都有其固有的大小，在自动布局中，其重要性与约束不相上下，其 size 主要通过 View 的 intrinsicContentSize 属性表达，描述了其数据未经压缩或裁减情况下，表达全部内容需要的最小空间。</p>
+</code></pre><h3 id="内在内容大小（Intrinsic_Content_Size）">内在内容大小（Intrinsic Content Size）</h3><p>每一个视图都有其固有的大小，在自动布局中，其重要性与约束不相上下，其 size 主要通过 View 的 intrinsicContentSize 属性表达，描述了其数据未经压缩或裁减情况下，表达全部内容需要的最小空间。</p>
 <p>例如 ImageView 中放入 60x60 的图片，那么其intrinsicContentSize 大小即为图片本身大小。<br>按钮的大小可能随着按钮 title 的长度而变化。</p>
 <p>在布局过程中，为了不让视图有歧义，必须要给视图确定的位置，如果视图有其固定内容时，那么即可设置坐标即可。</p>
 <p>如果改变了视图的内在内容，那么需要调用其 invalidateIntrinsicContentSize 方法，让 AutoLayout 知道，以便下次布局时重新计算。</p>
-<h3 id="压缩阻力和内容吸附"><a href="#压缩阻力和内容吸附" class="headerlink" title="压缩阻力和内容吸附"></a>压缩阻力和内容吸附</h3><p>压缩阻力是视图保护其内容的方式，压缩阻力高的视图可以阻止内容被裁减。AutoLayout 在遇到两个矛盾的请求时，总是满足优先级最高的那个。</p>
+<h3 id="压缩阻力和内容吸附">压缩阻力和内容吸附</h3><p>压缩阻力是视图保护其内容的方式，压缩阻力高的视图可以阻止内容被裁减。AutoLayout 在遇到两个矛盾的请求时，总是满足优先级最高的那个。</p>
 <p>视图的压缩阻力可以通过 IB 的 Size Inspector 指定，或者使用代码，不过需要分别指定其在水平和垂直方向上的值(0 ~ 1000)：</p>
-<pre><code>[button setContentCompressionResistancePriority: 500 forAxis:UILayoutConstraintAxisHorizontal];
+<pre><code>[button <span class="built_in">set</span>ContentCompressionResistancePriority: <span class="number">500</span> <span class="keyword">for</span>Axis:UILayoutConstraintAxisHorizontal];
 </code></pre><p>设置内容吸附优先级，可以防止视图与核心内容之间做填充，例如 UIButton 的宽度在约束指定了 width：100，如果没有设置内容吸附的优先级，假设 Button 的 title 宽度小于 100 ，那么 Button 的长度将被显示为 100，title 居中显示后，两边会有空白。<br>如果设置了其在水平方向的内容吸附优先级（优先级需大于 width 约束的优先级），那么按钮的宽度将按照 title的大小来显示。</p>
-<h3 id="图像装饰元素"><a href="#图像装饰元素" class="headerlink" title="图像装饰元素"></a>图像装饰元素</h3><p>当图片包含阴影、光晕、徽章、角标时，或者其他超过了图片核心元素的装饰时，图像的自然大小可能不能反映你想在 AutoLayout 中想要表现的尺寸，所以你需要了解 <code>对齐矩阵</code> 这个概念。</p>
-<h4 id="对齐矩阵"><a href="#对齐矩阵" class="headerlink" title="对齐矩阵"></a>对齐矩阵</h4><p>创建复杂视图时，可能考虑到采用一些装饰的元素，例如一个矩形图像，右上角包含一个角标，如果将角标也考虑到里面的话，很可能在做居中这些操作时，造成误差，影响 center 的位置、左边、右边。</p>
+<h3 id="图像装饰元素">图像装饰元素</h3><p>当图片包含阴影、光晕、徽章、角标时，或者其他超过了图片核心元素的装饰时，图像的自然大小可能不能反映你想在 AutoLayout 中想要表现的尺寸，所以你需要了解 <code>对齐矩阵</code> 这个概念。</p>
+<h4 id="对齐矩阵">对齐矩阵</h4><p>创建复杂视图时，可能考虑到采用一些装饰的元素，例如一个矩形图像，右上角包含一个角标，如果将角标也考虑到里面的话，很可能在做居中这些操作时，造成误差，影响 center 的位置、左边、右边。</p>
 <p>Autolayout 使用对齐矩阵来确保只考虑视图的核心信息。需要在 <code>Xcode scheme</code> - <code>Run *.app</code> 中 <code>arguments passed onlaunch</code> 中选择 <code>-UIViewShowAligmentRects</code>；<br>或者将 NSUserDefault 中 <code>UIViewShowAligmentRects</code> 设置为 YES。</p>
 <p>在开发过程中，经常会给一些图像加上装饰的效果，例如 UI 给你一张图片，是一个圆形，然后这个圆右下角有阴影，当时按照平时那样让它居中时，其实圆形不在中心点上，因为这张图片因为多出来的阴影导致图片的 center 点和圆心不在一个点上，这个时候，你应该显示的告知 AutoLayout 这张图片的 center，大概可以分为两步：</p>
 <ol>
@@ -280,10 +280,10 @@ for (UIView * view in self.subViews) {
 </ol>
 <p>inset 定义了距离矩形的顶边、左边、底部、右边的间隙，用来描述从矩形的边移进（正值）或移出（负值）多远，即使图像内放置了绘制好的装饰效果，设置 inset 也可以确保 Autolayout 知道图片的核心内容矩阵。</p>
 <p>手动去算 inset 会比较麻烦，一种比较好的办法是使用函数，例如：</p>
-<pre><code>UIEdgeInsets BuildInsets (CGRect alignmentRect,CGRect imagesBounds) {
+<pre><code><span class="tag">UIEdgeInsets</span> <span class="tag">BuildInsets</span> (CGRect alignmentRect,CGRect imagesBounds) {
     ...
 
-    通过传入整个图像的大小，以及其核心内容在图像上的 Frame ，手动构造 insets
+    通过传入整个图像的大小，以及其核心内容在图像上的 <span class="tag">Frame</span> ，手动构造 <span class="tag">insets</span>
 
     ...
 }
@@ -294,7 +294,7 @@ for (UIView * view in self.subViews) {
 <li>绝大多数视图只需要重写 alignmentRectForFrame 即可，向 Autolayout 报告其核心内容在框架中的位置。</li>
 <li>baselineOffsetFromBottom 只适用于 Cocoa NSView</li>
 </ol>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>本章介绍了支撑 AutoLayout 的核心概念，即 Cocoa 基于声明式约束的描述性布局系统，指出了 AutoLayout 着重与视图之间以及视图与 <code>内容</code> 之间的关系，而不是在于视图的 <code>框架</code> 。</p>
+<h2 id="总结">总结</h2><p>本章介绍了支撑 AutoLayout 的核心概念，即 Cocoa 基于声明式约束的描述性布局系统，指出了 AutoLayout 着重与视图之间以及视图与 <code>内容</code> 之间的关系，而不是在于视图的 <code>框架</code> 。</p>
 <p>拥抱变化，对于新的技术，开发者应该尝试去了解、深入，根据情况去选择最适合的解决方案。</p>
 
   </section>

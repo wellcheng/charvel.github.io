@@ -190,11 +190,11 @@
 <li>应用如何通过新的系统 extension 来拓展自己</li>
 </ul>
 <a id="more"></a>
-<h2 id="Core-Technologies"><a href="#Core-Technologies" class="headerlink" title="Core Technologies"></a>Core Technologies</h2><h3 id="Adaptivity"><a href="#Adaptivity" class="headerlink" title="Adaptivity"></a>Adaptivity</h3><p>自从 Apple 推出了更大屏幕的 iPad 之后，开发者在屏幕的适配上，将会花费更多的时间。</p>
+<h2 id="Core_Technologies">Core Technologies</h2><h3 id="Adaptivity">Adaptivity</h3><p>自从 Apple 推出了更大屏幕的 iPad 之后，开发者在屏幕的适配上，将会花费更多的时间。</p>
 <p>Apple Pencil 、Smart Keyboard 等新的硬件，在你的 App 中使用后，也能够增加更多的亮点。</p>
 <p>在之前，可以通过 Size Class 来进行屏幕的自适应，比如 iPhone 是 compact，iPad 是 regular。现在有了新的 iPad Pro，当然不会是新增一种类型，因为在 Framework 中有很多的工具来表示这种屏幕尺寸。Apple 在 SizeClass 中增加了新的特性来支持各种设备的适配。</p>
 <p>另外，iPad Air 2 和 Pro 能够每秒扫描屏幕 120 次，这远远大于屏幕上内容的刷新频率。开发者可以使用有关 Apple Pencil 、3D Touch 等 API 来做出更棒的 App。</p>
-<h3 id="Swift-3"><a href="#Swift-3" class="headerlink" title="Swift 3"></a>Swift 3</h3><p>在 Swift 3 中，很多 API 都进行了重写，因此在使用 Swift Coding 时将会有更好的体验。比如新的字体，WhiteColor 和 blackColor 简化为 white 和 black，以及与 Core Graphics 相关的一些 API，都做了简化。</p>
+<h3 id="Swift_3">Swift 3</h3><p>在 Swift 3 中，很多 API 都进行了重写，因此在使用 Swift Coding 时将会有更好的体验。比如新的字体，WhiteColor 和 blackColor 简化为 white 和 black，以及与 Core Graphics 相关的一些 API，都做了简化。</p>
 <p>GCD，现在是一个完整的对象，之前使用 GCD 创建自定义队列并加入 task 是这样子：</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> queue = dispatch_queue_create(<span class="string">"com.example.queue, nil"</span>)</span><br><span class="line">dispatch_async(queue) &#123;</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>Swift 3 中是酱紫：</p>
@@ -203,82 +203,82 @@
 <p>另外，增加了一个新的特性特别棒，在创建自定义 queue 时，可以使用 autoReleasePool 将 work item 包装起来，写法很简单：</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> q = <span class="type">DispatchQueue</span>(label: <span class="string">"com.example.queue"</span>, attributes: [.autoreleaseWorkItem])</span><br></pre></td></tr></table></figure>
 <p>有关 GCD 的其他内容可以去看单独的 GCD session。</p>
-<h3 id="单位和计量制"><a href="#单位和计量制" class="headerlink" title="单位和计量制"></a>单位和计量制</h3><p>在 Foundation 框架中，也有很多新的提升，比如 Units 和 measurements ，以及新的 DateFormatter：NSISO8601.</p>
+<h3 id="单位和计量制">单位和计量制</h3><p>在 Foundation 框架中，也有很多新的提升，比如 Units 和 measurements ，以及新的 DateFormatter：NSISO8601.</p>
 <p>增加了 NSDateInterval ，这些计量和单元的内容可以观看另一个 Session 来详细了解。</p>
-<h3 id="剪贴板"><a href="#剪贴板" class="headerlink" title="剪贴板"></a>剪贴板</h3><p>在 WWDC 中提到过，现在剪贴板可以跨设备使用，但是需要注意的是，如果剪贴板的内容很大时，那么在粘贴时可能会触发一个 loading 动画。</p>
+<h3 id="剪贴板">剪贴板</h3><p>在 WWDC 中提到过，现在剪贴板可以跨设备使用，但是需要注意的是，如果剪贴板的内容很大时，那么在粘贴时可能会触发一个 loading 动画。</p>
 <p>为了避免产生这个动画，可以在粘贴前先做一次检查，Apple  提供了这些 API：</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UIPasteboard</span> : <span class="title">NSObject</span> </span>&#123;</span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">var</span> hasStrings: <span class="type">Bool</span> &#123; <span class="keyword">get</span> &#125;</span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">var</span> hasURLs: <span class="type">Bool</span> &#123; <span class="keyword">get</span> &#125;</span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">var</span> hasImages: <span class="type">Bool</span> &#123; <span class="keyword">get</span> &#125;</span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">var</span> hasColors: <span class="type">Bool</span> &#123; <span class="keyword">get</span> &#125;</span><br></pre></td></tr></table></figure>
 <p>在粘贴之前，可以先检查下粘贴板中是否有自己需要的内容，避免 loading 动画。</p>
 <p>同样，你也可以控制向剪贴板发布哪些内容，在将内容发布到剪贴板前，可以设置过期时间，也可以限制只能用在当前设备。</p>
-<h3 id="Color-色域"><a href="#Color-色域" class="headerlink" title="Color 色域"></a>Color 色域</h3><p>在 iMac 5K 和 iPad Pro 9.7 上，可表示的颜色将更多。</p>
+<h3 id="Color_色域">Color 色域</h3><p>在 iMac 5K 和 iPad Pro 9.7 上，可表示的颜色将更多。</p>
 <p>在 iOS 和 MacOS 上，已经暴露了一些颜色的 API，可以使用更加宽广的色域。</p>
 <p>这里的提升，主要会体现在生产创造上。</p>
 <p>Apple 并没有因为 iMac 5K 和 iPad Pro 9.7 支持 pRGB 来增加新的类，只需要使用这两个 API 就好了：</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UIColor</span> : <span class="title">NSObject</span> </span>&#123;</span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">init</span>(red: <span class="type">CGFloat</span>, green: <span class="type">CGFloat</span>, blue: <span class="type">CGFloat</span>, alpha: <span class="type">CGFloat</span>)</span><br><span class="line">   <span class="keyword">public</span> <span class="keyword">init</span>(displayP3Red: <span class="type">CGFloat</span>, green: <span class="type">CGFloat</span>, blue: <span class="type">CGFloat</span>, alpha: <span class="type">CGFloat</span>)</span><br></pre></td></tr></table></figure>
-<h3 id="Image-Render-图像渲染"><a href="#Image-Render-图像渲染" class="headerlink" title="Image Render 图像渲染"></a>Image Render 图像渲染</h3><p>在之前，我们一般是创建一个 image 上下文，然后做一些自定义的绘图操作，接着获取上下文中的图像内容，然后结束这个上下文，这样子就能获取到图片了，其实这是一种常见的错误方法，因为这么做的话，图片将只有 32 bit 的 sRGB 。</p>
+<h3 id="Image_Render_图像渲染">Image Render 图像渲染</h3><p>在之前，我们一般是创建一个 image 上下文，然后做一些自定义的绘图操作，接着获取上下文中的图像内容，然后结束这个上下文，这样子就能获取到图片了，其实这是一种常见的错误方法，因为这么做的话，图片将只有 32 bit 的 sRGB 。</p>
 <p>这不是一个很好的 API，既没有 block ，也不能进行拓展。</p>
 <p>之前是酱紫：</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"> <span class="function"><span class="keyword">func</span> <span class="title">createDrawing</span><span class="params">(size: CGSize)</span></span> -&gt; <span class="type">UIImage</span> &#123;</span><br><span class="line">   <span class="keyword">let</span> renderer = <span class="type">UIGraphicsBeginImageContext</span>(size)</span><br><span class="line">   <span class="comment">// Do your drawing here</span></span><br><span class="line">   <span class="keyword">let</span> image = <span class="type">UIGraphicsGetImageFromCurrentImageContext</span>()</span><br><span class="line">   <span class="type">UIGraphicsEndImageContext</span>()</span><br><span class="line">   <span class="keyword">return</span> image</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>但是现在，Apple 新增了类 <code>UIGraphicsRenderer</code>，它是 block-based、full-color-managed，并且是可以拓展的，可以做位 image 和 PDF 的子类。并且管理 context 的生命周期，因此可以做一些内存优化。</p>
 <p>下面给出正确的使用方式：</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">createDrawing</span><span class="params">(size: CGSize)</span></span> -&gt; <span class="type">UIImage</span> &#123;</span><br><span class="line">   <span class="keyword">let</span> renderer = <span class="type">UIGraphicsImageRenderer</span>(size: size)</span><br><span class="line">   <span class="keyword">return</span> renderer.image &#123; rendererContext <span class="keyword">in</span></span><br><span class="line">  &#125; &#125;</span><br></pre></td></tr></table></figure>
-<h3 id="Asset-Management"><a href="#Asset-Management" class="headerlink" title="Asset Management"></a>Asset Management</h3><p>因为我对图像色域这块不是很了解，这里大概讲的就是可以使用更宽色域的图片，并且在支持显示的设备上选择高色域的显示，不支持的设备上仍然使用普通的进行显示，这与 App Thing 没有冲突，是完美结合的。</p>
+<h3 id="Asset_Management">Asset Management</h3><p>因为我对图像色域这块不是很了解，这里大概讲的就是可以使用更宽色域的图片，并且在支持显示的设备上选择高色域的显示，不支持的设备上仍然使用普通的进行显示，这与 App Thing 没有冲突，是完美结合的。</p>
 <p>并且这种选择也是自动的，好比 @2x @3x 图片的选择。</p>
-<h3 id="Accessibility-Inspector"><a href="#Accessibility-Inspector" class="headerlink" title="Accessibility Inspector"></a>Accessibility Inspector</h3><p>Accessibility是Apple很早之前构建的一个框架，它能帮助一些行动不便的用户来更好地使用你的应用。它为你的UI提供了丰富的语义数据，这能让不同的Accessibility功能给行动不便的用户展现你的应用。</p>
+<h3 id="Accessibility_Inspector">Accessibility Inspector</h3><p>Accessibility是Apple很早之前构建的一个框架，它能帮助一些行动不便的用户来更好地使用你的应用。它为你的UI提供了丰富的语义数据，这能让不同的Accessibility功能给行动不便的用户展现你的应用。</p>
 <p>iOS 10 在这里也提升了体验。</p>
-<h3 id="Speech-Recognition-朗读识别"><a href="#Speech-Recognition-朗读识别" class="headerlink" title="Speech Recognition 朗读识别"></a>Speech Recognition 朗读识别</h3><p>语音朗读推出了更加简洁的 API，可以实时朗读，也可以自定义音频文件或者在线的音频流。</p>
-<h2 id="UIKit"><a href="#UIKit" class="headerlink" title="UIKit"></a>UIKit</h2><h3 id="Smart-Text-Input"><a href="#Smart-Text-Input" class="headerlink" title="Smart Text Input"></a>Smart Text Input</h3><p>文本输入是 App 中最常见的场景，现在可以为文本输入增加一个类型信息，比如位置、电话、邮件、信用卡和数字等，这样系统就能够提供更加智能的输入建议。</p>
+<h3 id="Speech_Recognition_朗读识别">Speech Recognition 朗读识别</h3><p>语音朗读推出了更加简洁的 API，可以实时朗读，也可以自定义音频文件或者在线的音频流。</p>
+<h2 id="UIKit">UIKit</h2><h3 id="Smart_Text_Input">Smart Text Input</h3><p>文本输入是 App 中最常见的场景，现在可以为文本输入增加一个类型信息，比如位置、电话、邮件、信用卡和数字等，这样系统就能够提供更加智能的输入建议。</p>
 <p>在 iOS 7 中增加了动态类型，可以使得文本的大小更随系统设置而改变，现在这个特性在 iOS 10 有了提升。</p>
-<h3 id="UITabBar-自定义"><a href="#UITabBar-自定义" class="headerlink" title="UITabBar 自定义"></a>UITabBar 自定义</h3><p>iOS 10 对于 UITabBar 的自定义给出了官方的 API，在之前，如果我们需要一个个性的 tabBar，那么就需要做很多工作，现在简单多了：</p>
+<h3 id="UITabBar_自定义">UITabBar 自定义</h3><p>iOS 10 对于 UITabBar 的自定义给出了官方的 API，在之前，如果我们需要一个个性的 tabBar，那么就需要做很多工作，现在简单多了：</p>
 <ul>
 <li>自定义的 badge 颜色和文本属性 text attributes</li>
 <li>自定义未选中状态时的 tintColor</li>
 </ul>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">tabBarItem.badgeColor = <span class="type">UIColor</span>.white()</span><br><span class="line">badgeTextAttributes = [<span class="type">NSForegroundColorAttributeName</span>: <span class="type">UIColor</span>.blue(), <span class="type">NSFontAttributeName</span> :<span class="type">UIFont</span>.italicSystemFont(ofSize: <span class="number">12</span>) ] </span><br><span class="line">tabBarItem.setBadgeTextAttributes(textAttributes: badgeTextAttributes, </span><br><span class="line">                                    forState: <span class="type">UIControlStateNormal</span>)</span><br><span class="line">tabBar.unselectedTintColor = <span class="type">UIColor</span>.brown()</span><br></pre></td></tr></table></figure>
-<h3 id="3D-Touch-支持"><a href="#3D-Touch-支持" class="headerlink" title="3D Touch 支持"></a>3D Touch 支持</h3><p>WKWebView 新增了 delegate 方法，作为 3D touch 的支持。</p>
+<h3 id="3D_Touch_支持">3D Touch 支持</h3><p>WKWebView 新增了 delegate 方法，作为 3D touch 的支持。</p>
 <p>新增类 <code>UIPreviewInteraction</code> ，这意味着，3D touch 的支持可以使用自定义的动画。</p>
 <p>另外还有一个小亮点就是 UIRefreshControl 支持自定义的 UIViewController 了。</p>
-<h3 id="CollectionView"><a href="#CollectionView" class="headerlink" title="CollectionView"></a>CollectionView</h3><p>在 iOS 9，为 collectionView 的流式布局（Flow Layout）增加了 automatic self-sizing cell，但是这需要你计算一个大概的 size。</p>
+<h3 id="CollectionView">CollectionView</h3><p>在 iOS 9，为 collectionView 的流式布局（Flow Layout）增加了 automatic self-sizing cell，但是这需要你计算一个大概的 size。</p>
 <p>现在为 Flow Layout 增加了新的模式，你将不在需要返回一个估算的 size。</p>
 <p>CollectView 并还将支持分页，之前这个功能是 ScrollView 才有的。</p>
 <p>Apple 还特别的重新设计了底层，使得 collectionView 能够更加平滑的滑动。假如你现在的 collectionView 每行有三个 cell，那么在快滑动到下一行时，将会一次性创建 3 个 cell，再假如每一个 cell 都比较复杂并且耗费比较多的时间时，那么将会有卡顿。</p>
 <p>Apple 这里提供了一个叫做 （单元格预读）cell prefetching 的技术，也就是说，你的 cell 还不需要显示在屏幕上时，可能系统会调用 data source 方法来跟你要这个 cell。</p>
 <p>cell prefetching 技术是 iOS 10 底层实现的，所以我们无需关注和修改，将会自动获得这项技术的支持，可能还有一些需要注意的地方就是，你需要保证你的 <code>cellForxxx</code> 方法，不管系统在什么时候调用，它都能返回正确的 cell。</p>
 <p>Apple 不但为 cell 做了预处理，还对数据的获取也增加了预处理的 delegate 方法，这样子，我们就能够在 cell 显示之前，做一些网络加载、硬盘数据读取等工作，大大提高了性能。并且 Data PreFetching 并不是 collectionView 特有，TableView 也加入了支持。</p>
-<h3 id="New-Animator"><a href="#New-Animator" class="headerlink" title="New Animator"></a>New Animator</h3><p>动画这块也加入了更新，新的动画 API 支持动画的中断、取消、反向等等，动画时间函数也增加了更多的类型。</p>
+<h3 id="New_Animator">New Animator</h3><p>动画这块也加入了更新，新的动画 API 支持动画的中断、取消、反向等等，动画时间函数也增加了更多的类型。</p>
 <p>新的动画将好比电影，你可以快进一段时间、倒退一段时间、暂停、取消、反向播放等。</p>
 <p>用法也很简单：</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建动画时间函数</span></span><br><span class="line"><span class="keyword">let</span> timing = <span class="type">UICubicTimingParameters</span>(animationCurve: .easeInOut) </span><br><span class="line"><span class="comment">// 创建动画</span></span><br><span class="line"><span class="keyword">let</span> animator = <span class="type">UIViewPropertyAnimator</span>(duration: duration, timingParameters: timing)</span><br><span class="line"><span class="comment">// 添加动画块</span></span><br><span class="line">animator.addAnimations &#123; </span><br><span class="line">	<span class="keyword">self</span>.squareView.center = <span class="type">CGPoint</span>(x: point.x, y: point.y) </span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 执行动画</span></span><br><span class="line">animator.startAnimation()</span><br></pre></td></tr></table></figure>
 <p>可以看到，新的 API 特别简洁明了。</p>
 <p>通过这种新的 API，我们可以将动画和手势控制合成在一起，创建出更加 excited 的视觉交互！！！</p>
-<h3 id="Open-URL-URL-跳转"><a href="#Open-URL-URL-跳转" class="headerlink" title="Open URL - URL 跳转"></a>Open URL - URL 跳转</h3><p>在之前，假如我们通过一个 url 需要跳转到微博，那么首先得通过 url 跳转到 Safari，接着如果安装了 weibo，那么就可以跳转过去，如果没有，就停留在 Safari。</p>
+<h3 id="Open_URL_-_URL_跳转">Open URL - URL 跳转</h3><p>在之前，假如我们通过一个 url 需要跳转到微博，那么首先得通过 url 跳转到 Safari，接着如果安装了 weibo，那么就可以跳转过去，如果没有，就停留在 Safari。</p>
 <p>我们都是很不希望，一个操作需要在 App 外面操作或者迫使用户离开 App。</p>
 <p>新的 API 解决了这个问题，在跳转前可以判断系统是否安装微博，如果有就直接跳过去，没有的话就在 App 内部打开网页。</p>
 <figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">UIApplication</span>.shared().</span><br><span class="line">   <span class="keyword">open</span>(url, options: [<span class="type">UIApplicationOpenURLOptionUniversalLinksOnly</span>: <span class="literal">true</span>]) &#123;</span><br><span class="line">      (didOpen: <span class="type">Bool</span>) <span class="keyword">in</span></span><br><span class="line">         <span class="keyword">if</span> !didOpen &#123;</span><br><span class="line">            <span class="comment">// 没有安装 App，做自己的操作</span></span><br><span class="line">&#125; &#125;</span><br></pre></td></tr></table></figure>
-<h2 id="System-Kit"><a href="#System-Kit" class="headerlink" title="System Kit"></a>System Kit</h2><h3 id="CoreData"><a href="#CoreData" class="headerlink" title="CoreData"></a>CoreData</h3><p>对 query generation 做了优化，简化了 CoreData 代码（再怎么简化也很难用 Orz…）。</p>
+<h2 id="System_Kit">System Kit</h2><h3 id="CoreData">CoreData</h3><p>对 query generation 做了优化，简化了 CoreData 代码（再怎么简化也很难用 Orz…）。</p>
 <p>另一个优化的地方是连接池（Connection Pool），现在 CoreData 可以提供多个 Reader，一个 writer。这将会带来更多的性能提升。</p>
-<h3 id="CloudKit"><a href="#CloudKit" class="headerlink" title="CloudKit"></a>CloudKit</h3><p>支持存储公共文档：Public databases。</p>
+<h3 id="CloudKit">CloudKit</h3><p>支持存储公共文档：Public databases。</p>
 <p>支持每个人一个库（per user database），这将使得应用能够支持多用户。</p>
 <p>数据共享：通过新的 UICloudSharingController 类进行管理。</p>
-<h3 id="User-Activity"><a href="#User-Activity" class="headerlink" title="User Activity"></a>User Activity</h3><p>我们知道，Handoff 是通过 <code>User Activity</code> 这个独立的信息集合单位，不依赖于其他进行传输的，iOS 10 增加了用户地理位置。</p>
+<h3 id="User_Activity">User Activity</h3><p>我们知道，Handoff 是通过 <code>User Activity</code> 这个独立的信息集合单位，不依赖于其他进行传输的，iOS 10 增加了用户地理位置。</p>
 <p>这样子，我们就可以在 handoff 中增加更多更棒的特性了。</p>
-<h3 id="App-Search"><a href="#App-Search" class="headerlink" title="App Search"></a>App Search</h3><p>iOS 9 加入了应用内搜索，但是在 iOS 10 对此功能做了提升，当用户在系统的 search 中找到了查询结果后，可以点击 App 图标中的 search in app，接着进入 App 持续查找。</p>
+<h3 id="App_Search">App Search</h3><p>iOS 9 加入了应用内搜索，但是在 iOS 10 对此功能做了提升，当用户在系统的 search 中找到了查询结果后，可以点击 App 图标中的 search in app，接着进入 App 持续查找。</p>
 <p>这个新功能可以通过很简单的方式就能够集成到 App 中。</p>
-<h3 id="ApplePay"><a href="#ApplePay" class="headerlink" title="ApplePay"></a>ApplePay</h3><p>Apple Pay 在 Web 和 Extensions 中也支持啦。</p>
+<h3 id="ApplePay">ApplePay</h3><p>Apple Pay 在 Web 和 Extensions 中也支持啦。</p>
 <p>这意味着 SFSafariViewController 也支持了。</p>
 <p>在 iMessage 中也能轻松集成。</p>
-<h2 id="System-Extension"><a href="#System-Extension" class="headerlink" title="System Extension"></a>System Extension</h2><h3 id="widgets"><a href="#widgets" class="headerlink" title="widgets"></a>widgets</h3><p>widgets 现在有了两种形式，compact 和 expanded 。</p>
+<h2 id="System_Extension">System Extension</h2><h3 id="widgets">widgets</h3><p>widgets 现在有了两种形式，compact 和 expanded 。</p>
 <p>可以很方便的在这两种形式上显示不同的内容。</p>
-<h3 id="Notificaiton"><a href="#Notificaiton" class="headerlink" title="Notificaiton"></a>Notificaiton</h3><p>media attachment：通知能够附加媒体信息。</p>
+<h3 id="Notificaiton">Notificaiton</h3><p>media attachment：通知能够附加媒体信息。</p>
 <p>end to end encryption：通知数据端到端的编码，这样子可以增加安全性。</p>
 <p> embedded UI views：在通知中嵌入 UIView ，想想是不是很激动，打完 Uber，然后车到了，同时在通知中给出司机的位置图片；收到快件正在配送的通知，同时显示快递员的照片。不禁再吼一声 excited！</p>
-<h3 id="CallKit"><a href="#CallKit" class="headerlink" title="CallKit"></a>CallKit</h3><p>callKit 增加了很多 VOIP 方面的特性，不过这个东西明显是动了天朝运营商的奶酪，以后的发展情况也不知道如何。</p>
-<h3 id="Siri"><a href="#Siri" class="headerlink" title="Siri"></a>Siri</h3><p>Siri 现在变的更加智能，能够根据上下文、语义等理解你的要求，这是很复杂的工作，虽然 Siri 在英语环境中确实很棒，但是到了天朝毕竟还是有些水土不服，中文可是博大精深啊！就问 Cook 你怕不怕。</p>
+<h3 id="CallKit">CallKit</h3><p>callKit 增加了很多 VOIP 方面的特性，不过这个东西明显是动了天朝运营商的奶酪，以后的发展情况也不知道如何。</p>
+<h3 id="Siri">Siri</h3><p>Siri 现在变的更加智能，能够根据上下文、语义等理解你的要求，这是很复杂的工作，虽然 Siri 在英语环境中确实很棒，但是到了天朝毕竟还是有些水土不服，中文可是博大精深啊！就问 Cook 你怕不怕。</p>
 <p>Siri 现在支持第三方的 App 拓展，SiriKit 提供了一些语义化的组件，能够让用户通过 Siri 调用你的 App。</p>
 <p>比如你设置了「记账」、「类型」、「多少钱」，如果用户呼叫 Siri：「我需要记账，我刚才吃午饭花了 20 块钱」。</p>
 <p>那么 Siri 就会命中你的设置，然后打开你的 App。</p>
 <p>滴滴打车的 Siri 支持也是这种类型。</p>
-<h3 id="iMessage"><a href="#iMessage" class="headerlink" title="iMessage"></a>iMessage</h3><p>iMessage 做了很大的更新，具体的可以看有关 iMessage 相关的 session。</p>
+<h3 id="iMessage">iMessage</h3><p>iMessage 做了很大的更新，具体的可以看有关 iMessage 相关的 session。</p>
 
   </section>
 

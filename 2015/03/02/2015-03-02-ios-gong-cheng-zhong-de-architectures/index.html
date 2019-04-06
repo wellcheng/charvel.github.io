@@ -165,9 +165,9 @@
   </header>
 
   <section class="post">
-    <h2 id="Arm-是什么"><a href="#Arm-是什么" class="headerlink" title="Arm 是什么"></a>Arm 是什么</h2><p>Arm 处理器是 Arm 公司面向市场推出的 RISC(精简指令集) 微处理器，目前手机上的 CPU 都是 RISC 类型，跟传统 PC 端的 CPU(CISC) 相比，具有体积小、低功耗、低成本、高性能的特点，很适合于移动终端。一般电脑上的 CPU 都是 CISC 类型的，iOS 模拟器是将 Arm 指令转换后在 X86 上运行。另外，Apple 本身就是 ARM 最大的股东之一。</p>
+    <h2 id="Arm_是什么">Arm 是什么</h2><p>Arm 处理器是 Arm 公司面向市场推出的 RISC(精简指令集) 微处理器，目前手机上的 CPU 都是 RISC 类型，跟传统 PC 端的 CPU(CISC) 相比，具有体积小、低功耗、低成本、高性能的特点，很适合于移动终端。一般电脑上的 CPU 都是 CISC 类型的，iOS 模拟器是将 Arm 指令转换后在 X86 上运行。另外，Apple 本身就是 ARM 最大的股东之一。</p>
 <a id="more"></a>
-<h2 id="Apple-系列产品的-Arm-架构"><a href="#Apple-系列产品的-Arm-架构" class="headerlink" title="Apple 系列产品的 Arm 架构"></a>Apple 系列产品的 Arm 架构</h2><p>Armv6 的设备有 </p>
+<h2 id="Apple_系列产品的_Arm_架构">Apple 系列产品的 Arm 架构</h2><p>Armv6 的设备有 </p>
 <p><code>iPhone 1,2,3 代</code>、 <code>iPod 1,2 代</code>  </p>
 <p>Armv7 的设备有 </p>
 <p><code>iPhone 3GS</code>、<code>iPhone 4</code>、<code>iPhone 4s</code>、</p>
@@ -178,7 +178,7 @@
 <p>Arm64 的设备有 <code>iPhone 5s</code>、<code>iPhone 6</code>、<code>iPhone 6 plus</code></p>
 <p><code>iPad mini 2</code>、<code>iPad mini 3</code>、<code>iPad Air</code>、<code>iPad Air 2</code></p>
 <p>可以看到，再以后的产品线中，应该全部都是支持 64 位了，如果是这样子，App 如果不支持64位，那么处理器再厉害也是白搭，性能损耗太大，苹果今年（2015）有关新上线 App 必须支持64位的决定也是有一定道理的。有关 App 如何支持64位的博客我会尽快的翻译官方的 GUI。</p>
-<h2 id="Xcode-中的-Architectures-配置"><a href="#Xcode-中的-Architectures-配置" class="headerlink" title="Xcode 中的 Architectures 配置"></a>Xcode 中的 Architectures 配置</h2><p>Xcode 中有关指令集的配置如下图所示：</p>
+<h2 id="Xcode_中的_Architectures_配置">Xcode 中的 Architectures 配置</h2><p>Xcode 中有关指令集的配置如下图所示：</p>
 <p><img src="http://7vzucb.com1.z0.glb.clouddn.com/blog.Architectures.png" alt="Architectures Xcode 截图"></p>
 <p>####Architectures:</p>
 <p>表示工程将被编译成支持哪些指令集，支持指令集是通过编译生成对应的二进制数据包实现的，如果选择支持多个指令集，会造成编译出的数据包很大。Xcode 6 目前的默认设置为 <code>$(ARCHS_STANDARD)(armv7,arm64)</code> ,armv7 包含了 Apple 的绝大数产品线，不包含的基本上已经被市场淘汰了，但是如果选择 armv7s，那么支持的 iOS 设备将会减少很多，另外 armv7 和 armv7s 性能差异比较小，所以 Apple 选择了 armv7，不排除以后 Xcode 升级修改到 armv7s。还有一个 arm64，这个就是让支持64位的设备全部运行64位数据包，由于64位与32位之间的性能差距比较大，再加上现在所有的 App 都需要支持64位，以后的 Xcode 配置中这一项不用改动，就按这个默认的 <code>$(ARCHS_STANDARD)</code> 来就行了。</p>
@@ -187,10 +187,10 @@
 <p>####Valid Architectures:</p>
 <p>这里选择的是可能要编译的指令集，<code>Valid Architectures</code> 与 <code>Architectures</code> 指令集的交集，才会是 Xcode 最终编译出来的二进制包支持的指令集。如果此项为空，那么 Xcode 将不会编译任何东西。如果对 App 的体积有要求，可以在此项中设置最小的指令支持，但还是必须支持64位哦～</p>
 <p>只要理解了 iOS 设备与指令集的关系，以后如果项目中遇到了指令集编译方面的错误，就可以迎刃而解了，尤其是使用第三方的 .a 静态库时，可能会出各种问题，其中很多问题都是指令集造成的，尤其是那些 <em>年代久远</em> 的库。</p>
-<h4 id="查看指定静态库所支持的指令集"><a href="#查看指定静态库所支持的指令集" class="headerlink" title="查看指定静态库所支持的指令集"></a>查看指定静态库所支持的指令集</h4><p>比如要查看 libExample.a 这个静态库所支持的指令集，只需要 lipo 一下就好了</p>
-<pre><code>lipo -info libExample.a
+<h4 id="查看指定静态库所支持的指令集">查看指定静态库所支持的指令集</h4><p>比如要查看 libExample.a 这个静态库所支持的指令集，只需要 lipo 一下就好了</p>
+<pre><code><span class="title">lipo</span> -<span class="built_in">info</span> libExample.a
 </code></pre><p>我自己在电脑上测试某 SDK 的库，得到的结果如下:</p>
-<pre><code>Architectures in the fat file: output/Libxxx/libxxx.a are: armv7 armv7s i386 x86_64 arm64 
+<pre><code>Architectures <span class="keyword">in</span> the fat <span class="string">file:</span> output<span class="regexp">/Libxxx/</span>libxxx.a <span class="string">are:</span> armv7 armv7s i386 x86_64 arm64 
 </code></pre><p>可以见得，在写 SDK 时，最好是 <strong>全部都支持</strong> ，这样子才不会给使用 SDK 的开发者造成麻烦。</p>
 
   </section>

@@ -169,23 +169,23 @@
   <section class="post">
     <p>之前用 Octopress 搭建了 blog，这次迁移到 hexo 上，随便写点东西记录一下。</p>
 <a id="more"></a>
-<h2 id="Github-Pages"><a href="#Github-Pages" class="headerlink" title="Github Pages"></a>Github Pages</h2><p>这个其实是第一步啦，Mac 是自带 Git 的，不过版本可能不高，有必要可以升级下。</p>
+<h2 id="Github_Pages">Github Pages</h2><p>这个其实是第一步啦，Mac 是自带 Git 的，不过版本可能不高，有必要可以升级下。</p>
 <p>关于配置 Github SSH 以及 Github Pages 的创建因为之前已经做过了，就不再做介绍了，网上文章很多，随手一搜就好。</p>
-<h2 id="Homebrew"><a href="#Homebrew" class="headerlink" title="Homebrew"></a>Homebrew</h2><p>这可是个神器，Mac 下安装各种应用特别舒服。我们主要用它来安装 node.js。</p>
+<h2 id="Homebrew">Homebrew</h2><p>这可是个神器，Mac 下安装各种应用特别舒服。我们主要用它来安装 node.js。</p>
 <p>如果你的 homebrew 是之前很久安装的，可能需要升级一下，因为 OS X EL Capitan 弄了很多权限之类的东西。</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 升级 homebrew</span><br><span class="line">brew update</span><br></pre></td></tr></table></figure>
-<h2 id="Node-js"><a href="#Node-js" class="headerlink" title="Node.js"></a>Node.js</h2><p>HomeBrew 安装好了之后，直接安装 node</p>
+<h2 id="Node-js">Node.js</h2><p>HomeBrew 安装好了之后，直接安装 node</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">// 安装 node</span><br><span class="line">brew install node</span><br></pre></td></tr></table></figure>
 <p>如果安装的过程中，出现了错误。应该就是 OS X EL Capitan 的问题，SIP 机制不允许对 /usr 目录做修改。尝试使用一下命令解决：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chown -R $(whoami):admin /usr/local</span><br></pre></td></tr></table></figure>
 <p>如果还是没有解决，去 homebrew 的文档页面中详细查询：<a href="https://github.com/Homebrew/homebrew/blob/master/share/doc/homebrew/El_Capitan_and_Homebrew.md" target="_blank" rel="noopener">homebrew OS X 10.11</a></p>
-<h2 id="Hexo"><a href="#Hexo" class="headerlink" title="Hexo"></a>Hexo</h2><p>使用 npm 安装</p>
+<h2 id="Hexo">Hexo</h2><p>使用 npm 安装</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo</span><br></pre></td></tr></table></figure>
-<h3 id="初始化-hexo"><a href="#初始化-hexo" class="headerlink" title="初始化 hexo"></a>初始化 hexo</h3><p>新建一个目录作为 hexo 博客的存放地点，我选择了建立在用户主目录下：</p>
+<h3 id="初始化_hexo">初始化 hexo</h3><p>新建一个目录作为 hexo 博客的存放地点，我选择了建立在用户主目录下：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cd ~</span><br><span class="line">mkdir hexo</span><br><span class="line">cd hexo</span><br><span class="line">hexo init</span><br><span class="line">npm install</span><br></pre></td></tr></table></figure>
-<h3 id="使用-hexo"><a href="#使用-hexo" class="headerlink" title="使用 hexo"></a>使用 hexo</h3><p>现在 hexo 已经安装好了，不过还需要进行一些配置，可以参考 <a href="http://www.jianshu.com/p/858ecf233db9" target="_blank" rel="noopener">hexo 配置教程</a></p>
-<h3 id="更改主题"><a href="#更改主题" class="headerlink" title="更改主题"></a>更改主题</h3><p>我现在使用的是 NexT 主题，详细可参考 <a href="http://theme-next.iissnan.com/five-minutes-setup.html" target="_blank" rel="noopener">Next 主题 wiki</a></p>
-<h3 id="Hexo-命令"><a href="#Hexo-命令" class="headerlink" title="Hexo 命令"></a>Hexo 命令</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// 新建文档</span><br><span class="line">hexo new "这是一篇新文章"</span><br><span class="line"></span><br><span class="line">// 生成静态页面</span><br><span class="line">hexo g</span><br><span class="line"></span><br><span class="line">// 预览, 可打开浏览器进行预览</span><br><span class="line">hexo s</span><br><span class="line"></span><br><span class="line">// 发布到 github ，需在站点配置文件中配置正确</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
+<h3 id="使用_hexo">使用 hexo</h3><p>现在 hexo 已经安装好了，不过还需要进行一些配置，可以参考 <a href="http://www.jianshu.com/p/858ecf233db9" target="_blank" rel="noopener">hexo 配置教程</a></p>
+<h3 id="更改主题">更改主题</h3><p>我现在使用的是 NexT 主题，详细可参考 <a href="http://theme-next.iissnan.com/five-minutes-setup.html" target="_blank" rel="noopener">Next 主题 wiki</a></p>
+<h3 id="Hexo_命令">Hexo 命令</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// 新建文档</span><br><span class="line">hexo new "这是一篇新文章"</span><br><span class="line"></span><br><span class="line">// 生成静态页面</span><br><span class="line">hexo g</span><br><span class="line"></span><br><span class="line">// 预览, 可打开浏览器进行预览</span><br><span class="line">hexo s</span><br><span class="line"></span><br><span class="line">// 发布到 github ，需在站点配置文件中配置正确</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
 
   </section>
 

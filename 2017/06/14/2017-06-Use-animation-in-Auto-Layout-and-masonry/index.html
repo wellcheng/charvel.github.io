@@ -175,9 +175,9 @@ AutoLayout 没有 Frame 时如何做动画在 Aut">
 
   <section class="post">
     <p>动画是 iOS 中非常重要的一部分，它给用户展现出应用灵气的一面。</p>
-<h2 id="在动画块中修改-Frame"><a href="#在动画块中修改-Frame" class="headerlink" title="在动画块中修改 Frame"></a>在动画块中修改 Frame</h2><p>在原来使用 frame 布局时，在 UIView 的 animate block 中对 view 的布局进行修改，动画即可生效。</p>
+<h2 id="在动画块中修改_Frame">在动画块中修改 Frame</h2><p>在原来使用 frame 布局时，在 UIView 的 animate block 中对 view 的布局进行修改，动画即可生效。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[UIView animte ... &#123;</span><br><span class="line">    view.frame = ...</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
-<h2 id="AutoLayout-没有-Frame-时如何做动画"><a href="#AutoLayout-没有-Frame-时如何做动画" class="headerlink" title="AutoLayout 没有 Frame 时如何做动画"></a>AutoLayout 没有 Frame 时如何做动画</h2><p>在 AutoLayout 中，view 的布局等属性都是由约束 constraint 决定，Apple 也不建议在使用 AutoLayout 直接修改 view 的 frame。</p>
+<h2 id="AutoLayout_没有_Frame_时如何做动画">AutoLayout 没有 Frame 时如何做动画</h2><p>在 AutoLayout 中，view 的布局等属性都是由约束 constraint 决定，Apple 也不建议在使用 AutoLayout 直接修改 view 的 frame。</p>
 <p>在介绍之前，先看一下 UIView 的 <code>layoutIfNeeded</code> 方法：</p>
 <a id="more"></a>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** </span></span><br><span class="line"><span class="comment">Allows you to perform layout before the drawing cycle happens. </span></span><br><span class="line"><span class="comment">-layoutIfNeeded forces layout early</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">- (<span class="keyword">void</span>)layoutIfNeeded;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">Lays out the subviews immediately.</span></span><br><span class="line"><span class="comment">Use this method to force the layout of subviews before drawing. </span></span><br><span class="line"><span class="comment">Using the view that receives the message as the root view, </span></span><br><span class="line"><span class="comment">this method lays out the view subtree starting at the root.</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
@@ -188,12 +188,12 @@ AutoLayout 没有 Frame 时如何做动画在 Aut">
 <blockquote>
 <p>[self.view layoutIfNeeded]; 这行代码，其实就是让系统帮我们去做 frame 相关的修改。</p>
 </blockquote>
-<h2 id="约束还有约束"><a href="#约束还有约束" class="headerlink" title="约束还有约束"></a>约束还有约束</h2><p>现在，我们学会了在 Animation Block 中修改约束来达到动画的目的。<br>但是这需要我们持有对该 constraint 的引用才行。如果页面中有大量的动画需求，那么就会出现如下例子：</p>
+<h2 id="约束还有约束">约束还有约束</h2><p>现在，我们学会了在 Animation Block 中修改约束来达到动画的目的。<br>但是这需要我们持有对该 constraint 的引用才行。如果页面中有大量的动画需求，那么就会出现如下例子：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@interface SSAnchorRankView ()</span><br><span class="line">@property (nonatomic, strong) NSLayoutConstraint *labelWidthCons;</span><br><span class="line">@property (nonatomic, strong) NSLayoutConstraint *labelHeightCons;</span><br><span class="line">@property (nonatomic, strong) NSLayoutConstraint *labelTopCons;</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
 <p>也就是说，实现动画时需要改变的约束，都需要在类中增加属性来引用它。</p>
 <p>虽然可以将这些属性单独放在一个 category 中，但是仍然避免不了要大量引用约束的尴尬。</p>
-<h3 id="复杂的动画会导致什么"><a href="#复杂的动画会导致什么" class="headerlink" title="复杂的动画会导致什么"></a>复杂的动画会导致什么</h3><p>复杂的动画，会让你在设计约束时，考虑的内容太多，也容易出现一些约束的 Bug。</p>
-<h3 id="优雅的姿势"><a href="#优雅的姿势" class="headerlink" title="优雅的姿势"></a>优雅的姿势</h3><p>其实在布局的过程中，是可以将界面的显示部分做一个抽象的划分。例如在编写一个音乐播放器的界面时，将相似或者耦合的元素包装起来，作为一块单独的内容区域：</p>
+<h3 id="复杂的动画会导致什么">复杂的动画会导致什么</h3><p>复杂的动画，会让你在设计约束时，考虑的内容太多，也容易出现一些约束的 Bug。</p>
+<h3 id="优雅的姿势">优雅的姿势</h3><p>其实在布局的过程中，是可以将界面的显示部分做一个抽象的划分。例如在编写一个音乐播放器的界面时，将相似或者耦合的元素包装起来，作为一块单独的内容区域：</p>
 <ul>
 <li>歌曲专辑图片、歌曲名、歌手名</li>
 <li>歌词、歌词控制</li>
@@ -201,9 +201,9 @@ AutoLayout 没有 Frame 时如何做动画在 Aut">
 <li>喜欢歌曲、不喜欢歌曲</li>
 </ul>
 <p>这样，将元素分别装在不同的 container view 中，抽象起来，在之后不管是做约束，还是做动画，都会更加方便。</p>
-<h2 id="Masonry-呢？"><a href="#Masonry-呢？" class="headerlink" title="Masonry 呢？"></a>Masonry 呢？</h2><p>Masonry 的 make 方法会生成约束，其实，它本身是有返回值，类型为 MASConstraint *，所以也是可以持有 Masonry 生成的约束并改变其值。</p>
+<h2 id="Masonry_呢？">Masonry 呢？</h2><p>Masonry 的 make 方法会生成约束，其实，它本身是有返回值，类型为 MASConstraint *，所以也是可以持有 Masonry 生成的约束并改变其值。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[label mas_remakeConstraints:^(MASConstraintMaker *make) &#123;</span><br><span class="line">    self.labelWidthCons = make.width.equalTo(self.view).offset(200);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="进阶"><a href="#进阶" class="headerlink" title="进阶"></a>进阶</h2><p>Constraint 本身可以修改的属性并不多，有时候需要转换一种思路，比如 install 两条约束，在不同的 case 下激活其中一条即可。</p>
+<h2 id="进阶">进阶</h2><p>Constraint 本身可以修改的属性并不多，有时候需要转换一种思路，比如 install 两条约束，在不同的 case 下激活其中一条即可。</p>
 <p>Constraint 本身有很多方法还可以继续研究，当然这个就是后话了。</p>
 
   </section>

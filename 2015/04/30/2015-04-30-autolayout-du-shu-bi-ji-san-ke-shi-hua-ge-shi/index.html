@@ -175,13 +175,13 @@
   <section class="post">
     <p>AutoLayout 目前有三种创建约束的方式，第一种为 IB 中手动创建、第二种为代码中使用 NSLayoutConstraint 类，现在我们学习第三种，使用 <code>格式化语言</code> 创建约束。</p>
 <p>需要记住的是，不管何种方式创建的约束，都是 NSLayoutConstraint 类的实例，并且遵循 <code>y = mx + b</code> 关系</p>
-<h2 id="可视化约束的格式介绍"><a href="#可视化约束的格式介绍" class="headerlink" title="可视化约束的格式介绍"></a>可视化约束的格式介绍</h2><p>NSLayoutConstraint 类方法创建可视化的约束，尽管可视化约束的内容能够关联多个视图，但是它们会被 NSLayoutConstraint 翻译为每次只关联一个或多个视图。这种方式创建的约束为数组的形式。</p>
+<h2 id="可视化约束的格式介绍">可视化约束的格式介绍</h2><p>NSLayoutConstraint 类方法创建可视化的约束，尽管可视化约束的内容能够关联多个视图，但是它们会被 NSLayoutConstraint 翻译为每次只关联一个或多个视图。这种方式创建的约束为数组的形式。</p>
 <a id="more"></a>
 <p>可视化格式，由一个描述布局方式的文本字符串组成。根据约束关联项在视图中出现的顺序一次列出它们。文本序列指定间隔、不等量和优先级。看代码比较直接：</p>
-<pre><code>[self.view addConstraints:[NSLayoutConstraint constraintWithVisualFormat:@&quot;V:[view1]-8-[view2]&quot;]]
-    options:NSLayoutFormatAlignAllLeading
-    metrics:nil
-    views:[NSDictionaryOfVariableBings(view1,view2)]
+<pre><code>[self.<span class="keyword">view</span> addConstraint<span class="variable">s:</span>[NSLayoutConstraint constraintWithVisualForma<span class="variable">t:</span>@<span class="string">"V:[view1]-8-[view2]"</span>]]
+    option<span class="variable">s:NSLayoutFormatAlignAllLeading</span>
+    metric<span class="variable">s:nil</span>
+    <span class="keyword">view</span><span class="variable">s:</span>[NSDictionaryOfVariableBings(view1,view2)]
 ];
 </code></pre><p>上面代码创建的约束为：在 View1 和 View2组成的左对齐一列，间距为 8 ，下面是几点说明：</p>
 <ul>
@@ -194,57 +194,57 @@
 <li>views 表示真实对象与布局格式中 View 的绑定关系，一般使用语义化的词语来绑定真实的对象</li>
 </ul>
 <p>为什么要使用这种方式呢，首先，简洁，使用这种方式创建的约束可能需要之前实例化 NSLayoutConstraint 方式好几个才行。第二是高度抽象，即当前表示的布局方式是基于一个比较高的角度去考虑。第三，很容易调整。</p>
-<h2 id="选项"><a href="#选项" class="headerlink" title="选项"></a>选项</h2><p>可视化格式方法的选项，包括 对齐掩码、格式方向掩码</p>
-<h3 id="对齐"><a href="#对齐" class="headerlink" title="对齐"></a>对齐</h3><p>应当总是正交地使用掩码，比如在水平方向上创建了一行 view ，那么需要顶部对齐，基准线对齐，或者中心对齐</p>
+<h2 id="选项">选项</h2><p>可视化格式方法的选项，包括 对齐掩码、格式方向掩码</p>
+<h3 id="对齐">对齐</h3><p>应当总是正交地使用掩码，比如在水平方向上创建了一行 view ，那么需要顶部对齐，基准线对齐，或者中心对齐</p>
 <p>有些地方可以省略，例如给 options 传入 0，这个时候，只会创建可视化的约束，不建立对齐约束</p>
-<h3 id="变量绑定"><a href="#变量绑定" class="headerlink" title="变量绑定"></a>变量绑定</h3><p>将布局系统中表示视图的字符串与实际的对象绑定起来，使用 NSDictionaryOfVariableBindings（）宏来创建绑定。</p>
+<h3 id="变量绑定">变量绑定</h3><p>将布局系统中表示视图的字符串与实际的对象绑定起来，使用 NSDictionaryOfVariableBindings（）宏来创建绑定。</p>
 <p>你也可以自己来创建字典。但是字典对于视图数组很不友好，会在解析时出现问题。因为可视化格式对于一些步骤比较长的视图解析起来有些力不从心，例如 [self.view viewWithTag:100] 等。</p>
 <p>为了解决上面的问题，可以使用代码创建字典和格式字符串，上代码：</p>
-<pre><code>// 初始化格式字符串和绑定字典  
-NSMutableString *formatString = [NSMutableString string];  
-NSMutableDictionary *bindings = [NSMutableDictionary dictionary]; 
+<pre><code><span class="comment">// 初始化格式字符串和绑定字典  </span>
+<span class="built_in">NSMutableString</span> *formatString = [<span class="built_in">NSMutableString</span> string];  
+<span class="built_in">NSMutableDictionary</span> *bindings = [<span class="built_in">NSMutableDictionary</span> dictionary]; 
 
-// 视图数量 int i = 1; 
-// 创建一行视图，Build a format string that lays out the views in a row 
-// e.g. @&quot;H:|-[view1] [view2]-[view3]...&quot; 
-[formatString appendString:@&quot;H:|-&quot;]; 
-for (UIView *view in views) { 
-    // 创建一个视图的名字 
-    NSString *viewName = [NSString stringWithFormat:@&quot;view%0d&quot;, i++]; 
+<span class="comment">// 视图数量 int i = 1; </span>
+<span class="comment">// 创建一行视图，Build a format string that lays out the views in a row </span>
+<span class="comment">// e.g. @"H:|-[view1] [view2]-[view3]..." </span>
+[formatString appendString:<span class="string">@"H:|-"</span>]; 
+<span class="keyword">for</span> (<span class="built_in">UIView</span> *view <span class="keyword">in</span> views) { 
+    <span class="comment">// 创建一个视图的名字 </span>
+    <span class="built_in">NSString</span> *viewName = [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"view%0d"</span>, i++]; 
 
-    // 将这个视图添加到格式化字符串中 
-    [formatString appendFormat:@&quot;[%@]%@&quot;,viewName, (i &lt;= views.count) ? @&quot;-&quot; : @&quot;&quot;]; 
+    <span class="comment">// 将这个视图添加到格式化字符串中 </span>
+    [formatString appendFormat:<span class="string">@"[%@]%@"</span>,viewName, (i &lt;= views<span class="variable">.count</span>) ? <span class="string">@"-"</span> : <span class="string">@""</span>]; 
 
-    // 将视图的名称与对象做绑定 
+    <span class="comment">// 将视图的名称与对象做绑定 </span>
     bindings[viewName] = view; 
 }
-</code></pre><h3 id="度量"><a href="#度量" class="headerlink" title="度量"></a>度量</h3><p>如果一开始不知道某个常量的值，可以使用度量字典提供的值。例如</p>
-<pre><code>@&quot;V:[view1]-spacing-[view2]&quot;
+</code></pre><h3 id="度量">度量</h3><p>如果一开始不知道某个常量的值，可以使用度量字典提供的值。例如</p>
+<pre><code>@<span class="string">"V:<span class="subst">[view1]</span>-spacing-<span class="subst">[view2]</span>"</span>
 </code></pre><p>以后知道了值时，创建一个字典对象将其关联起来，传递给 metrics：</p>
-<pre><code>NSDictionary *metrics = @{@&quot;spacing&quot;:@10};
-[NSLayoutConstraint constraintsWithVisualFormat:@&quot;V:[view1]-spacing-[view2]&quot;
+<pre><code><span class="built_in">NSDictionary</span> *metrics = @{<span class="string">@"spacing"</span>:@<span class="number">10</span>};
+[<span class="built_in">NSLayoutConstraint</span> constraintsWithVisualFormat:<span class="string">@"V:[view1]-spacing-[view2]"</span>
     options: ...
     metrics:metrics
     views:bindings
 ]
 </code></pre><p>在实际开发中，这个很有用，可以写一些可以复用的代码：</p>
-<pre><code>- (void)constrainView:(UIView *)view toWidth:(CGFloat) width {
-    NSString *formatString = @&quot;H:[view(==width)]&quot;;    // 创建约束字符串
-    NSDictionary *bindings = NSDictionaryOfVariableBindings(view);
-    NSDictionary *metrics = @{@&quot;width&quot;:@(width)};
+<pre><code>- (<span class="keyword">void</span>)constrainView:(<span class="built_in">UIView</span> *)view toWidth:(<span class="built_in">CGFloat</span>) width {
+    <span class="built_in">NSString</span> *formatString = <span class="string">@"H:[view(==width)]"</span>;    <span class="comment">// 创建约束字符串</span>
+    <span class="built_in">NSDictionary</span> *bindings = <span class="built_in">NSDictionaryOfVariableBindings</span>(view);
+    <span class="built_in">NSDictionary</span> *metrics = @{<span class="string">@"width"</span>:@(width)};
 
-    NSArray *constraints = [NSLayoutConstraint constraintsWithVisualFormat ...
+    <span class="built_in">NSArray</span> *constraints = [<span class="built_in">NSLayoutConstraint</span> constraintsWithVisualFormat ...
 
     [view addConstraints:constraints];
 }
-</code></pre><h3 id="格式字符串结构"><a href="#格式字符串结构" class="headerlink" title="格式字符串结构"></a>格式字符串结构</h3><p>前面我们已经接触了很多次格式化字符串的结构，大概也能猜到一些，具体的语法为：</p>
-<pre><code>(&lt;orientation&gt;:)? 
-(&lt;superView&gt;&lt;connection&gt;)? 
-&lt;view&gt;(&lt;conection&gt;&lt;view&gt;)* 
-(&lt;connection&gt;&lt;superview&gt;)?
+</code></pre><h3 id="格式字符串结构">格式字符串结构</h3><p>前面我们已经接触了很多次格式化字符串的结构，大概也能猜到一些，具体的语法为：</p>
+<pre><code>(<span class="variable">&lt;orientation&gt;</span>:)? 
+(<span class="variable">&lt;superView&gt;</span><span class="variable">&lt;connection&gt;</span>)? 
+<span class="variable">&lt;view&gt;</span>(<span class="variable">&lt;conection&gt;</span><span class="variable">&lt;view&gt;</span>)<span class="keyword">*</span> 
+(<span class="variable">&lt;connection&gt;</span><span class="variable">&lt;superview&gt;</span>)?
 </code></pre><p>看起来很复杂，其实用到后面就会觉得简单了，<code>？</code>表示可选，<code>*</code> 表示0个或多个</p>
-<h3 id="方向"><a href="#方向" class="headerlink" title="方向"></a>方向</h3><p>可视化格式，以一个方向开始，可以是 H：水平方向，V：垂直方向</p>
-<h3 id="视图名称"><a href="#视图名称" class="headerlink" title="视图名称"></a>视图名称</h3><p>视图名称被方括号包围，使用变量绑定视图名时，视图名称指的是视图本身的变量名</p>
+<h3 id="方向">方向</h3><p>可视化格式，以一个方向开始，可以是 H：水平方向，V：垂直方向</p>
+<h3 id="视图名称">视图名称</h3><p>视图名称被方括号包围，使用变量绑定视图名时，视图名称指的是视图本身的变量名</p>
 <p>使用竖线 <code>|</code> 来表示父视图，一般出现在格式字符串的开头或者结尾，开头时，一般出现在 <code>H:| ...</code>，结尾时，一般为最后一个引号之前</p>
 <p>下面是几个典型的例子：</p>
 <ul>
@@ -252,16 +252,16 @@ for (UIView *view in views) {
 <li>某个视图偏移父视图的某条边：<code>&quot;V:[view]-10-|&quot;</code>,表示距离父视图底部 10 间隔</li>
 <li>创建一行或者一列与父视图对齐的视图：<code>&quot;V:|-[view1]-[view2]-[view3]-|&quot;</code> </li>
 </ul>
-<h3 id="连接"><a href="#连接" class="headerlink" title="连接"></a>连接</h3><p>连接表示了视图之间的间隔</p>
-<h4 id="空连接"><a href="#空连接" class="headerlink" title="空连接"></a>空连接</h4><p>一般是 <code>[view1][view2]</code> 这种形式，表示紧挨着</p>
-<h4 id="标准间隔"><a href="#标准间隔" class="headerlink" title="标准间隔"></a>标准间隔</h4><p>这个时候使用连字符 <code>-</code> 代表固定的间隔，例如：</p>
-<pre><code>&quot;H:|-[view1]-[view2]&quot;
+<h3 id="连接">连接</h3><p>连接表示了视图之间的间隔</p>
+<h4 id="空连接">空连接</h4><p>一般是 <code>[view1][view2]</code> 这种形式，表示紧挨着</p>
+<h4 id="标准间隔">标准间隔</h4><p>这个时候使用连字符 <code>-</code> 代表固定的间隔，例如：</p>
+<pre><code><span class="string">"H:|-<span class="subst">[view1]</span>-<span class="subst">[view2]</span>"</span>
 </code></pre><p>表示 view1 和 view2 水平方向上标准的间隔，视图与视图之间为 8 ，子视图与父视图之间为 20</p>
-<h4 id="数字间隔"><a href="#数字间隔" class="headerlink" title="数字间隔"></a>数字间隔</h4><p>可以在两个连字符中间插入数字表示准确的间隔值，如 <code>[view1]-30-[view2]</code> 。</p>
-<h4 id="引用父视图"><a href="#引用父视图" class="headerlink" title="引用父视图"></a>引用父视图</h4><p>使用 <code>|</code> 表示父视图，例如 <code>&quot;H:|[view1]-[view2]|&quot;</code> 表示 view1 和 view2 之间有标准间隙，并且view1 的左边与父视图左边界相邻，view2 右边与父视图右边相邻，必须要制定 view1 或 view2 其中一个的宽度，不要会发生歧义。</p>
-<h4 id="与父视图的间隔"><a href="#与父视图的间隔" class="headerlink" title="与父视图的间隔"></a>与父视图的间隔</h4><p>加入连字符或者带数字的连字符即可，例如 <code>&quot;H:|-[view1]-[view2]-30-|&quot;</code></p>
-<h4 id="可变的间隔"><a href="#可变的间隔" class="headerlink" title="可变的间隔"></a>可变的间隔</h4><p>有的时候，我们需要在两个视图之间加入一个可变的间隔。例如 <code>&quot;H:|-[view1]-(&gt;=0)-[view2]-|&quot;</code> 表示，view1 和 view2 保持自己的尺寸，这个间隔最少为0 ，可以拉伸。</p>
-<h4 id="圆括号"><a href="#圆括号" class="headerlink" title="圆括号"></a>圆括号</h4><p>上面的例子中，大于等于关系包含在圆括号中，主要是有些数值可能带有负号，防止与连线符混淆。</p>
+<h4 id="数字间隔">数字间隔</h4><p>可以在两个连字符中间插入数字表示准确的间隔值，如 <code>[view1]-30-[view2]</code> 。</p>
+<h4 id="引用父视图">引用父视图</h4><p>使用 <code>|</code> 表示父视图，例如 <code>&quot;H:|[view1]-[view2]|&quot;</code> 表示 view1 和 view2 之间有标准间隙，并且view1 的左边与父视图左边界相邻，view2 右边与父视图右边相邻，必须要制定 view1 或 view2 其中一个的宽度，不要会发生歧义。</p>
+<h4 id="与父视图的间隔">与父视图的间隔</h4><p>加入连字符或者带数字的连字符即可，例如 <code>&quot;H:|-[view1]-[view2]-30-|&quot;</code></p>
+<h4 id="可变的间隔">可变的间隔</h4><p>有的时候，我们需要在两个视图之间加入一个可变的间隔。例如 <code>&quot;H:|-[view1]-(&gt;=0)-[view2]-|&quot;</code> 表示，view1 和 view2 保持自己的尺寸，这个间隔最少为0 ，可以拉伸。</p>
+<h4 id="圆括号">圆括号</h4><p>上面的例子中，大于等于关系包含在圆括号中，主要是有些数值可能带有负号，防止与连线符混淆。</p>
 <p>对于同一种布局方式，有很多表示。例如表示两个视图相邻：</p>
 <ul>
 <li>[view1][view2]</li>
@@ -273,105 +273,105 @@ for (UIView *view in views) {
 <li>[view1]-(&gt;=0,&lt;=0,==0,&lt;=30)-[view2]</li>
 </ul>
 <p>关系后跟 <code>@</code> 表示优先级，多个关系可以用逗号隔开</p>
-<h4 id="负数"><a href="#负数" class="headerlink" title="负数"></a>负数</h4><p>为任何使用负数值的间隔加上括号，负数还有其他用途：<code>V:[view1]-(-10)-[view2]</code> 表示view1 下边缘往上10点为 view2 上边缘，这样子 view1 view2 垂直方向上有 10 点的重合。</p>
-<h4 id="优先级"><a href="#优先级" class="headerlink" title="优先级"></a>优先级</h4><p>在数值或者关系上使用@添加优先级，一般为清晰起见，加上括号比较好。</p>
-<h4 id="多视图"><a href="#多视图" class="headerlink" title="多视图"></a>多视图</h4><p>可以在格式字符串中插入多个视图</p>
-<h3 id="视图尺寸"><a href="#视图尺寸" class="headerlink" title="视图尺寸"></a>视图尺寸</h3><p>方括号中除了表示视图名称，还可以指定尺寸，例如 <code>H:[view(100)]</code> 表示宽度 100，同样，也可以使用关系。</p>
+<h4 id="负数">负数</h4><p>为任何使用负数值的间隔加上括号，负数还有其他用途：<code>V:[view1]-(-10)-[view2]</code> 表示view1 下边缘往上10点为 view2 上边缘，这样子 view1 view2 垂直方向上有 10 点的重合。</p>
+<h4 id="优先级">优先级</h4><p>在数值或者关系上使用@添加优先级，一般为清晰起见，加上括号比较好。</p>
+<h4 id="多视图">多视图</h4><p>可以在格式字符串中插入多个视图</p>
+<h3 id="视图尺寸">视图尺寸</h3><p>方括号中除了表示视图名称，还可以指定尺寸，例如 <code>H:[view(100)]</code> 表示宽度 100，同样，也可以使用关系。</p>
 <p>视图尺寸也可以加优先级，或者是某个视图的倍数</p>
-<h3 id="格式字符串部件"><a href="#格式字符串部件" class="headerlink" title="格式字符串部件"></a>格式字符串部件</h3><p>如下表总结，可以使用逗号将其组合起来：</p>
+<h3 id="格式字符串部件">格式字符串部件</h3><p>如下表总结，可以使用逗号将其组合起来：</p>
 <p><img src="http://7vzucb.com1.z0.glb.clouddn.com/blog.VisualFormatStrings-1.png" alt="Visual Format Strings-1"><br><img src="http://7vzucb.com1.z0.glb.clouddn.com/blog.VisualFormatStrings-2.png" alt="Visual Format Strings-2"></p>
 <blockquote>
 <p>ios7 和 Xcode5 引入的 TopLayoutGuide 和 bottomLayoutGuide 需要先设置为本地变量然后再引用</p>
 </blockquote>
-<h3 id="错误"><a href="#错误" class="headerlink" title="错误"></a>错误</h3><p>Xcode 无法提供编译器的检查，所以需要你注意控制台中的错误提示。</p>
-<h3 id="NSLog-和可视化格式"><a href="#NSLog-和可视化格式" class="headerlink" title="NSLog 和可视化格式"></a>NSLog 和可视化格式</h3><p>有时候 Xcode 能够输出约束的可视化格式，有时候不行</p>
-<h2 id="约束到父视图"><a href="#约束到父视图" class="headerlink" title="约束到父视图"></a>约束到父视图</h2><p>可以使用代码方便的为父视图添加可视化字符串式的约束。<br>可以在 ViewWillDidAppear 中打印出所有 view 的 frame</p>
-<pre><code>void constrainToSuperview(UIView *view, float minimumSize, NSUInteger priority) {
-    if (!view || !view.superview) { 
-        return; 
+<h3 id="错误">错误</h3><p>Xcode 无法提供编译器的检查，所以需要你注意控制台中的错误提示。</p>
+<h3 id="NSLog_和可视化格式">NSLog 和可视化格式</h3><p>有时候 Xcode 能够输出约束的可视化格式，有时候不行</p>
+<h2 id="约束到父视图">约束到父视图</h2><p>可以使用代码方便的为父视图添加可视化字符串式的约束。<br>可以在 ViewWillDidAppear 中打印出所有 view 的 frame</p>
+<pre><code><span class="keyword">void</span> constrainToSuperview(<span class="built_in">UIView</span> *view, <span class="keyword">float</span> minimumSize, <span class="built_in">NSUInteger</span> priority) {
+    <span class="keyword">if</span> (!view || !view<span class="variable">.superview</span>) { 
+        <span class="keyword">return</span>; 
     } 
 
-    for (NSString *format in @[  
-        @&quot;H:|-&gt;=0@priority-[view(==minimumSize@priority)]&quot;,  
-        @&quot;H:[view]-&gt;=0@priority-|&quot;, 
-        @&quot;V:|-&gt;=0@priority-[view(==minimumSize@priority)]&quot;, 
-        @&quot;V:[view]-&gt;=0@priority-|&quot;])  
+    <span class="keyword">for</span> (<span class="built_in">NSString</span> *format <span class="keyword">in</span> @[  
+        <span class="string">@"H:|-&gt;=0@priority-[view(==minimumSize@priority)]"</span>,  
+        <span class="string">@"H:[view]-&gt;=0@priority-|"</span>, 
+        <span class="string">@"V:|-&gt;=0@priority-[view(==minimumSize@priority)]"</span>, 
+        <span class="string">@"V:[view]-&gt;=0@priority-|"</span>])  
     { 
-        NSArray *constraints = [NSLayoutConstraint 
-            constraintsWithVisualFormat:format options:0 
-            metrics: @{@&quot;priority&quot;:@(priority), 
-            @&quot;minimumSize&quot;:@(minimumSize)} 
-            views:@{@&quot;view&quot;: view}]; 
-            [view.superview addConstraints:constraints];  
+        <span class="built_in">NSArray</span> *constraints = [<span class="built_in">NSLayoutConstraint</span> 
+            constraintsWithVisualFormat:format options:<span class="number">0</span> 
+            metrics: @{<span class="string">@"priority"</span>:@(priority), 
+            <span class="string">@"minimumSize"</span>:@(minimumSize)} 
+            views:@{<span class="string">@"view"</span>: view}]; 
+            [view<span class="variable">.superview</span> addConstraints:constraints];  
         } 
     }
-</code></pre><h2 id="视图拉伸"><a href="#视图拉伸" class="headerlink" title="视图拉伸"></a>视图拉伸</h2><p>将视图向它们的父视图拉伸</p>
-<pre><code>void stretchToSuperview(VIEW_CLASS *view, CGFloat indent, NSUInteger priority) {        
-    for (NSString *format in @[
-            @&quot;H:|-indent-[view]-indent-|&quot;,
-            @&quot;V:|-indent-[view]-indent-|&quot; ]) {
+</code></pre><h2 id="视图拉伸">视图拉伸</h2><p>将视图向它们的父视图拉伸</p>
+<pre><code>void stretchToSuperview(VIEW_CLASS *<span class="keyword">view</span>, CGFloat indent, NSUInteger priority) {        
+    <span class="keyword">for</span> (NSString *<span class="keyword">format</span> <span class="keyword">in</span> @[
+            @<span class="string">"H:|-indent-[view]-indent-|"</span>,
+            @<span class="string">"V:|-indent-[view]-indent-|"</span> ]) {
         NSArray *constraints = [NSLayoutConstraint
-                constraintsWithVisualFormat:format 
-                options:0 metrics:@{@&quot;indent&quot;:@(indent)}
-                views:@{@&quot;view&quot;: view}];
-        for (NSLayoutConstraint *constraint in constraints) {
-            constraint.priority = priority;
-            [view.superview addConstraint:constraint];
+                constraintsWithVisualFormat:<span class="keyword">format</span> 
+                options:0 metrics:@{@<span class="string">"indent"</span>:@(indent)}
+                views:@{@<span class="string">"view"</span>: <span class="keyword">view</span>}];
+        <span class="keyword">for</span> (NSLayoutConstraint *<span class="keyword">constraint</span> <span class="keyword">in</span> constraints) {
+            <span class="keyword">constraint</span>.priority = priority;
+            [<span class="keyword">view</span>.superview addConstraint:<span class="keyword">constraint</span>];
         }
     }
 }
-</code></pre><h2 id="约束尺寸"><a href="#约束尺寸" class="headerlink" title="约束尺寸"></a>约束尺寸</h2><p>将视图固定为制定的尺寸值</p>
-<pre><code>void constrainViewSize(VIEW_CLASS *view, CGSize size, NSUInteger priority) {
-    NSDictionary *bindings = NSDictionaryOfVariableBindings(view); 
-    NSDictionary *metrics = @{
-        @&quot;width&quot;:@(size.width),
-        @&quot;height&quot;:@(size.height),
-        @&quot;priority&quot;:@(priority)
+</code></pre><h2 id="约束尺寸">约束尺寸</h2><p>将视图固定为制定的尺寸值</p>
+<pre><code><span class="keyword">void</span> constrainViewSize(VIEW_CLASS *view, <span class="built_in">CGSize</span> size, <span class="built_in">NSUInteger</span> priority) {
+    <span class="built_in">NSDictionary</span> *bindings = <span class="built_in">NSDictionaryOfVariableBindings</span>(view); 
+    <span class="built_in">NSDictionary</span> *metrics = @{
+        <span class="string">@"width"</span>:@(size<span class="variable">.width</span>),
+        <span class="string">@"height"</span>:@(size<span class="variable">.height</span>),
+        <span class="string">@"priority"</span>:@(priority)
     };
-    for (NSString *formatString in @[ 
-        @&quot;H:[view(==width@priority)]&quot;, 
-        @&quot;V:[view(==height@priority)]&quot;, ]) {
-        NSArray *constraints = [NSLayoutConstraint
+    <span class="keyword">for</span> (<span class="built_in">NSString</span> *formatString <span class="keyword">in</span> @[ 
+        <span class="string">@"H:[view(==width@priority)]"</span>, 
+        <span class="string">@"V:[view(==height@priority)]"</span>, ]) {
+        <span class="built_in">NSArray</span> *constraints = [<span class="built_in">NSLayoutConstraint</span>
             constraintsWithVisualFormat:formatString
-            options:0 metrics:metrics views:bindings];
+            options:<span class="number">0</span> metrics:metrics views:bindings];
         [view addConstraints:constraints];
     }
 }
-</code></pre><h2 id="创建一行或者一列"><a href="#创建一行或者一列" class="headerlink" title="创建一行或者一列"></a>创建一行或者一列</h2><p>创建视图，排成一行或者一列：</p>
-<pre><code>#define IS_HORIZONTAL_ALIGNMENT(ALIGNMENT) 
-\[@[@(NSLayoutFormatAlignAllLeft), @(NSLayoutFormatAlignAllRight),
-\@(NSLayoutFormatAlignAllLeading), @(NSLayoutFormatAlignAllTrailing),
-\@(NSLayoutFormatAlignAllCenterX)] containsObject:@(ALIGNMENT)]    
+</code></pre><h2 id="创建一行或者一列">创建一行或者一列</h2><p>创建视图，排成一行或者一列：</p>
+<pre><code><span class="preprocessor">#define IS_HORIZONTAL_ALIGNMENT(ALIGNMENT) </span>
+\[@[@(<span class="built_in">NSLayoutFormatAlignAllLeft</span>), @(<span class="built_in">NSLayoutFormatAlignAllRight</span>),
+\@(<span class="built_in">NSLayoutFormatAlignAllLeading</span>), @(<span class="built_in">NSLayoutFormatAlignAllTrailing</span>),
+\@(<span class="built_in">NSLayoutFormatAlignAllCenterX</span>)] containsObject:@(ALIGNMENT)]    
 
-void buildLineWithSpacing(NSArray *views, NSLayoutFormatOptions alignment, NSString *spacing, NSUInteger priority)
+<span class="keyword">void</span> buildLineWithSpacing(<span class="built_in">NSArray</span> *views, <span class="built_in">NSLayoutFormatOptions</span> alignment, <span class="built_in">NSString</span> *spacing, <span class="built_in">NSUInteger</span> priority)
 {
-    if (views.count == 0)
-        return;
+    <span class="keyword">if</span> (views<span class="variable">.count</span> == <span class="number">0</span>)
+        <span class="keyword">return</span>;
 
     VIEW_CLASS *view1, *view2;
-    // Calculate the axis and its string representation. 
-    // The axis is orthogonal to the requested alignment 
-    // eg, centerX alignment creates a column, and
-    // trailing builds a row.
-    BOOL axisIsH = IS_HORIZONTAL_ALIGNMENT(alignment);
-    NSString *axisString = (axisIsH) ? @&quot;H:&quot; : @&quot;V:&quot;;
-    // Build the format
-    NSString *format = [NSString
-        stringWithFormat:@&quot;%@[view1]%@[view2]&quot;, axisString, spacing];
-    // Apply the format to view pairs
-    for (int i = 1; i &lt; views.count; i++) {
-        view1 = views[i-1];
+    <span class="comment">// Calculate the axis and its string representation. </span>
+    <span class="comment">// The axis is orthogonal to the requested alignment </span>
+    <span class="comment">// eg, centerX alignment creates a column, and</span>
+    <span class="comment">// trailing builds a row.</span>
+    <span class="built_in">BOOL</span> axisIsH = IS_HORIZONTAL_ALIGNMENT(alignment);
+    <span class="built_in">NSString</span> *axisString = (axisIsH) ? <span class="string">@"H:"</span> : <span class="string">@"V:"</span>;
+    <span class="comment">// Build the format</span>
+    <span class="built_in">NSString</span> *format = [<span class="built_in">NSString</span>
+        stringWithFormat:<span class="string">@"%@[view1]%@[view2]"</span>, axisString, spacing];
+    <span class="comment">// Apply the format to view pairs</span>
+    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; views<span class="variable">.count</span>; i++) {
+        view1 = views[i-<span class="number">1</span>];
         view2 = views[i];
-        NSDictionary *bindings = NSDictionaryOfVariableBindings(view1, view2);
-        NSArray *constraints = [NSLayoutConstraint 
+        <span class="built_in">NSDictionary</span> *bindings = <span class="built_in">NSDictionaryOfVariableBindings</span>(view1, view2);
+        <span class="built_in">NSArray</span> *constraints = [<span class="built_in">NSLayoutConstraint</span> 
         constraintsWithVisualFormat:format options:alignment
-            metrics:nil views:bindings];
-        for (NSLayoutConstraint *constraint in constraints)
+            metrics:<span class="literal">nil</span> views:bindings];
+        <span class="keyword">for</span> (<span class="built_in">NSLayoutConstraint</span> *constraint <span class="keyword">in</span> constraints)
             [constraint install:priority];
     }
 }
-</code></pre><h2 id="匹配尺寸"><a href="#匹配尺寸" class="headerlink" title="匹配尺寸"></a>匹配尺寸</h2><p>传入一个视图，然后将其他所有视图与第一个匹配</p>
-<h2 id="为什么不能够分布视图"><a href="#为什么不能够分布视图" class="headerlink" title="为什么不能够分布视图"></a>为什么不能够分布视图</h2><p>可能很多时候，你希望沿着某个方向等间隔的分布视图，这个无法做到的原因就是，约束同时最多引用两个视图。<br>这个时候，有两种 hack 的方式，一种是先将总宽度分为 N 个区域，然后每个区域中心点放置一个视图。但是如果视图之间的尺寸不一致时，效果会大打折扣。还有一种方法就是用透明的 View 来充当间隔。</p>
+</code></pre><h2 id="匹配尺寸">匹配尺寸</h2><p>传入一个视图，然后将其他所有视图与第一个匹配</p>
+<h2 id="为什么不能够分布视图">为什么不能够分布视图</h2><p>可能很多时候，你希望沿着某个方向等间隔的分布视图，这个无法做到的原因就是，约束同时最多引用两个视图。<br>这个时候，有两种 hack 的方式，一种是先将总宽度分为 N 个区域，然后每个区域中心点放置一个视图。但是如果视图之间的尺寸不一致时，效果会大打折扣。还有一种方法就是用透明的 View 来充当间隔。</p>
 
   </section>
 

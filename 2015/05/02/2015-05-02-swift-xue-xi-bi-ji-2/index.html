@@ -173,22 +173,22 @@
     <p>今天学习一些基本运算符想关的知识。运算符是检查、改变、合并值的特殊符号或短语。</p>
 <p>另一个很重要的地方是将以前变成容易因为运算法导致的问题解决了一哈。增加了区间运算符，还加入了 OC 中没有的运算符重载</p>
 <a id="more"></a>
-<h2 id="基本运算符"><a href="#基本运算符" class="headerlink" title="基本运算符"></a>基本运算符</h2><p>运算符有一元、二元、三元运算符，其中元表示操作对象的数目。</p>
-<h3 id="赋值运算符"><a href="#赋值运算符" class="headerlink" title="赋值运算符"></a>赋值运算符</h3><p>跟其他语言一样，使用 <code>=</code> 来赋值。</p>
+<h2 id="基本运算符">基本运算符</h2><p>运算符有一元、二元、三元运算符，其中元表示操作对象的数目。</p>
+<h3 id="赋值运算符">赋值运算符</h3><p>跟其他语言一样，使用 <code>=</code> 来赋值。</p>
 <p>赋值右边为元组时，元素被分解：</p>
-<pre><code>let (x, y) = (1, 2)
-// x = 1, y = 2
+<pre><code>let (x, y) = (<span class="number">1</span>, <span class="number">2</span>)
+<span class="comment">// x = 1, y = 2</span>
 </code></pre><p>与 C 语言和 Objective-C 不同，Swift 中的赋值操作不返回任何值，这样子就避免了在 if 语句中经常发生的错误：</p>
-<pre><code>if (x = y) {
-    // 编译器报错
+<pre><code><span class="keyword">if</span> <span class="comment">(x = y)</span> {
+    <span class="comment">// 编译器报错</span>
 }
-</code></pre><h3 id="算术运算法"><a href="#算术运算法" class="headerlink" title="算术运算法"></a>算术运算法</h3><p>支持基本四则算术运算：加减乘除。Swift 默认情况下不支持数值运算中的溢出，可参照 <code>溢出运算符</code></p>
+</code></pre><h3 id="算术运算法">算术运算法</h3><p>支持基本四则算术运算：加减乘除。Swift 默认情况下不支持数值运算中的溢出，可参照 <code>溢出运算符</code></p>
 <p>加法用于 <code>String</code> 类型拼接：</p>
-<pre><code>var helloWorld = &quot;hello&quot; + &quot; &quot; + &quot;world&quot; + &quot;!&quot;
-// helloWorld = &quot;hello world!&quot;
-</code></pre><h4 id="取余运算符"><a href="#取余运算符" class="headerlink" title="取余运算符"></a>取余运算符</h4><p>这个没有很大的变化，对负数取余时，会忽略其负号，即 <code>a % b</code> 和 <code>a % -b</code> 结果相同</p>
+<pre><code><span class="variable"><span class="keyword">var</span> helloWorld</span> = <span class="string">"hello"</span> + <span class="string">" "</span> + <span class="string">"world"</span> + <span class="string">"!"</span>
+<span class="comment">// helloWorld = "hello world!"</span>
+</code></pre><h4 id="取余运算符">取余运算符</h4><p>这个没有很大的变化，对负数取余时，会忽略其负号，即 <code>a % b</code> 和 <code>a % -b</code> 结果相同</p>
 <p>不同于 C 语言，Swift 是可以对浮点数进行求余运算的（实际中有什么用处呢？），其计算原理仍然是先得到最大的倍数，然后得到余数作为结果，不过这个余数是 Double 类型的。</p>
-<h4 id="自增自减运算符"><a href="#自增自减运算符" class="headerlink" title="自增自减运算符"></a>自增自减运算符</h4><p>自增（++）自减（–）操作都是操作数本身加 1 或者减 1 ，不过在 Swift 中对浮点数也可操作。</p>
+<h4 id="自增自减运算符">自增自减运算符</h4><p>自增（++）自减（–）操作都是操作数本身加 1 或者减 1 ，不过在 Swift 中对浮点数也可操作。</p>
 <p>如果只是对操作数本身做增加减少操作，前置后置都行</p>
 <p>如果需要需要使用返回值，那么需要注意</p>
 <ul>
@@ -196,7 +196,7 @@
 <li>++ 后置，先返回后自增</li>
 </ul>
 <p>一般如果不使用后置的特性，推荐使用前置写法 <code>++ a</code> 更加明确表达意图</p>
-<h4 id="一元负号运算符"><a href="#一元负号运算符" class="headerlink" title="一元负号运算符"></a>一元负号运算符</h4><h3 id="组合赋值运算（Compound-Assignment-Operators）"><a href="#组合赋值运算（Compound-Assignment-Operators）" class="headerlink" title="组合赋值运算（Compound Assignment Operators）"></a>组合赋值运算（Compound Assignment Operators）</h3><h3 id="比较运算符"><a href="#比较运算符" class="headerlink" title="比较运算符"></a>比较运算符</h3><h3 id="三目运算符"><a href="#三目运算符" class="headerlink" title="三目运算符"></a>三目运算符</h3><h3 id="空合运算符"><a href="#空合运算符" class="headerlink" title="空合运算符"></a>空合运算符</h3><h3 id="区间运算符"><a href="#区间运算符" class="headerlink" title="区间运算符"></a>区间运算符</h3><h3 id="逻辑运算符"><a href="#逻辑运算符" class="headerlink" title="逻辑运算符"></a>逻辑运算符</h3><h2 id="控制流"><a href="#控制流" class="headerlink" title="控制流"></a>控制流</h2><h3 id="Loop"><a href="#Loop" class="headerlink" title="Loop"></a>Loop</h3><h3 id="switch"><a href="#switch" class="headerlink" title="switch"></a>switch</h3>
+<h4 id="一元负号运算符">一元负号运算符</h4><h3 id="组合赋值运算（Compound_Assignment_Operators）">组合赋值运算（Compound Assignment Operators）</h3><h3 id="比较运算符">比较运算符</h3><h3 id="三目运算符">三目运算符</h3><h3 id="空合运算符">空合运算符</h3><h3 id="区间运算符">区间运算符</h3><h3 id="逻辑运算符">逻辑运算符</h3><h2 id="控制流">控制流</h2><h3 id="Loop">Loop</h3><h3 id="switch">switch</h3>
   </section>
 
 </article>

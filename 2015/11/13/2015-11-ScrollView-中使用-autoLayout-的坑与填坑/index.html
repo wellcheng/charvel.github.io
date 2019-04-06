@@ -171,7 +171,7 @@
 <p>  ScrollView 是 UIKit 中很重要的一个组件，TableView 和 UIWebView 等很多涉及到滑动的视图都有它的影子，在之前使用代码布局的时代，只要简单的进行配置，就 OK 了。但是在 AutoLayout 的时代，ScrollView 就存在了很多坑，今天就是分析坑和填坑的。</p>
 </blockquote>
 <a id="more"></a>
-<h2 id="矛盾从哪儿来"><a href="#矛盾从哪儿来" class="headerlink" title="矛盾从哪儿来"></a>矛盾从哪儿来</h2><p>先上地址是一个好习惯：</p>
+<h2 id="矛盾从哪儿来">矛盾从哪儿来</h2><p>先上地址是一个好习惯：</p>
 <p><a href="https://github.com/wellcheng/UIScrollView-AutoLayout" target="_blank" rel="noopener">Github 地址</a></p>
 <p>​</p>
 <p>可以 git rest 到对应的阶段去看约束的设置。</p>
@@ -186,7 +186,7 @@
 <p>然后往 scrollView 中拖几个 label 、button 等进去，按照平时的习惯设置下约束，哎，好像出问题了。不对啊，我平常不都是这么弄的么，难道 scrollView 还不太一样吗？</p>
 <p><img src="http://7vzucb.com1.z0.glb.clouddn.com/blog.scrollview-3.png" alt="设置 textField 的约束"></p>
 <p>看到约束变红了，表示约束当前出现了问题。对于调试约束有经验的同学，知道这个时候点击左上角的红色箭头，去看一下，然后发现出了个叫 <code>ScrollView content size ambiguity</code> 的问题。具体说的是 scrollView 的 content height 和 content width 有歧义。</p>
-<h3 id="ScrollView-content-size-ambiguity"><a href="#ScrollView-content-size-ambiguity" class="headerlink" title="ScrollView content size ambiguity"></a>ScrollView content size ambiguity</h3><p>字面理解，就是 scrollView 的 contentSize 布局有歧义。</p>
+<h3 id="ScrollView_content_size_ambiguity">ScrollView content size ambiguity</h3><p>字面理解，就是 scrollView 的 contentSize 布局有歧义。</p>
 <p>contentSize 是 scrollView 中的内容尺寸，scrollView 需要知道自己的内容尺寸从而决定该怎么滑动。</p>
 <p>将鼠标移动到黑色粗体的说明上，右边会显示出一个详细按钮，点击就能看到具体的说明，可以帮助我们快速了解 autoLayout 布局中的问题。</p>
 <p><img src="http://7vzucb.com1.z0.glb.clouddn.com/blog.scrollview-4.png" alt="scroll view content size 布局错误"></p>
@@ -200,7 +200,7 @@
 <p>要修复这种问题的话也很简单，只要确保在 leading 到 trailing 方向（或 Top 到 bottom）上，子视图之间有一条不间断的约束线连接到 scrollView 的边缘。也是通俗的讲，即水平方向和垂直方向上，所有子视图的约束最终都能推导得出这个方向上的长度。举个例子，在我们刚才的视图中，scrollView 中从 Top 到 bottom 放置了两个 textField。在水平方向上，我们连接从 scrollView.leading - textField1 - scrollView.trailing ；（不管是 1 还是 2，这里只需要一个 textfield 就可以）垂直方向上，连接 scrollView.top - textField1 - textField2 - scrollView.bottom；</p>
 <p>是不是真的这样呢，我们添加了一堆约束，发现仍然是一段红线，怎么办，这里给大家推荐一个办法，看一下系统是怎么干的。我们使用 add missing constraints ，看系统给我们添加了哪些约束，然后进行分析。</p>
 <p><img src="http://7vzucb.com1.z0.glb.clouddn.com/blog.scrollview-5.png" alt="系统自动添加约束"></p>
-<h4 id="约束分析"><a href="#约束分析" class="headerlink" title="约束分析"></a>约束分析</h4><ul>
+<h4 id="约束分析">约束分析</h4><ul>
 <li>imageView 和 scrollView 本身的约束并没有变化，符合预期</li>
 <li>textField 被设置了约束，并且所有约束成功的「撑满了」scrollView 的 content</li>
 </ul>
@@ -212,13 +212,13 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">// 以下的 superView 即 scrollView</span><br><span class="line"></span><br><span class="line">// 水平居中</span><br><span class="line">textField-1.centerX= superView.centerX</span><br><span class="line"></span><br><span class="line">// 距离右边缘，设定一个绝对值 </span><br><span class="line">textField-1.trailing + 131 = superView.trailing</span><br><span class="line"></span><br><span class="line">// 距离上边缘，设定绝对值</span><br><span class="line">textFeild-1.top = superView.top + 163</span><br><span class="line"></span><br><span class="line">// 距离下边缘，设定绝对值</span><br><span class="line">textField-1.bottom + 20 = textField-2.bottom // note</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line">*	可以看出，由上面这些约束可以完整的推断出 scrollView 的 content size：</span><br><span class="line">*	由 水平居中、距离右边缘 131、本身宽度 100，得出 content.size.width = 50 + 131</span><br><span class="line">*	由 距离上边缘 163、距离下面的 textField-2 20、本身高度 30， 得出 content.size.height = 163 + 30 + 20 + textField-2距离下边缘值</span><br><span class="line">*	可以看出 content size 的 width 已经确定了，但是 height 还依赖于 textField-2 与下边缘的距离</span><br><span class="line">*/</span><br></pre></td></tr></table></figure>
 <p>接下来分析第二个 textField-2：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">// top </span><br><span class="line">textField-2.top = textField-1.bottom + 20</span><br><span class="line"></span><br><span class="line">// leading</span><br><span class="line">// textField 1 和 2 跟左边缘的距离相等，左侧对齐</span><br><span class="line">textField-2.leading = textField-2.leading</span><br><span class="line"></span><br><span class="line">// trailing</span><br><span class="line">// 因为 textField-1 的约束已经确定了 contentSizeS.width ，且 textField-2 的 width 固定。因此 trailing 方向上可以不需要约束</span><br><span class="line"></span><br><span class="line">// bottom</span><br><span class="line">textField-2.bottom + 20 = superView.bottom</span><br></pre></td></tr></table></figure>
-<h4 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h4><ul>
+<h4 id="结论">结论</h4><ul>
 <li>scrollView 出现 ambiguity 约束警告的原因是，在 scrollView 中的 subView 不能确定 content size 的大小。</li>
 <li>只要 scrollView 中的 subViews 的约束能够唯一的确定 content size ，那么就不会出现问题</li>
 <li>当 content size 的 width 超出了 scrollView 本身的 width，即可水平方向滚动</li>
 <li>当 content size 的 height 超出了 scrollView 本身的 height ，即可垂直方向滚动</li>
 </ul>
-<h3 id="如果我想要滚动呢？"><a href="#如果我想要滚动呢？" class="headerlink" title="如果我想要滚动呢？"></a>如果我想要滚动呢？</h3><p>由以上我们知道，如果我们想要让 scrollView 听话，需要解决掉约束的歧义，即确定 scrollView 的 content size。</p>
+<h3 id="如果我想要滚动呢？">如果我想要滚动呢？</h3><p>由以上我们知道，如果我们想要让 scrollView 听话，需要解决掉约束的歧义，即确定 scrollView 的 content size。</p>
 <p>确定 content size 的必要条件是，分别在水平方向和垂直方向都能有一些约束组合起来确定当前 content size 的 height 和 width。</p>
 <p>也就是说，content size 其实由约束来决定的，你可以认为 scrollView 中的那块画布是无限伸展的。不信你试试。一般情况下，下图中，当 scrollView 是普通的 UIView 时，确定左边距以及顶部边距之后，本身又有固定的高度和宽度，最右边的红色箭头指向的那条约束是不必要的，想想为什么？</p>
 <blockquote>
@@ -226,11 +226,11 @@
 <p>  但是 scrollView 为什么还得继续加一个右边距呢，特殊的原因之前已经提到了。scrollView 的 content 不是自己决定的，而是由 subView 决定，因此你得加个右边距，scrollView 才会知道自己的 content size 的宽度，向右的边距大于 scrollView 的 frame 的宽度时，就可以向右边滚动了。你看，我在这里设置了右边距为 400。</p>
 </blockquote>
 <p><img src="http://7vzucb.com1.z0.glb.clouddn.com/blog.scrollview-7.png" alt="伸展的 scrollView"></p>
-<h3 id="scrollView-origin-在-y-轴上-64-个像素的下移"><a href="#scrollView-origin-在-y-轴上-64-个像素的下移" class="headerlink" title="scrollView origin 在 y  轴上 64 个像素的下移"></a>scrollView origin 在 y  轴上 64 个像素的下移</h3><p>也许你有时候会发现，scrollView 中的 content 顶部并是不严格的贴紧 scrollView 的顶部。使用 Xcode 的 Debug View hierarchy 功能，可以看到有大概 64 个像素的下移。如下图右上角：</p>
+<h3 id="scrollView_origin_在_y_轴上_64_个像素的下移">scrollView origin 在 y  轴上 64 个像素的下移</h3><p>也许你有时候会发现，scrollView 中的 content 顶部并是不严格的贴紧 scrollView 的顶部。使用 Xcode 的 Debug View hierarchy 功能，可以看到有大概 64 个像素的下移。如下图右上角：</p>
 <p><img src="http://7vzucb.com1.z0.glb.clouddn.com/blog.scrollview-6.png" alt="scroll view  content 下移 64 像素"></p>
 <p>这其实应该是一个历史遗留问题，只要 scrollView 是 ViewController 的第一个 subView，且导航栏不隐藏时，UIViewController 在 iOS 7 下，会自动将视图中的 scrollView 进行调整，API 是这样的：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">// bool 值，指明是否自动去调整 scrollView 的 contentInsets</span><br><span class="line"></span><br><span class="line">@property(nonatomic,assign) BOOL automaticallyAdjustsScrollViewInsets NS_AVAILABLE_IOS(7_0); // Defaults to YES</span><br></pre></td></tr></table></figure>
-<h4 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h4><ul>
+<h4 id="解决办法">解决办法</h4><ul>
 <li>在 iOS7 之下设置上面的 API 为 NO</li>
 <li>不要让 scrollView 作为 viewController 的第一个子视图</li>
 </ul>
@@ -239,8 +239,8 @@
 <p>  <a href="http://corsarus.com/2014/uiscrollview-basics/" target="_blank" rel="noopener">http://corsarus.com/2014/uiscrollview-basics/</a></p>
 <p>  <a href="http://segmentfault.com/a/1190000002936987" target="_blank" rel="noopener">http://segmentfault.com/a/1190000002936987</a></p>
 </blockquote>
-<h2 id="更加优雅的解决方案"><a href="#更加优雅的解决方案" class="headerlink" title="更加优雅的解决方案"></a>更加优雅的解决方案</h2><p>如果在添加 subView 的约束时，需要不断的考虑其 scrollView 的 content ，是一件很麻烦的事情，所以得想个办法弄的优雅一些。目前比较常用的是给 scrollView 添加一个覆盖全部范围的 UIView 或者 containerView，然后在这个视图种添加真正的 subView，这样子就可以让 subView 针对这个 view 来布局。</p>
-<h3 id="添加-UIView"><a href="#添加-UIView" class="headerlink" title="添加 UIView"></a>添加 UIView</h3><p>1、给 UIScrollView 添加 UIView ，命名为 contentView 设置约束上下左右边距都为0 ，铺满 scrollView 窗口。</p>
+<h2 id="更加优雅的解决方案">更加优雅的解决方案</h2><p>如果在添加 subView 的约束时，需要不断的考虑其 scrollView 的 content ，是一件很麻烦的事情，所以得想个办法弄的优雅一些。目前比较常用的是给 scrollView 添加一个覆盖全部范围的 UIView 或者 containerView，然后在这个视图种添加真正的 subView，这样子就可以让 subView 针对这个 view 来布局。</p>
+<h3 id="添加_UIView">添加 UIView</h3><p>1、给 UIScrollView 添加 UIView ，命名为 contentView 设置约束上下左右边距都为0 ，铺满 scrollView 窗口。</p>
 <p>2、然后在 UIScrollView 中进行布局真正的 subView。</p>
 <p>然后你会发现，仍然报红线约束歧义，这是因为虽然我们给 scrollView 添加了一层，但是并没有解决基本问题：<code>scrollView 仍然不能确定自己的 content size 是多少？</code></p>
 <p>为了解决上面的问题，我们给 contentView 添加两个约束：</p>
@@ -250,9 +250,9 @@
 <p>  问题解决的不彻底怎么能叫填坑呢，有同学会问，如果我的内容超过了一屏，想要滑动怎么办。修改约束的 multiplier 或者 constant 即可。想要水平滑动，修改 <code>conentView.width = scrollView.width</code>这条约束的 multiplier 或者 constant 即可。因为你修改了这个值后，contentView 的宽度也就变化了，即 scrollView 的可滑动区域 content size 也就修改了。</p>
 <p>  其实，<code>conentView.width = scrollView.width</code> 这条约束写完整是，<code>conentView.width = scrollView.width * multiplier + constant</code>，如果对 autoLayout 不了解的同学还需再次查漏补缺。我们还可以将这个约束拖到代码中作为 IBOutlet。</p>
 </blockquote>
-<h3 id="添加-ContainerView"><a href="#添加-ContainerView" class="headerlink" title="添加 ContainerView"></a>添加 ContainerView</h3><p>目前还没有遇到过需要添加 container view 来解决的问题，并且我自己对于 container view 本身也不是很了解。所以这里就省略了。</p>
+<h3 id="添加_ContainerView">添加 ContainerView</h3><p>目前还没有遇到过需要添加 container view 来解决的问题，并且我自己对于 container view 本身也不是很了解。所以这里就省略了。</p>
 <p>也有可能就是大家所说的 container view 其实就是命名为 <code>container view</code>的 UIView</p>
-<h2 id="键盘遮挡事件"><a href="#键盘遮挡事件" class="headerlink" title="键盘遮挡事件"></a>键盘遮挡事件</h2><p>如果 scrollView 中存在 textField ，且可能会被遮挡键盘时，可以这样解决：</p>
+<h2 id="键盘遮挡事件">键盘遮挡事件</h2><p>如果 scrollView 中存在 textField ，且可能会被遮挡键盘时，可以这样解决：</p>
 <p>1、创建对象保存当前被用户点击的 textField</p>
 <p>2、监听键盘的调起和放下事件</p>
 <p>3、在调起事件中，首先判断当前的 textField 会不会被遮挡，被遮挡时，修改 scrollView 的 contentInset ，并且判断修改之后，当前 textField 是否还在可视区域内，如果不可视还需调用 <code>- scrollRectToVisible:animated:</code> 滑动到可视区域内。</p>
