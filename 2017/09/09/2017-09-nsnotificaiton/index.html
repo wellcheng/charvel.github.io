@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="z">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    
+    <title>使用 iOS 中不一样的 NSNotification Center | Charvel 互联网自留地</title>
+    <meta name="renderer" content="webkit">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta name="description" content="通知中心利用观察者模式，能够很方便地进行一对多的通知，通俗点称作广播。
+NSNotification default Center 内部维护了观察列表，并负责通知的派发。
+使用 Notification 并不难，Foudation 提供了三个 class：
+
+NSNotification：通知的数据结构，包含通知的具体数据，包含通知名 name，一个对象 object 和一个可选的字典 userI">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="使用 iOS 中不一样的 NSNotification Center | Charvel 互联网自留地">
+    <meta name="twitter:description" content="通知中心利用观察者模式，能够很方便地进行一对多的通知，通俗点称作广播。
+NSNotification default Center 内部维护了观察列表，并负责通知的派发。
+使用 Notification 并不难，Foudation 提供了三个 class：
+
+NSNotification：通知的数据结构，包含通知的具体数据，包含通知名 name，一个对象 object 和一个可选的字典 userI">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="使用 iOS 中不一样的 NSNotification Center | Charvel 互联网自留地">
+    <meta property="og:description" content="通知中心利用观察者模式，能够很方便地进行一对多的通知，通俗点称作广播。
+NSNotification default Center 内部维护了观察列表，并负责通知的派发。
+使用 Notification 并不难，Foudation 提供了三个 class：
+
+NSNotification：通知的数据结构，包含通知的具体数据，包含通知名 name，一个对象 object 和一个可选的字典 userI">
+
+    
+    <meta name="author" content="Well Cheng">
+    
+    <link rel="stylesheet" href="/css/vno.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+
+    
+    <link rel="icon" href="/images/avatar-small.png">
+    
+
+    <meta name="generator" content="hexo"/>
+    
+    <link rel="alternate" type="application/rss+xml" title="Charvel 互联网自留地" href="/atom.xml">
+    
+
+    <link rel="canonical" href="http://blog.devcheng.com/2017/09/09/2017-09-nsnotificaiton/"/>
+
+                 
+</head>
+
+<body class="home-template no-js">
+    <script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <span class="mobile btn-mobile-menu">
+        <i class="fa fa-list btn-mobile-menu__icon"></i>
+        <i class="fa fa-angle-up btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+<header class="panel-cover panel-cover--collapsed" style="background-image: url(/images/background-cover.jpg)">
+  <div class="panel-main">
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        <a href="/" title="前往 Charvel 互联网自留地 的主页"><img src="/images/avatar.jpg" width="80" alt="Charvel 互联网自留地 logo" class="panel-cover__logo logo"></a>
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage for Charvel 互联网自留地">Charvel 互联网自留地</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">记录生活的点点滴滴，记录技术的淅淅沥沥</span>
+        
+        <hr class="panel-cover__divider">
+        <p class="panel-cover__description"></p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary">
+
+        <div class="navigation-wrapper">
+          <div>
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+              <li class="navigation__item"><a href="/#blog" title="Visit the blog" class="blog-button">Blog</a></li>
+            
+              <li class="navigation__item"><a href="/favourite">黄金屋</a></li>
+            
+              <li class="navigation__item"><a href="/favourite/time.html">时光机</a></li>
+            
+              <li class="navigation__item"><a href="/favourite/image.html">幻想间</a></li>
+            
+              <li class="navigation__item"><a href="/aboutme">关于我</a></li>
+            
+            </ul>
+          </nav>
+          </div>
+          <div>
+          <nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+  <!-- Weibo-->
+  
+
+  <!-- Github -->
+  
+  <li class="navigation__item">
+    <a href="https://github.com/monniya" title="GitHub" target="_blank">
+      <i class="social fa fa-github"></i>
+      <span class="label">Github</span>
+    </a>
+  </li>
+
+
+<!-- Stack Overflow -->
+        
+
+  <!-- Google Plus -->
+  
+
+<!-- Facebook -->
+
+  
+<!-- Twitter -->
+
+  <li class="navigation__item">
+    <a href="https://twitter.com/onlymonniya" title="Twitter" target="_blank">
+      <i class="social fa fa-twitter"></i>
+      <span class="label">Twitter</span>
+    </a>
+  </li>
+
+  
+
+  <li class="navigation__item">
+    <a href="/atom.xml" title="RSS" target="_blank">
+      <i class="social fa fa-rss"></i>
+      <span class="label">RSS</span>
+    </a>
+  </li>
+
+
+  <li class="navigation__item">
+    <a href="mailto:chengwei3269@hotmail.com" title="Mail" target="_blank">
+      <i class="social fa fa-envelope"></i>
+      <span class="label">Email</span>
+    </a>
+  </li>
+
+
+  </ul>
+</nav>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay cover-purple"></div>
+  </div> 
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single">
+
+  <header class="post-header">
+    <div class="post-meta">
+      <time datetime="2017-09-09T04:14:36.000Z" class="post-list__meta--date date">2017-09-09</time> &#8226; <span class="post-meta__tags tags">于  </span>
+      <span class="page-pv">
+       Read <span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>
+      </span> 
+   
+    </div>
+    <h1 class="post-title">使用 iOS 中不一样的 NSNotification Center</h1>
+  </header>
+
+  <section class="post">
+    <p>通知中心利用观察者模式，能够很方便地进行一对多的通知，通俗点称作广播。</p>
+<p>NSNotification default Center 内部维护了观察列表，并负责通知的派发。</p>
+<p>使用 Notification 并不难，Foudation 提供了三个 class：</p>
+<ul>
+<li>NSNotification：通知的数据结构，包含通知的具体数据，包含通知名 name，一个对象 object 和一个可选的字典 userInfo。</li>
+<li>NSNotification Center：负责派发 notification 并维护观察者列表。每个 App 都有一个默认的实现，即 <code>[NSNoficationCenter defaultCenter]</code>。</li>
+<li>NSNotificationQueue：一个缓冲队列，可以在队列中过滤、合并通知。每个线程都有默认的 queue，即 defaultQueue。</li>
+</ul>
+<a id="more"></a>
+<h2 id="接收和发送通知"><a href="#接收和发送通知" class="headerlink" title="接收和发送通知"></a>接收和发送通知</h2><h3 id="接收通知"><a href="#接收通知" class="headerlink" title="接收通知"></a>接收通知</h3><p>iOS 系统默认提供了一百多种通知，方便我们使用。实现一个接收通知的代码很简单，例如当前的 ViewController 需要在 App 即将进入后台时对页面进行高斯模糊，并且设置下次 App 恢复到前台时要求登陆密码。很多银行类 App 都有这种需求。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)viewDidLoad &#123;</span><br><span class="line">  <span class="comment">// 向 Notification Center 添加观察者</span></span><br><span class="line">  	<span class="built_in">UIImage</span> *currentScreenImage = ...;</span><br><span class="line">    [[<span class="built_in">NSNotificationCenter</span> defaultCenter] addObserver:<span class="keyword">self</span> selector:<span class="keyword">@selector</span>(appDidEnterBack:) name:<span class="built_in">UIApplicationDidEnterBackgroundNotification</span> object:currentScreenImage];</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)appDidEnterBack:(<span class="built_in">NSNotification</span> *)notification</span><br><span class="line">&#123;</span><br><span class="line">    notification.name;</span><br><span class="line">    notification.object;</span><br><span class="line">    notification.userInfo;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 在当前 view 上添加模糊图</span></span><br><span class="line">  	<span class="comment">// 开启登陆验证</span></span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当 App 进入后台时，NotificationCenter 发现我们这个 ViewController 注册了该通知，就会调用 <code>appDidEnterBack</code> 方法。可以在方法中访问 notification 的三个属性获取额外信息。</p>
+<p>利用通知一般需要三个步骤：</p>
+<h3 id="添加-Observer"><a href="#添加-Observer" class="headerlink" title="添加 Observer"></a>添加 Observer</h3><p>observer 就是要接受通知的对象，通知最后会发送到该对象上，即调用该对象在注册通知时的 selector。</p>
+<p>通常会在 Notification Center 中添加该 Observer，并且传入需要观察的通知的 name（标识符）。另外还有一个 object 参数可供我们使用，一般 object 表示谁发出这个通知，即通知的发起方。</p>
+<p>object 对象在处理多个同名通知时有用，比如当前 ViewController 有多个 UITextField，它们都发出 UITextFieldTextDidChangeNotification 这个通知，那么能够正确地区分每一个 TextField 将会使我们的工作简单很多。</p>
+<h3 id="处理通知"><a href="#处理通知" class="headerlink" title="处理通知"></a>处理通知</h3><p>Obeserver 在被添加到 Notification Center 后，会持续不断地接收通知，除非从 NotificationCenter 中移除。</p>
+<p>NotificationCenter 会在通知发生时调用 <code></code>addObserver:selector:name:object:<code></code> 方法中的 selector，方法被掉起时的所在的线程与通知被 post 时一致。</p>
+<p>还可以将通知处理的方法放在 block 中，提升阅读性：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">id</span> &lt;<span class="built_in">NSObject</span>&gt;)addObserverForName:(<span class="keyword">nullable</span> <span class="built_in">NSNotificationName</span>)name object:(<span class="keyword">nullable</span> <span class="keyword">id</span>)obj queue:(<span class="keyword">nullable</span> <span class="built_in">NSOperationQueue</span> *)queue usingBlock:(<span class="keyword">void</span> (^)(<span class="built_in">NSNotification</span> *note))block API_AVAILABLE(macos(<span class="number">10.6</span>), ios(<span class="number">4.0</span>), watchos(<span class="number">2.0</span>), tvos(<span class="number">9.0</span>));</span><br><span class="line">    <span class="comment">// The return value is retained by the system, and should be held onto by the caller in</span></span><br><span class="line">    <span class="comment">// order to remove the observer with removeObserver: later, to stop observation.</span></span><br></pre></td></tr></table></figure>
+<h3 id="移除-Obeserver"><a href="#移除-Obeserver" class="headerlink" title="移除 Obeserver"></a>移除 Obeserver</h3><p>当不需要再对通知响应时，就需要将其移出，不然会因为给已经 dealloc 的实例发送方法而遇到 Crash。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)removeObserver:(<span class="keyword">id</span>)observer name:(<span class="built_in">NSNotificationName</span>)aName object:(<span class="keyword">id</span>)anObject;</span><br><span class="line">- (<span class="keyword">void</span>)removeObserver:(<span class="keyword">id</span>)observer;</span><br></pre></td></tr></table></figure>
+<p>NSNotification 提供了上述两个方法。前者是移出指定的通知，后者是移出某个 observer 的所有通知。常用的做法是在 delloc 中移除该 observer 的所有通知，对象都销毁了，自然就无需监听通知了。</p>
+<h3 id="发送通知"><a href="#发送通知" class="headerlink" title="发送通知"></a>发送通知</h3><p>可使用默认的通知中心发送通知，指定通知名 name 与发送方 senderObject 以及参数字典 userInfo即可。后面两个参数是可以省略的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (void)postNotificationName:(NSNotificationName)aName object:(id)anObject userInfo:(NSDictionary *)aUserInfo;</span><br></pre></td></tr></table></figure>
+<p>通知会在这个发起线程里，向所有已注册该 notification 的 observer 发送，这个顺序并不是确定的。通知是被同步发出，也就是说通知被发送且处理完成之后，post 方法才会返回。</p>
+<h3 id="通知的命名规则"><a href="#通知的命名规则" class="headerlink" title="通知的命名规则"></a>通知的命名规则</h3><p>按照编码规范，通知命名遵循如下标准：</p>
+<blockquote>
+<p>NameOfAssociatedClass +  [ Did | Will ] + [ UniquePartOfName ] + Notification</p>
+</blockquote>
+<p>例如：ReigsterControllerDidPassedNotification</p>
+<h3 id="自定义通知"><a href="#自定义通知" class="headerlink" title="自定义通知"></a>自定义通知</h3><p>有时默认的 NSNotification 不能满足我们的要求，或者会产生很多胶水代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">NSNotification *noti = [NSNotificaiton new];</span><br><span class="line">noti.name = ...</span><br><span class="line">noti.object = ...</span><br><span class="line">noti.userInfo = @&#123;</span><br><span class="line">  @&quot;#1&quot; : ...,</span><br><span class="line">  @&quot;#2&quot; : ...,</span><br><span class="line">  @&quot;#3&quot; : ...,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// 使用 Category，以及计算属性，使得 Notification 可定制化</span><br><span class="line">// 属性使用 readonly 声明，防止被修改</span><br><span class="line">NSNotification *noti = [NSNotificaiton withUser:user];</span><br><span class="line"></span><br><span class="line">@interface NSNotification (UserObserver)</span><br><span class="line">@property (nonatomic, readonly) CVLUser *hpe_audioPlayer;</span><br><span class="line">@property (nonatomic, readonly) NSTimeInterval hpe_endTime; </span><br><span class="line">@end</span><br><span class="line"> </span><br><span class="line">@implementation NSNotification (HPEAudioPlayerObserver)</span><br><span class="line"> </span><br><span class="line">- (HPEAudioPlayer*)hpe_audioPlayer &#123;</span><br><span class="line">    return self.object;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">- (NSTimeInterval)hpe_endTime &#123;</span><br><span class="line">    return [[self.userInfo objectForKey:HPEAudioPlayerNotificationEndTimeKey] doubleValue];</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<h2 id="对-Notification-进行单元测试"><a href="#对-Notification-进行单元测试" class="headerlink" title="对 Notification 进行单元测试"></a>对 Notification 进行单元测试</h2><p>查看  <a href="http://ocmock.org/reference/#observer-mocks" target="_blank" rel="noopener">http://ocmock.org/reference/#observer-mocks</a> 即可。</p>
+<h2 id="异步发出通知"><a href="#异步发出通知" class="headerlink" title="异步发出通知"></a>异步发出通知</h2><p>NotificationCenter 是同步处理通知的，即通知发出后会立刻处理通知。如果通知特别频繁的话，那么对性能的影响比较大，同时也容易出现一些问题，比如频繁地更新 UI。</p>
+<p>Foundation 提供了 NSNotificationQueue 用于处理这种场景，能够将通知放在队列中，合并或者延迟调用。NSNotificationQueue 与 Runloop 息息相关，Notification Queue 以 FIFO 顺序持有 notifications，notification 在队列中出队时，会发送给关联的 Notification Center 中。</p>
+<p>由于 Notifications 与 Runloop 相关，因此有一些坑：</p>
+<ul>
+<li>队列中的 Notifications 可能不会按时发送</li>
+<li>队列中的 Notifications 可能不会再被派发到 NotificationCenter 中（比如线程对应的 Runloop 退出，剩余的 Notifications 会被丢弃）</li>
+</ul>
+<p>因此，无法保证 NotificationQueue 中的 Notification 一定会被 post，或者在某个特定的线程接收。</p>
+<h3 id="合并以及推迟通知"><a href="#合并以及推迟通知" class="headerlink" title="合并以及推迟通知"></a>合并以及推迟通知</h3><p>使用下面的方法可以在队列中添加一个通知：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- (void)enqueueNotification:(NSNotification *)notification </span><br><span class="line">  	postingStyle:(NSPostingStyle)postingStyle </span><br><span class="line">    coalesceMask:(NSNotificationCoalescing)coalesceMask </span><br><span class="line">    forModes:(NSArray&lt;NSRunLoopMode&gt; *)modes;</span><br></pre></td></tr></table></figure>
+<p>由于这个方法是异步的，因此会立刻返回。</p>
+<p><code>postingStyle</code> 决定了通知被延迟的方式：</p>
+<ul>
+<li>NSPostNow：同步发出通知，也就是一添加到队列中，如果 coalescing 没有被指定，那么就会立刻执行。</li>
+<li>NSPostASAP：当前 Runloop 完成时执行，相当于一个 0 毫秒延迟的 timer。</li>
+<li>NSPostWhenIdle：只有当 Runloop 处于 wait 或者 idle 状态时，才会去处理。</li>
+</ul>
+<p>延迟处理 notification 特别有用，可以避免大量 notification 出现时的窘境。例如在一个 socket 连接中，将大量的 notfication 中的数据合并后作为一个 notification 发出。</p>
+<p>coalescing 有三种选项：</p>
+<ul>
+<li>NSNotificationNoCoalescing：不合并</li>
+<li>NSNotificationCoalescingOnName：合并相同 name 的通知</li>
+<li>NSNotificationCoalescingOnSender：合并相同的 sender</li>
+</ul>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>Notification 用起来好，但是不能泛滥，coalescing 合并也不是万金油，在需要使用 coalescing 时选项时，可以考虑是否能用其他方式替代。</p>
+
+  </section>
+
+</article>
+
+<section class="read-more">
+           
+    
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">Newer Post</span>
+                <h2 class="post-list__post-title post-title"><a href="/2017/11/19/2017-10-runtime/" title="随便说 iOS 中的 runtime">随便说 iOS 中的 runtime</a></h2>
+                <p class="excerpt">
+                
+                Objc 作为动态语言，可以将消息转发给想要的对象去处理。但是编译器能做的只有将代码转为汇编指令，然后固定的指令流水执行。因此在 Objecive-C 中，还有一套强大的 runtime 运行时系统，专门提供消息转发等运行时能力，还提供了大量的 API，例如 objc_send， class_get 等。
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2017-11-19T10:24:28.000Z" class="post-list__meta--date date">2017-11-19</time> &#8226; <span class="post-list__meta--tags tags">于 
+  <a class="tag-link" href="/tags/runtime/">runtime</a>
+</span><a class="btn-border-small" href="/2017/11/19/2017-10-runtime/">继续阅读</a></div>
+                           
+            </div>
+        
+        
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">Older Post</span>
+                <h2 class="post-list__post-title post-title"><a href="/2017/08/18/2017-08-LLDB/" title="使用 LLDB 调试 iOS">使用 LLDB 调试 iOS</a></h2>
+                <p class="excerpt">
+                
+                一些基础知识增加断点使用 b 后面加上 selector，就可以增加一个断点，lldb 会打印断点的编号、描述以及断点的内存地址。
+123(lldb) b -[NSView hitTest:]Breakpoint 1: where = AppKit`-[NSView hitTest:], address = 0x00007fff4f088798(lldb)continue
+因为使用 lldb 的 b 命令会让 App 暂停，因此使用 continue 命令让 App 继续运行，然后我们通过一些动作来主动触发这个断点。
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2017-08-18T13:10:26.000Z" class="post-list__meta--date date">2017-08-18</time> &#8226; <span class="post-list__meta--tags tags">于 
+  <a class="tag-link" href="/tags/LLDB/">LLDB</a>
+</span><a class="btn-border-small" href="/2017/08/18/2017-08-LLDB/">继续阅读</a></div>
+                       
+            </div>
+        
+     
+   
+   
+  
+</section>
+
+  
+
+            <footer class="footer">
+    <span class="footer__copyright">
+        &copy; 2019 Well Cheng - 本站点采用 <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>
+       
+    </span>
+    <span class="footer__copyright">
+             - 基于 <a href="http://hexo.io">Hexo</a> 搭建，使用 <a href="https://github.com/monniya/hexo-theme-new-vno ">new-vno</a> 主题，由<a href="https://monniya.com ">@Monniya</a> 修改自 <a href="https://github.com/lenbo-ma/hexo-theme-vno" target="_blank">Vno</a>, 原创出自<a href="http://github.com/onevcat/vno" target="_blank">onevcat</a>
+         </span>
+       
+    
+    
+</footer>
+
+
+        </div>
+    </div>
+
+     
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-78918255-1', 'auto');
+	ga('send', 'pageview');
+</script>
+
+    
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?9cdad07c755fa23f6aced510c6760e87";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
+
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    
+</body>
+</html>

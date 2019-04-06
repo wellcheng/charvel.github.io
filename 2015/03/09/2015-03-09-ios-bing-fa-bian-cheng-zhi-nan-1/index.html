@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="z">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    
+    <title>iOS 并发编程指南(一) | Charvel 互联网自留地</title>
+    <meta name="renderer" content="webkit">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta name="description" content="本文为翻译苹果官方文档，旨在自我学习，翻译之处会有坑，请酌情参考
+
+简介并发是指多件事情同时发生。随着多核 CPU 的实现，每个处理器上的核心只会增加，开发人员需要新的方式来充分利用它们。尽管像 OS X 和 iOS 这样的操作系统（自卖自夸，别的 OS 被你吃了吗？）能够并行的运行多个程序，其中大多数的程序运行在后台，并且经常需要一小段 CPU 时间来执行任务。运行在前台的程序与用户交互并且占">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="iOS 并发编程指南(一) | Charvel 互联网自留地">
+    <meta name="twitter:description" content="本文为翻译苹果官方文档，旨在自我学习，翻译之处会有坑，请酌情参考
+
+简介并发是指多件事情同时发生。随着多核 CPU 的实现，每个处理器上的核心只会增加，开发人员需要新的方式来充分利用它们。尽管像 OS X 和 iOS 这样的操作系统（自卖自夸，别的 OS 被你吃了吗？）能够并行的运行多个程序，其中大多数的程序运行在后台，并且经常需要一小段 CPU 时间来执行任务。运行在前台的程序与用户交互并且占">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="iOS 并发编程指南(一) | Charvel 互联网自留地">
+    <meta property="og:description" content="本文为翻译苹果官方文档，旨在自我学习，翻译之处会有坑，请酌情参考
+
+简介并发是指多件事情同时发生。随着多核 CPU 的实现，每个处理器上的核心只会增加，开发人员需要新的方式来充分利用它们。尽管像 OS X 和 iOS 这样的操作系统（自卖自夸，别的 OS 被你吃了吗？）能够并行的运行多个程序，其中大多数的程序运行在后台，并且经常需要一小段 CPU 时间来执行任务。运行在前台的程序与用户交互并且占">
+
+    
+    <meta name="author" content="Well Cheng">
+    
+    <link rel="stylesheet" href="/css/vno.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+
+    
+    <link rel="icon" href="/images/avatar-small.png">
+    
+
+    <meta name="generator" content="hexo"/>
+    
+    <link rel="alternate" type="application/rss+xml" title="Charvel 互联网自留地" href="/atom.xml">
+    
+
+    <link rel="canonical" href="http://blog.devcheng.com/2015/03/09/2015-03-09-ios-bing-fa-bian-cheng-zhi-nan-1/"/>
+
+                 
+</head>
+
+<body class="home-template no-js">
+    <script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <span class="mobile btn-mobile-menu">
+        <i class="fa fa-list btn-mobile-menu__icon"></i>
+        <i class="fa fa-angle-up btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+<header class="panel-cover panel-cover--collapsed" style="background-image: url(/images/background-cover.jpg)">
+  <div class="panel-main">
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        <a href="/" title="前往 Charvel 互联网自留地 的主页"><img src="/images/avatar.jpg" width="80" alt="Charvel 互联网自留地 logo" class="panel-cover__logo logo"></a>
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage for Charvel 互联网自留地">Charvel 互联网自留地</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">记录生活的点点滴滴，记录技术的淅淅沥沥</span>
+        
+        <hr class="panel-cover__divider">
+        <p class="panel-cover__description"></p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary">
+
+        <div class="navigation-wrapper">
+          <div>
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+              <li class="navigation__item"><a href="/#blog" title="Visit the blog" class="blog-button">Blog</a></li>
+            
+              <li class="navigation__item"><a href="/favourite">黄金屋</a></li>
+            
+              <li class="navigation__item"><a href="/favourite/time.html">时光机</a></li>
+            
+              <li class="navigation__item"><a href="/favourite/image.html">幻想间</a></li>
+            
+              <li class="navigation__item"><a href="/aboutme">关于我</a></li>
+            
+            </ul>
+          </nav>
+          </div>
+          <div>
+          <nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+  <!-- Weibo-->
+  
+
+  <!-- Github -->
+  
+  <li class="navigation__item">
+    <a href="https://github.com/monniya" title="GitHub" target="_blank">
+      <i class="social fa fa-github"></i>
+      <span class="label">Github</span>
+    </a>
+  </li>
+
+
+<!-- Stack Overflow -->
+        
+
+  <!-- Google Plus -->
+  
+
+<!-- Facebook -->
+
+  
+<!-- Twitter -->
+
+  <li class="navigation__item">
+    <a href="https://twitter.com/onlymonniya" title="Twitter" target="_blank">
+      <i class="social fa fa-twitter"></i>
+      <span class="label">Twitter</span>
+    </a>
+  </li>
+
+  
+
+  <li class="navigation__item">
+    <a href="/atom.xml" title="RSS" target="_blank">
+      <i class="social fa fa-rss"></i>
+      <span class="label">RSS</span>
+    </a>
+  </li>
+
+
+  <li class="navigation__item">
+    <a href="mailto:chengwei3269@hotmail.com" title="Mail" target="_blank">
+      <i class="social fa fa-envelope"></i>
+      <span class="label">Email</span>
+    </a>
+  </li>
+
+
+  </ul>
+</nav>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay cover-purple"></div>
+  </div> 
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single">
+
+  <header class="post-header">
+    <div class="post-meta">
+      <time datetime="2015-03-09T07:38:28.000Z" class="post-list__meta--date date">2015-03-09</time> &#8226; <span class="post-meta__tags tags">于 
+  <a class="tag-link" href="/tags/GCD/">GCD</a>, <a class="tag-link" href="/tags/并发编程/">并发编程</a>, <a class="tag-link" href="/tags/翻译/">翻译</a>
+ </span>
+      <span class="page-pv">
+       Read <span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>
+      </span> 
+   
+    </div>
+    <h1 class="post-title">iOS 并发编程指南(一)</h1>
+  </header>
+
+  <section class="post">
+    <blockquote>
+<p>本文为翻译苹果官方文档，旨在自我学习，翻译之处会有坑，请酌情参考</p>
+</blockquote>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>并发是指多件事情同时发生。随着多核 CPU 的实现，每个处理器上的核心只会增加，开发人员需要新的方式来充分利用它们。尽管像 OS X 和 iOS 这样的操作系统（自卖自夸，别的 OS 被你吃了吗？）能够并行的运行多个程序，其中大多数的程序运行在后台，并且经常需要一小段 CPU 时间来执行任务。运行在前台的程序与用户交互并且占用大量的 CPU 时间。如果一个程序有很多任务去做但是只有一部分内核可以使用，那么额外的计算资源将被浪费。</p>
+<p>在过去，在程序中引入并发需要创建额外的一个或多个线程。不幸的是，写线程级别的代码很具有挑战性。线程是很底层的工具，必须手动来管理。对于一个程序，由于线程的最佳数目基于系统负载和底层硬件动态改变，实现一个正确的线程解决方案是非常困难的。此外，线程的同步机制通常会给软件设计增加复杂性和带来风险，并不能保证一定会提高程序性能。</p>
+<p>相比较传统的基于线程的系统和应用程序，OS X 和 iOS 更多地采用异步方法来执行并行的任务。应用程序只需要定义特定的任务，然后让系统执行它们，而不是直接创建线程。通过让操作系统来管理线程，使得应用程序具有了原生线程不可能带来的可扩展性。开发者也有了更加简单高效的编程模式。</p>
+<p>本文档描述了并发编程的技术和技巧，使用与 OS X 和 iOS。</p>
+<p>文档包含以下章节：</p>
+<ul>
+<li>并行和程序设计：介绍了基本的异步程序设计和异步执行自定义任务的技巧</li>
+<li>Operation Queues（操作队列）：指出如何使用 Objective-C 对象封装任务并且执行</li>
+<li>Dispatch Queue（分发队列）：如何并行的执行任务在 C 语言编程中</li>
+<li>Dispatch Sources：如何异步的处理系统时间</li>
+<li>Migrating Away from Threads：介绍如何将已存在的基于线程的代码迁移至新的技术上。</li>
+</ul>
+<a id="more"></a>
+<h2 id="并发和程序设计"><a href="#并发和程序设计" class="headerlink" title="并发和程序设计"></a>并发和程序设计</h2><p>在早期的计算机中，每一台计算机执行最小任务需要的时间单元取决于 CPU 的时钟速度，但随着技术的发展和处理器核心越来密集，散热和其他物理因素开始限制 CPU 的最大时钟速度。所以芯片制造厂商开始寻求其他的方式来增加芯片的总体性能。解决办法为增加每个芯片上的处理器核心数量，这样单个芯片的处理速度将得到提升，剩下的问题就是如何利用额外的核心。</p>
+<p>为了利用多核，计算机需要软件能够同时干多件事情。现代的多任务操作系统，可以有上百的程序在给定的时间内运行，所以调度每个程序执行在不同的核上是可能的。然而，大多数的程序属于系统驻守进程，或那些运行在后台，只需要很少 CPU 时间的程序。相反，真正的需要是为单个应用程序高效的使用额外的核心。</p>
+<p>应用程序利用多核的传统方式是创建多个线程。然而，由于核心的增加，有许多线程的问题需要解决。最大的问题是线程代码不能很好的拓展到任意数目的核心。你不能创建很多的线程，然后认为程序应该运行的很好。你需要知道的是你无法知道具体使用多少数量的核心才是高效的，程序自己去计算这个数量是一件很有挑战性的事情。即使你得到了正确的数字，那么这么多线程之间不能干扰且高效运行，仍然具有很大的难度。</p>
+<p>所以，总结一下，就是说需要一种更好的方式来利用计算机的多和特性。单个程序能够执行的工作量能够动态的变化，以适应操作系统条件的不断变化。解决的办法还需要简单，不能增加额外的工作量。值得庆幸的是我大 Apple 已经解决了这些问题，你们快来膜拜并学习吧。</p>
+<h3 id="抛弃线程"><a href="#抛弃线程" class="headerlink" title="抛弃线程"></a>抛弃线程</h3><p>尽管线程已经存在很久并且继续被使用，它们没有解决如何弹性的执行任务的普遍问题。创建可动态扩展线程对于开发者来说很复杂！一个问题是你必须决定开启多少线程，并且当操作系统环境改变时动态的改变线程数量。另一个问题是你的应用程序需要假定创建与维护这些线程的花销。</p>
+<p>为了不依赖线程，OS X 和 iOS 采用异步的方式来解决这些问题，异步已经存在计算机中很长时间了，经常用来执行那些需要花费很多时间的任务，例如读取磁盘文件。当调用时，异步方法在后台执行任务，在执行任务完成之前，异步方法已经返回。通常情况下，任务调起后台线程，然后任务完成时发送通知给调用者（通常为函数回调）。过去你需要自己实现，现在我大 Apple 为你实现了这种技术。</p>
+<p>使用异步方法的技术之一为 GCD（大中枢派发）。这项技术会将你写在程序中的线程管理代码迁移到系统级别。你需要做的仅仅只是定义需要执行的任务并且将它添加到适当的调度队列。GCD 来创建线程并在线程上执行你的代码，由于线程管理现在是系统的一部分，GCD 接管了线程管理和任务执行，所以比传统的线程创建方式要更高效一些。</p>
+<p>Operation Queue 是 Objective-C 对象，很像 dispatch queue。你定义想要执行的任务然后将其添加到 Operation Queue 中，它将负责任务的调度和执行。跟 GCD 一样，Operation Queue 为你处理所有的线程管理，并且确保高效的执行。</p>
+<p>下面是相关的详细技术。</p>
+<h4 id="Dispatch-Queue"><a href="#Dispatch-Queue" class="headerlink" title="Dispatch Queue"></a>Dispatch Queue</h4><p>Dispatch Queues 是一种基于 C 语言的自定义任务执行机制。dispatch queue 串行或并行地执行任务，但总是 FIFO 的，换句话说，dispatch queue 中任务的执行完成顺序与任务添加顺序是一致的。串行的 dispatch queue 同一时间只在一条线程上执行任务，需要等待上个任务完成，才能开始下个任务。并行的dispatch queue 同一时间执行多个任务，不需要等待上个任务完成。</p>
+<p>dispatch queue 有以下好处：</p>
+<ul>
+<li>简明的编程接口</li>
+<li>自动和全方位的线程池管理</li>
+<li>They provide the speed of tuned assembly.（应该是指优先级吧）</li>
+<li>更好的内存利用（因为线程栈不在应用程序内存中一直保持）加载时不会中断内核</li>
+<li>任务的异步调用不会导致死锁</li>
+<li>竞争条件下合适的粒度</li>
+<li>串行队列提供更加有效的同步机制</li>
+</ul>
+<p>提交到 dispatch queue 的任务必须封装在一个函数或 block 对象。block 是 C 语言功能，类似函数指针的概念，但是有一些额外的优点。你通常定义 block 在另一个函数或者方法中以便于获取获取它们的变量，而不是在自己的变量范围内。当你提交任务到 queue 时，block 还可以被复制到堆上。这些语法使得能够用很少的代码实现动态的任务。</p>
+<h4 id="Dispatch-Sources"><a href="#Dispatch-Sources" class="headerlink" title="Dispatch Sources"></a>Dispatch Sources</h4><p>Dispatch Source 是用于异步处理特殊类型系统事件的基于 C 语言的机制。一个 dispatch source 封装特殊类型系统事件的有关信息，当发生该事件时，向 dispatch source 提交特殊的 block 或函数。你可以使用 dispatch source 来监听一下系统事件：</p>
+<ul>
+<li>计时器</li>
+<li>信号处理描述符相关的进程事件</li>
+<li>Mach 端口事件</li>
+<li>自定义的触发事件</li>
+</ul>
+<h4 id="Operation-Queues"><a href="#Operation-Queues" class="headerlink" title="Operation Queues"></a>Operation Queues</h4><p>Cocoa 中的 Operation Queue 与并发 dispatch Queue 等同，由 NSOperationQueue 类实现。dispatch queue 总是按照先进先出的顺序执行任务，Operation queues 在决定任务执行顺序时会考虑其他的因素，你可以使用它来创建复杂的任务执行顺序。</p>
+<p>提交至 Operation queue 的对象必须是 NSOperation 类的实例。Operation 对象封装执行的任务以及所需的数据。因为 NSOperation 类本质上是抽象基类，所以通常需要自定义自己的子类来执行任务。然而， Foundation Framework 提供了一些基本的子类，可以用来直接执行任务。</p>
+<p>Operation 对象生成键值观察 （KVO）通知，是一种监听任务进度非常有用的方式。虽然操作队列总是并发的执行任务，不过当你需要时可以添加附属选项保证串行执行。</p>
+<h3 id="异步设计技术"><a href="#异步设计技术" class="headerlink" title="异步设计技术"></a>异步设计技术</h3><p>在你重新考虑设计代码以支持并发时，你应该问问自己是否有这个必要。并发可以使主线程更加有效的响应用户事件，确保流畅。还能够在相同时间利用更多的内核来做更多的工作。</p>
+<p>然而，它也会增加开销和代码量，增加编码和 Debug 难度。</p>
+<p>由于增加了复杂性，并发不是在产品周期快结束时需要添加到程序中的一个 feature，想要做的正确，需要仔细考虑你的程序执行的任务和执行这些任务时所采用的数据结构。如果做的不好，你可能会发现代码比以前更慢了，带给用户的好处并不多。因此，你需要好好考虑一下。</p>
+<p>每一个程序都有不同的需求和任务去执行。仅仅一份文档不可能告诉你如何设计你的程序和相关的任务。但是，下面各节尝试提供一些指导，帮助你在设计过程中做出正确的选择。</p>
+<h4 id="定义应用程序预期的行为"><a href="#定义应用程序预期的行为" class="headerlink" title="定义应用程序预期的行为"></a>定义应用程序预期的行为</h4><p>在考虑程序中加入并发性之前，你总是应该从定义程序正确的行为开始。了解你的程序预期的行为，在之后的设计中可以帮助你验证你的设计。通过引入并发，会得到一些有关预期性能好处的想法。</p>
+<p>需要做的第一件事，罗列出所有程序要做的任务以及相关的数据结构。最初，你可能想要从用户的点击事件任务开始罗列，这些任务提供了很清楚的起始点。你更应该罗列其他无需用户交互的应用程序任务，比如基于计时器的任务。</p>
+<p>当你整理出高级别任务的列表后，将任务分解为完成任务必须的一系列步骤，在这个阶段，应该是主要是对数据或者对象做一些修改，以及这些修改如何影响程序的整体状态。你还应该注意对象和数据结构之间的依赖关系，注意对一个对象的修改是否影响其他对象。</p>
+<h4 id="分解出可执行的工作单元"><a href="#分解出可执行的工作单元" class="headerlink" title="分解出可执行的工作单元"></a>分解出可执行的工作单元</h4><p>在考虑程序的任务时，你应该已经能够记住哪些代码并发处理时高效一些。如果在任务中更改了某些步骤的执行顺序，任务执行结果会改变，那么你可能需要考虑串行执行。如果任务的执行结果与任务中的步骤执行顺序无关，那么你可以使用并发来提高性能。这种情况下，你将任务拆分出一步一步执行的单元，然后将它们封装成 block 或者 Operation 对象分发到对应的队列。</p>
+<p>对于你确认的任务中的每个执行单元，开始执行时不需要过多的担心工作量。即使开启线程需要一定的开销，但是 dispatch queue 和 Operation queue 的一个优点就是在多数情况下比传统线程的开销要小的多。所以，在使用队列执行一些很小的工作单元时，效率高于你使用线程。当然，你需要衡量实际的效率来调整任务的大小，但是在一开始，没必要考虑任务单元是不是太小了。</p>
+<h4 id="决定你需要的队列"><a href="#决定你需要的队列" class="headerlink" title="决定你需要的队列"></a>决定你需要的队列</h4><p>现在你的任务已经拆分为工作单元，并且用 block 或者 Operation 对象封装起来了，你需要定义你执行的队列。对于一个给定的任务，检查 block 或 operation 对象，以及执行任务的顺序，确保是正确的。</p>
+<p>如果使用 block 实现任务，你可以向一个串行的或并行的队列添加 block。如果对于执行顺序有特殊的要求，你应该使用串行的队列。如果工作单元对于执行顺序没有要求，你可以使用并发的队列或者多个不同的并发队列，这个取决于你的需求。</p>
+<p>如果使用 operation 对象，那么队列的选择不如配置对象有趣。想要串行的执行 operation 对象，你必须要处理这些对象之间的依赖关系，依赖项会阻止操作继续执行，直到所依赖的对象完成它们的工作。</p>
+<h4 id="提高效率的小贴士"><a href="#提高效率的小贴士" class="headerlink" title="提高效率的小贴士"></a>提高效率的小贴士</h4><p>除了简洁的拆分你的代码为更小的任务，并将它们添加到一个队列，还有其他一些方法可以改善代码的整体效率:</p>
+<ul>
+<li><strong>如果内存占用是一个影响因素，考虑直接在任务代码中计算需要的值。</strong>如果你的程序已经占用了很大内存，直接在代码中计算会比存主存中加载缓存要快的多。直接计算使用处理器核心的寄存器和缓存，比主存要快。当然，你应该做一些性能测试，然后决定是否要这样做。</li>
+<li><strong>尽早的识别出串行任务，并且使它们并发。</strong> 如果任务因为共同依赖于某些公共资源，从而必须串行执行，那么你需要更改你的设计，移除这种共享关系，你可能会考虑为每个请求复制资源或者完全移除依赖。</li>
+<li><strong>避免使用锁</strong> dispatch queue 和 operation queue 的所提供的一些支持使得锁在大多数情况下是不必要的。为了避免使用锁来保护一些资源，指定一个串行队列（或 operation 对象的相互依赖性）用正确的顺序来执行任务。</li>
+<li><strong>尽可能的依赖于系统提供的框架</strong> 实现并发的最佳方式就是使用系统内建的并发支持。许多框架内部使用线程和其他技术来实现并发行为。当定义一个任务后，检查下是不是 framework 已经提供了你正想要的函数或者方法。使用系统 API 能够节省你的时间并且提供最大程序的并发。</li>
+</ul>
+<h3 id="性能影响"><a href="#性能影响" class="headerlink" title="性能影响"></a>性能影响</h3><p>operation queue ，dispatch queue 还有 dispatch source 都提供了更加简单的并发编程方式。然而这些技术并不能保证一定能够提高程序的性能或改善代码的效率。但是你仍然需要以一种合理的方式去使用并发，不要过度的使用操作系统资源。比如一次向 operation queue 提交 1000 个operation 对象，这样可能会导致内存分配不够，致使发生内存分页而降低效率。</p>
+<p>在代码中引用并发之前，无论是使用队列还是线程，都应该采集一些基准的性能指标反映当前的程序性能。当使用并发后，采集并发后的性能指标与之前的基准进行比较，看并发的引入是否提高了程序性能，使用性能测试工具来检测。</p>
+<h3 id="并发的其他技巧"><a href="#并发的其他技巧" class="headerlink" title="并发的其他技巧"></a>并发的其他技巧</h3><p>增加并发数量的最佳方式是将代码拆分为更小的模块。然而，这种方式并不能在一些情况下满足每一个程序的需求。依据你的任务，可能其他一些选项能够让你的应用程序在整体并发上提高。下面各节列出了一些其他的技术，可以考虑作为设计的一部分。</p>
+<h4 id="OpenCL-和并发"><a href="#OpenCL-和并发" class="headerlink" title="OpenCL 和并发"></a>OpenCL 和并发</h4><p>在 OS X 中，<strong>Open Computing Language （OpenCL）</strong> 是一种计算机图形处理的通用标准技术。如果你有一些定义好的大数据计算集合，OpenCL 是一种很好的技术。举个例子，你可能使用 OpenCL 在图像的每一个像素上执行筛选计算或者用它来做复杂的数学运算。换句话说，OpenCL 多用于并行的数据集运算。</p>
+<h4 id="什么时候使用线程"><a href="#什么时候使用线程" class="headerlink" title="什么时候使用线程"></a>什么时候使用线程</h4><p>虽然 operation queue 和 dispatch queue 是执行并发的首选方式，但这并不是万能的。依据你的应用程序，有的时候可能仍需要创建自定义的线程。如果需要自定义线程，那么尽可能使用更少的线程来执行特定的任务，不要使用线程做其他的操作。</p>
+<p>线程仍然是实现运行在 real time 代码的最佳方式，dispatch queue 尽管会尽可能快速的执行任务，但是仍然不能解决 real time 约束。如果你需要更多线程运行在后台的预计行为，线程通常会提供更好的选择。</p>
+<p>不过，使用线程时仍然要再次确保是必要的。</p>
+
+  </section>
+
+</article>
+
+<section class="read-more">
+           
+    
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">Newer Post</span>
+                <h2 class="post-list__post-title post-title"><a href="/2015/04/04/2015-04-04-chuang-jian-zi-ji-de-cocoapods-podspec-wen-jian/" title="创建自己的cocoaPods - podspec 文件">创建自己的cocoaPods - podspec 文件</a></h2>
+                <p class="excerpt">
+                
+                
+现在很多开源的第三方库都支持 cocoaPods 来管理，这对于 iOS 开发人员来说是一个福音，基础的运用为创建 podfile 然后在文件中加入自己需要依赖的第三方库就可以啦。不过在实际的使用中，有可能需要依赖自己的库或者公司的库，或者有些库没有加入到 cocoaPods 中，这个时候就需要我们制定自己的 cocoaPods 库了。
+
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2015-04-04T12:23:36.000Z" class="post-list__meta--date date">2015-04-04</time> &#8226; <span class="post-list__meta--tags tags">于 
+  <a class="tag-link" href="/tags/CocoaPods/">CocoaPods</a>, <a class="tag-link" href="/tags/依赖/">依赖</a>
+</span><a class="btn-border-small" href="/2015/04/04/2015-04-04-chuang-jian-zi-ji-de-cocoapods-podspec-wen-jian/">继续阅读</a></div>
+                           
+            </div>
+        
+        
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">Older Post</span>
+                <h2 class="post-list__post-title post-title"><a href="/2015/03/05/2015-03-05-jiang-ni-de-ios-gong-cheng-zhuan-huan-wei-zhi-chi-64wei-de-ban-ben/" title="将你的iOS 工程转换为支持64位的版本">将你的iOS 工程转换为支持64位的版本</a></h2>
+                <p class="excerpt">
+                
+                总的来说，可以根据以下步骤创建一个同时支持32位和64位运行环境的 App:
+
+确保 Xcode 版本至少为 5.0.1
+打开你的项目，Xcode 提示适配你的工程，编译64位版本的时候可能会给你提出一些重要的警告或者错误。
+设置你的项目最低为 iOS 5.1.1, iOS 5.1 之前的系统不支持64位
+修改工程的编译指令集为 “Standard Architectures”，即 Xcode 默认版本，其中包括 ARMv7 和 ARM64
+更新你的 App 以支持64位运行环境，编译器发出的警告和错误能够引导你处理整个过程，但是 Xcode 不是万能的，你还需要根据本文档来做一些事情。
+在 64 位的真机上测试你的 App，模拟器也可以帮助你测试，但是可能有一部分问题只有在真机上才会出现。
+使用 Instruments 来分析内存消耗以及性能。
+提交支持32位和64位的 App
+
+接下来的内容会陈列一些在转换过程中经常出现的问题，根据引导仔细检查你的代码。
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2015-03-05T07:21:41.000Z" class="post-list__meta--date date">2015-03-05</time> &#8226; <span class="post-list__meta--tags tags">于 
+  <a class="tag-link" href="/tags/编译/">编译</a>, <a class="tag-link" href="/tags/翻译/">翻译</a>
+</span><a class="btn-border-small" href="/2015/03/05/2015-03-05-jiang-ni-de-ios-gong-cheng-zhuan-huan-wei-zhi-chi-64wei-de-ban-ben/">继续阅读</a></div>
+                       
+            </div>
+        
+     
+   
+   
+  
+</section>
+
+  
+
+            <footer class="footer">
+    <span class="footer__copyright">
+        &copy; 2019 Well Cheng - 本站点采用 <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>
+       
+    </span>
+    <span class="footer__copyright">
+             - 基于 <a href="http://hexo.io">Hexo</a> 搭建，使用 <a href="https://github.com/monniya/hexo-theme-new-vno ">new-vno</a> 主题，由<a href="https://monniya.com ">@Monniya</a> 修改自 <a href="https://github.com/lenbo-ma/hexo-theme-vno" target="_blank">Vno</a>, 原创出自<a href="http://github.com/onevcat/vno" target="_blank">onevcat</a>
+         </span>
+       
+    
+    
+</footer>
+
+
+        </div>
+    </div>
+
+     
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-78918255-1', 'auto');
+	ga('send', 'pageview');
+</script>
+
+    
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?9cdad07c755fa23f6aced510c6760e87";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
+
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    
+</body>
+</html>

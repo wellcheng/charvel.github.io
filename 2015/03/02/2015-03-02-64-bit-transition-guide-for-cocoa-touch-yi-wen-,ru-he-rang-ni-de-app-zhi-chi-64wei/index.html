@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="z">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    
+    <title>64-Bit Transition Guide for Cocoa Touch 译文，如何让你的App 支持64位 | Charvel 互联网自留地</title>
+    <meta name="renderer" content="webkit">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta name="description" content="Apple 为了让搭载64位处理器的 iOS 设备性能得到发挥，下了最后通牒：
+
+As we announced in October, beginning February 1, 2015 new iOS apps submitted to the App Store must include 64-bit support and be built with the iOS 8 SDK. Beg">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="64-Bit Transition Guide for Cocoa Touch 译文，如何让你的App 支持64位 | Charvel 互联网自留地">
+    <meta name="twitter:description" content="Apple 为了让搭载64位处理器的 iOS 设备性能得到发挥，下了最后通牒：
+
+As we announced in October, beginning February 1, 2015 new iOS apps submitted to the App Store must include 64-bit support and be built with the iOS 8 SDK. Beg">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="64-Bit Transition Guide for Cocoa Touch 译文，如何让你的App 支持64位 | Charvel 互联网自留地">
+    <meta property="og:description" content="Apple 为了让搭载64位处理器的 iOS 设备性能得到发挥，下了最后通牒：
+
+As we announced in October, beginning February 1, 2015 new iOS apps submitted to the App Store must include 64-bit support and be built with the iOS 8 SDK. Beg">
+
+    
+    <meta name="author" content="Well Cheng">
+    
+    <link rel="stylesheet" href="/css/vno.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+
+    
+    <link rel="icon" href="/images/avatar-small.png">
+    
+
+    <meta name="generator" content="hexo"/>
+    
+    <link rel="alternate" type="application/rss+xml" title="Charvel 互联网自留地" href="/atom.xml">
+    
+
+    <link rel="canonical" href="http://blog.devcheng.com/2015/03/02/2015-03-02-64-bit-transition-guide-for-cocoa-touch-yi-wen-,ru-he-rang-ni-de-app-zhi-chi-64wei/"/>
+
+                 
+</head>
+
+<body class="home-template no-js">
+    <script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <span class="mobile btn-mobile-menu">
+        <i class="fa fa-list btn-mobile-menu__icon"></i>
+        <i class="fa fa-angle-up btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+<header class="panel-cover panel-cover--collapsed" style="background-image: url(/images/background-cover.jpg)">
+  <div class="panel-main">
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        <a href="/" title="前往 Charvel 互联网自留地 的主页"><img src="/images/avatar.jpg" width="80" alt="Charvel 互联网自留地 logo" class="panel-cover__logo logo"></a>
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage for Charvel 互联网自留地">Charvel 互联网自留地</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">记录生活的点点滴滴，记录技术的淅淅沥沥</span>
+        
+        <hr class="panel-cover__divider">
+        <p class="panel-cover__description"></p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary">
+
+        <div class="navigation-wrapper">
+          <div>
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+              <li class="navigation__item"><a href="/#blog" title="Visit the blog" class="blog-button">Blog</a></li>
+            
+              <li class="navigation__item"><a href="/favourite">黄金屋</a></li>
+            
+              <li class="navigation__item"><a href="/favourite/time.html">时光机</a></li>
+            
+              <li class="navigation__item"><a href="/favourite/image.html">幻想间</a></li>
+            
+              <li class="navigation__item"><a href="/aboutme">关于我</a></li>
+            
+            </ul>
+          </nav>
+          </div>
+          <div>
+          <nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+  <!-- Weibo-->
+  
+
+  <!-- Github -->
+  
+  <li class="navigation__item">
+    <a href="https://github.com/monniya" title="GitHub" target="_blank">
+      <i class="social fa fa-github"></i>
+      <span class="label">Github</span>
+    </a>
+  </li>
+
+
+<!-- Stack Overflow -->
+        
+
+  <!-- Google Plus -->
+  
+
+<!-- Facebook -->
+
+  
+<!-- Twitter -->
+
+  <li class="navigation__item">
+    <a href="https://twitter.com/onlymonniya" title="Twitter" target="_blank">
+      <i class="social fa fa-twitter"></i>
+      <span class="label">Twitter</span>
+    </a>
+  </li>
+
+  
+
+  <li class="navigation__item">
+    <a href="/atom.xml" title="RSS" target="_blank">
+      <i class="social fa fa-rss"></i>
+      <span class="label">RSS</span>
+    </a>
+  </li>
+
+
+  <li class="navigation__item">
+    <a href="mailto:chengwei3269@hotmail.com" title="Mail" target="_blank">
+      <i class="social fa fa-envelope"></i>
+      <span class="label">Email</span>
+    </a>
+  </li>
+
+
+  </ul>
+</nav>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay cover-purple"></div>
+  </div> 
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single">
+
+  <header class="post-header">
+    <div class="post-meta">
+      <time datetime="2015-03-02T10:10:26.000Z" class="post-list__meta--date date">2015-03-02</time> &#8226; <span class="post-meta__tags tags">于 
+  <a class="tag-link" href="/tags/翻译/">翻译</a>
+ </span>
+      <span class="page-pv">
+       Read <span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>
+      </span> 
+   
+    </div>
+    <h1 class="post-title">64-Bit Transition Guide for Cocoa Touch 译文，如何让你的App 支持64位</h1>
+  </header>
+
+  <section class="post">
+    <p>Apple 为了让搭载64位处理器的 iOS 设备性能得到发挥，下了最后通牒：</p>
+<blockquote>
+<p>As we announced in October, beginning February 1, 2015 new iOS apps submitted to the App Store must include 64-bit support and be built with the iOS 8 SDK. Beginning June 1, 2015 app updates will also need to follow the same requirements.</p>
+</blockquote>
+<blockquote>
+<p>从 2015 年 2 月 1 日开始，所有新提交的 App 必须支持64位，并且使用 iOS8 SDK 编译，从 2015 年 6 月 1 日开始，更新版本的 App 也需要这样做。</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="那么问题来了，如何支持64位呢"><a href="#那么问题来了，如何支持64位呢" class="headerlink" title="那么问题来了，如何支持64位呢"></a>那么问题来了，如何支持64位呢</h2><p>64位与32位相比较，主要是在于数据类型和方法调用上的区别，数据类型方面，不同数据类型在32bit 和 64bit 下的长度是不一样的，具体稍后再看；方法调用方面主要是汇编层次的区别，主要是 CPU 的寄存器方面的不一致。</p>
+<h1 id="Apple-GUI-翻译"><a href="#Apple-GUI-翻译" class="headerlink" title="Apple GUI 翻译"></a>Apple GUI 翻译</h1><h2 id="关于-App-的-64位编程"><a href="#关于-App-的-64位编程" class="headerlink" title="关于 App 的 64位编程"></a>关于 App 的 64位编程</h2><blockquote>
+<p>这目前只是初级的 API 或技术开发文档。Apple 提供这份文档旨在帮助你过渡下面描述的技术和编程接口。文档可能会变动，按照这份文档实现的软件应该经过最新的操作系统检测，以及最终文档的检测。这份文档会随着最新的 API 和技术随之更新。</p>
+</blockquote>
+<p>当桌面操作系统从32位发展到64位时，64位的 App 是操作系统改变的关键。现在，iOS 也有了和桌面操作系统一样的架构。从 iOS7 和 A7 处理器开始，你可以编译出利用 64位处理器的 App 了。如果一个 App 支持 64 位的处理，那么在同一台设备上运行时其性能比 32 位会有一个很大的提升。</p>
+<h2 id="快速预览"><a href="#快速预览" class="headerlink" title="快速预览"></a>快速预览</h2><p>Apple 的 A7 处理器支持两种不同的指令集，分别是与 Apple 之前处理器相同的 32位 ARM 指令集，另一种就是全新的 64位 ARM 架构。64位架构支持更大的寻址空间，当然这不是最重要的(这么吹，果然是苹果的尿性～.～)。而且全新的指令流水集能够处理能力是两倍的整数和浮点数寄存器。LLVM 编译程序充分利用了这些新特性，因此，性能的提高使得 64 位的 App 能够一次处理更多的数据。App 大面积的使用 64位的整数运算或 <a href="http://baike.baidu.com/subview/478000/7130461.htm#viewPageContent" target="_blank" rel="noopener">NEON</a> 操作将会看到性能更上一层楼！当然，即使目前 32 位的 App 已经能够在 A7 上跑的飞起比之前的处理器，但我大苹果必须要 faster than faster！</p>
+<p>在 iOS 上运行 64位 App 时，指针是64位的(更大的寻址空间)。曾经是 32位 的整数类型现在也是 64位的，很多在系统框架中的数据类型都做了改变，尤其是 UIKit 和 Foundation，这些改变意味着64位 App 比32位的占用更多的内存，如果在内存管理方面不仔细的话，这些增加的内存消耗会对程序造成伤害（占用内存太大就被你杀死了啊）。</p>
+<p>当 iOS 系统运行在64位的设备上时，iOS 分别加载32位版本和64位版本的系统库，当所有的应用均支持64 位时，那么就只需要加载64位版本系统库了，因此，系统将能够占用更少的内存并且更快的运行 App。iOS 系统自身的 App 现在已经全部支持64位，开发者们你们抓紧吧。</p>
+<h2 id="更新-iOS7之后，转换-App-到64位"><a href="#更新-iOS7之后，转换-App-到64位" class="headerlink" title="更新 iOS7之后，转换 App 到64位"></a>更新 iOS7之后，转换 App 到64位</h2><p>Xcode 5.0.1 能够同时编译32位和64位版本。这种混合的二进制包需要的最低系统版本为 iOS 5.1.1 。64位版本的二进制包只会运行在支持64位和系统版本至少为 iOS 7.0.3 的设备上。如果你现在已有 App ，首先需要更新到 iOS 7 ，然后移植到具有 64 处理器的设备上。第一次更新 target 到 iOS 7时，需要删除掉废弃的 API ，如果你创建新的 App ，那么另它 target 为 iOS 7 并且编译32位和64位的版本。</p>
+<p>iOS 平台的 OSX 平台 64位的架构类似，可以写一些通用的代码在这两个平台上，指针和一些 C 语言类型都从 32 位转换到 64位，如果你的代码依赖于 NSInteger 和 CGFloat ，那么需要仔细的检查一番。</p>
+<p>在开始构建 App 的时候，修复任何有关64位的警告，例如：</p>
+<ul>
+<li>确保所有的方法调用有一个合适的原型</li>
+<li>避免 64位的数据转换为32位发生数据截断</li>
+<li>确保所有的计算在64位上正确的运行</li>
+<li>确保你在32位版本和64位版本上的数据结构设计是一致的</li>
+</ul>
+<h2 id="在-64位的设备上测试你的-App"><a href="#在-64位的设备上测试你的-App" class="headerlink" title="在 64位的设备上测试你的 App"></a>在 64位的设备上测试你的 App</h2><p>iOS 模拟器能够模拟32位和64位的设备，当转换你的 App 到64位时，你可以使用模拟器来测试。尤其是在测试自己创建的数据结构时，模拟器能够很好的测试在不同的架构上是否正常的读写。当然，在上线到 AppStore 前，最好是在64位的真机上测试，很有可能一些错误只有在真机上才会被发现。</p>
+<p>当成功转换后，使用 Instrument 分析性能和内存使用情况。</p>
+<h2 id="一些准备工作"><a href="#一些准备工作" class="headerlink" title="一些准备工作"></a>一些准备工作</h2><p>需要接触过 iOS App 开发，最好是对于 ANSI C 语言编程理解比较深。</p>
+<h2 id="64位的主要改变"><a href="#64位的主要改变" class="headerlink" title="64位的主要改变"></a>64位的主要改变</h2><p>当不同的代码块一起工作时，必须遵循一些标准的协议，这些包括数据类型的大小和格式，以及指令的调用。编译器就是基于这些协议使得代码能够正常工作，这些协议参照ABI（Application Binary Interface）</p>
+<p>iOS App 依赖于比较底层的 ABI，通过 Objective-C 语言和其系统库进行构建。从 iOS7 开始，一些设备使用64位的处理器并且提供两套运行环境，32位环境与64位环境主要有两点不同：</p>
+<ul>
+<li>在64位环境下，被 Cocoa Touch 框架和 Objective-C 语言使用的许多数据类型大小都做了增加，并且加入了更严格的字节对齐。</li>
+<li>64位环境下，方法调用时需要合适的原型。</li>
+</ul>
+<h2 id="数据类型的改变"><a href="#数据类型的改变" class="headerlink" title="数据类型的改变"></a>数据类型的改变</h2><p>在 C 语言和 Objective-C 语言中，内建的数据类型没有预先定义的大小以及对齐方式。然而，每个平台都会定义一些基本数据类型，这样意味着，当在内部的语言限定内，平台可以基于底层硬件和操作系统使用最合适的数值。在64位环境中，iOS 改变了许多内建的数据类型大小，在高一层次上看，整个 Cocoa Touch 框架都做了一些改变，这部分内容说明做了哪些改变。</p>
+<h3 id="两个协议：ILP32-和-LP64"><a href="#两个协议：ILP32-和-LP64" class="headerlink" title="两个协议：ILP32 和 LP64"></a>两个协议：ILP32 和 LP64</h3><p>32位运行环境使用 ILP32 协议，integer 、long integer 和指针都是32位。64位运行环境使用 LP64 协议，integer 都是 32 位长度，long integer 和指针都是 64位，在 OSX 上也是如此，这样子有益于写出通用的代码。</p>
+<p>下表描述了所有的数据类型长度：</p>
+<p><img src="http://7vzucb.com1.z0.glb.clouddn.com/blog.数据类型的改变.png" alt="整型数据的改变"></p>
+<p>对于上面这个表的内容总结一下就是：</p>
+<ul>
+<li>指针的长度从 4 个字节增长到了 8 个字节</li>
+<li><code>long integer</code> 长整型从 4 字节到了 8 字节，<code>size_t</code>,<code>CFIndex</code>,<code>NSInteger</code> 都从 4 字节增长到了 8 字节</li>
+<li><code>long long integer</code> 以及基于它的 <code>fpos_t</code> 、 <code>off_t</code> 对齐长度也都从 4 字节增长到了 8 字节，意味着结构体中的数据字段需要符合其宽度。</li>
+</ul>
+<p>下表是浮点数的改变：</p>
+<p><img src="http://7vzucb.com1.z0.glb.clouddn.com/blog.float-point-changes.png" alt="浮点型数据的改变"></p>
+<p>64位的 ARM 环境使用小字节序，这符合 ARMv7 架构下的32位运行环境。</p>
+<h3 id="数据改变对我们-App-的影响"><a href="#数据改变对我们-App-的影响" class="headerlink" title="数据改变对我们 App 的影响"></a>数据改变对我们 App 的影响</h3><p>当你编译 App 的时候，需要考虑到在不同的运行环境下，它的表现是不同的，带来的是性能上的差异或者兼容性上的问题，下面是你需要考虑的一些问题：</p>
+<ul>
+<li><p>增加的内存压力</p>
+<p>  由于许多数据类型都增加了大小，所以64位的 App 比32位的占用更多的内存，例如，很简单的一个链表在编译为64位的时候，就需要占用更大的内存， 你需要为优化64位 App 花费更多的时间。在设计数据结构和使用实例变量的时候，你需要考虑不同的策略。</p>
+</li>
+<li><p>在32位和64位的软件之间转换数据</p>
+<p>  如果你开发了同时支持32位和64位的软件，有的时候，不同的版本可能需要操作同一份数据，例如有用户在 iCloud 上面存储32位和64位不同数据，通过不同的设备。你需要确保你的数据读写使用相同的内存处理，这意味着数据的大小和偏移是一致的。</p>
+</li>
+<li><p>计算可能会产生不同的结果</p>
+<p>  如果原来32位的整数现在被用到了64位的 App 上，那么参与运算的时候，可能会出现不同的结果。</p>
+</li>
+<li><p>数据截断</p>
+<p>  如果将长类型数据复制到短类型数据上可能会造成数据截断。另外就是你不能再假定你的不同的类型之间转换没有问题，在32位的时候，你可以将 NSInteger 当作 int 使用，那是因为他们在内存中的长度是一致的，但是在 64 位的环境下，这么做，将会产生数据截断，很有可能出现错误的数据。</p>
+</li>
+</ul>
+<h2 id="方法调用上的改变"><a href="#方法调用上的改变" class="headerlink" title="方法调用上的改变"></a>方法调用上的改变</h2><p>当一个方法被调用时，编译器生成代码将参数从调用者传到被调用者。例如，ABI 会指定调用者将它的参数放入寄存器、进栈或者放入内存中，通常情况下，如果你不写汇编语言，方法调用的习惯将变得特别重要。但是在64位运行环境下，你需要理解方法是怎么样被调用的，接受可变参数的方法调用和固定参数的约定不同。</p>
+<h3 id="方法调用对-App-的影响"><a href="#方法调用对-App-的影响" class="headerlink" title="方法调用对 App 的影响"></a>方法调用对 App 的影响</h3><p>如果想要编写一个支持 64 位的 App，你的方法调用必须是严格定义的，因此：</p>
+<ul>
+<li>所有的方法只能有一个原型</li>
+<li>在你转换一个方法之前，确保转换前后具有相同的结构。尤其避免参数不同的方法进行转换，如果使用消息传递调用方法时需要注意其他的问题。</li>
+</ul>
+<h2 id="Objective-C-的改变"><a href="#Objective-C-的改变" class="headerlink" title="Objective-C 的改变"></a>Objective-C 的改变</h2><p>如果你在 Objective-C 环境下直接编码，你不需要直接访问对象指针，而是用一些运行时的方法来获取信息。</p>
+<h2 id="64位运行环境下其他的改变"><a href="#64位运行环境下其他的改变" class="headerlink" title="64位运行环境下其他的改变"></a>64位运行环境下其他的改变</h2><p>如果你的代码中涉及到了汇编语言，请一定要重写，具体参照 <code>iOS ABI Function Call Guide</code></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>避免将64位的 <code>long integer</code> 赋值给32位的 integer</li>
+<li>避免将64位的 <code>指针</code> 赋值给32位的 <code>integer</code></li>
+<li>避免因数学运算或其他操作造成 <code>指针</code> 和 <code>long integer</code> 的截断</li>
+<li>修复因数据大小造成的字节对齐问题</li>
+<li>确保数据在32位和64位下具有相同的内存结构</li>
+<li>重写所有汇编代码使用64位的指令集</li>
+<li>避免可变参数方法和不可变参数方法之间转换</li>
+</ul>
+
+  </section>
+
+</article>
+
+<section class="read-more">
+           
+    
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">Newer Post</span>
+                <h2 class="post-list__post-title post-title"><a href="/2015/03/05/2015-03-05-jiang-ni-de-ios-gong-cheng-zhuan-huan-wei-zhi-chi-64wei-de-ban-ben/" title="将你的iOS 工程转换为支持64位的版本">将你的iOS 工程转换为支持64位的版本</a></h2>
+                <p class="excerpt">
+                
+                总的来说，可以根据以下步骤创建一个同时支持32位和64位运行环境的 App:
+
+确保 Xcode 版本至少为 5.0.1
+打开你的项目，Xcode 提示适配你的工程，编译64位版本的时候可能会给你提出一些重要的警告或者错误。
+设置你的项目最低为 iOS 5.1.1, iOS 5.1 之前的系统不支持64位
+修改工程的编译指令集为 “Standard Architectures”，即 Xcode 默认版本，其中包括 ARMv7 和 ARM64
+更新你的 App 以支持64位运行环境，编译器发出的警告和错误能够引导你处理整个过程，但是 Xcode 不是万能的，你还需要根据本文档来做一些事情。
+在 64 位的真机上测试你的 App，模拟器也可以帮助你测试，但是可能有一部分问题只有在真机上才会出现。
+使用 Instruments 来分析内存消耗以及性能。
+提交支持32位和64位的 App
+
+接下来的内容会陈列一些在转换过程中经常出现的问题，根据引导仔细检查你的代码。
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2015-03-05T07:21:41.000Z" class="post-list__meta--date date">2015-03-05</time> &#8226; <span class="post-list__meta--tags tags">于 
+  <a class="tag-link" href="/tags/编译/">编译</a>, <a class="tag-link" href="/tags/翻译/">翻译</a>
+</span><a class="btn-border-small" href="/2015/03/05/2015-03-05-jiang-ni-de-ios-gong-cheng-zhuan-huan-wei-zhi-chi-64wei-de-ban-ben/">继续阅读</a></div>
+                           
+            </div>
+        
+        
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">Older Post</span>
+                <h2 class="post-list__post-title post-title"><a href="/2015/03/02/2015-03-02-ios-gong-cheng-zhong-de-architectures/" title="iOS 工程中的 Architectures">iOS 工程中的 Architectures</a></h2>
+                <p class="excerpt">
+                
+                Arm 是什么Arm 处理器是 Arm 公司面向市场推出的 RISC(精简指令集) 微处理器，目前手机上的 CPU 都是 RISC 类型，跟传统 PC 端的 CPU(CISC) 相比，具有体积小、低功耗、低成本、高性能的特点，很适合于移动终端。一般电脑上的 CPU 都是 CISC 类型的，iOS 模拟器是将 Arm 指令转换后在 X86 上运行。另外，Apple 本身就是 ARM 最大的股东之一。
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2015-03-02T03:05:58.000Z" class="post-list__meta--date date">2015-03-02</time> &#8226; <span class="post-list__meta--tags tags">于 </span><a class="btn-border-small" href="/2015/03/02/2015-03-02-ios-gong-cheng-zhong-de-architectures/">继续阅读</a></div>
+                       
+            </div>
+        
+     
+   
+   
+  
+</section>
+
+  
+
+            <footer class="footer">
+    <span class="footer__copyright">
+        &copy; 2019 Well Cheng - 本站点采用 <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>
+       
+    </span>
+    <span class="footer__copyright">
+             - 基于 <a href="http://hexo.io">Hexo</a> 搭建，使用 <a href="https://github.com/monniya/hexo-theme-new-vno ">new-vno</a> 主题，由<a href="https://monniya.com ">@Monniya</a> 修改自 <a href="https://github.com/lenbo-ma/hexo-theme-vno" target="_blank">Vno</a>, 原创出自<a href="http://github.com/onevcat/vno" target="_blank">onevcat</a>
+         </span>
+       
+    
+    
+</footer>
+
+
+        </div>
+    </div>
+
+     
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-78918255-1', 'auto');
+	ga('send', 'pageview');
+</script>
+
+    
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?9cdad07c755fa23f6aced510c6760e87";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
+
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    
+</body>
+</html>

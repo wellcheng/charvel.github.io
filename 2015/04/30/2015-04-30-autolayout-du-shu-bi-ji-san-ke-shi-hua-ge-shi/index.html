@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="z">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    
+    <title>AutoLayout 读书笔记(三)-可视化格式 | Charvel 互联网自留地</title>
+    <meta name="renderer" content="webkit">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta name="description" content="AutoLayout 目前有三种创建约束的方式，第一种为 IB 中手动创建、第二种为代码中使用 NSLayoutConstraint 类，现在我们学习第三种，使用 格式化语言 创建约束。
+需要记住的是，不管何种方式创建的约束，都是 NSLayoutConstraint 类的实例，并且遵循 y = mx + b 关系
+可视化约束的格式介绍NSLayoutConstraint 类方法创建可视化的约束，">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="AutoLayout 读书笔记(三)-可视化格式 | Charvel 互联网自留地">
+    <meta name="twitter:description" content="AutoLayout 目前有三种创建约束的方式，第一种为 IB 中手动创建、第二种为代码中使用 NSLayoutConstraint 类，现在我们学习第三种，使用 格式化语言 创建约束。
+需要记住的是，不管何种方式创建的约束，都是 NSLayoutConstraint 类的实例，并且遵循 y = mx + b 关系
+可视化约束的格式介绍NSLayoutConstraint 类方法创建可视化的约束，">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="AutoLayout 读书笔记(三)-可视化格式 | Charvel 互联网自留地">
+    <meta property="og:description" content="AutoLayout 目前有三种创建约束的方式，第一种为 IB 中手动创建、第二种为代码中使用 NSLayoutConstraint 类，现在我们学习第三种，使用 格式化语言 创建约束。
+需要记住的是，不管何种方式创建的约束，都是 NSLayoutConstraint 类的实例，并且遵循 y = mx + b 关系
+可视化约束的格式介绍NSLayoutConstraint 类方法创建可视化的约束，">
+
+    
+    <meta name="author" content="Well Cheng">
+    
+    <link rel="stylesheet" href="/css/vno.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+
+    
+    <link rel="icon" href="/images/avatar-small.png">
+    
+
+    <meta name="generator" content="hexo"/>
+    
+    <link rel="alternate" type="application/rss+xml" title="Charvel 互联网自留地" href="/atom.xml">
+    
+
+    <link rel="canonical" href="http://blog.devcheng.com/2015/04/30/2015-04-30-autolayout-du-shu-bi-ji-san-ke-shi-hua-ge-shi/"/>
+
+                 
+</head>
+
+<body class="home-template no-js">
+    <script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <span class="mobile btn-mobile-menu">
+        <i class="fa fa-list btn-mobile-menu__icon"></i>
+        <i class="fa fa-angle-up btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+<header class="panel-cover panel-cover--collapsed" style="background-image: url(/images/background-cover.jpg)">
+  <div class="panel-main">
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        <a href="/" title="前往 Charvel 互联网自留地 的主页"><img src="/images/avatar.jpg" width="80" alt="Charvel 互联网自留地 logo" class="panel-cover__logo logo"></a>
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage for Charvel 互联网自留地">Charvel 互联网自留地</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">记录生活的点点滴滴，记录技术的淅淅沥沥</span>
+        
+        <hr class="panel-cover__divider">
+        <p class="panel-cover__description"></p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary">
+
+        <div class="navigation-wrapper">
+          <div>
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+              <li class="navigation__item"><a href="/#blog" title="Visit the blog" class="blog-button">Blog</a></li>
+            
+              <li class="navigation__item"><a href="/favourite">黄金屋</a></li>
+            
+              <li class="navigation__item"><a href="/favourite/time.html">时光机</a></li>
+            
+              <li class="navigation__item"><a href="/favourite/image.html">幻想间</a></li>
+            
+              <li class="navigation__item"><a href="/aboutme">关于我</a></li>
+            
+            </ul>
+          </nav>
+          </div>
+          <div>
+          <nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+  <!-- Weibo-->
+  
+
+  <!-- Github -->
+  
+  <li class="navigation__item">
+    <a href="https://github.com/monniya" title="GitHub" target="_blank">
+      <i class="social fa fa-github"></i>
+      <span class="label">Github</span>
+    </a>
+  </li>
+
+
+<!-- Stack Overflow -->
+        
+
+  <!-- Google Plus -->
+  
+
+<!-- Facebook -->
+
+  
+<!-- Twitter -->
+
+  <li class="navigation__item">
+    <a href="https://twitter.com/onlymonniya" title="Twitter" target="_blank">
+      <i class="social fa fa-twitter"></i>
+      <span class="label">Twitter</span>
+    </a>
+  </li>
+
+  
+
+  <li class="navigation__item">
+    <a href="/atom.xml" title="RSS" target="_blank">
+      <i class="social fa fa-rss"></i>
+      <span class="label">RSS</span>
+    </a>
+  </li>
+
+
+  <li class="navigation__item">
+    <a href="mailto:chengwei3269@hotmail.com" title="Mail" target="_blank">
+      <i class="social fa fa-envelope"></i>
+      <span class="label">Email</span>
+    </a>
+  </li>
+
+
+  </ul>
+</nav>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay cover-purple"></div>
+  </div> 
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single">
+
+  <header class="post-header">
+    <div class="post-meta">
+      <time datetime="2015-04-30T06:22:42.000Z" class="post-list__meta--date date">2015-04-30</time> &#8226; <span class="post-meta__tags tags">于 
+  <a class="tag-link" href="/tags/AutoLayout/">AutoLayout</a>
+ </span>
+      <span class="page-pv">
+       Read <span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>
+      </span> 
+   
+    </div>
+    <h1 class="post-title">AutoLayout 读书笔记(三)-可视化格式</h1>
+  </header>
+
+  <section class="post">
+    <p>AutoLayout 目前有三种创建约束的方式，第一种为 IB 中手动创建、第二种为代码中使用 NSLayoutConstraint 类，现在我们学习第三种，使用 <code>格式化语言</code> 创建约束。</p>
+<p>需要记住的是，不管何种方式创建的约束，都是 NSLayoutConstraint 类的实例，并且遵循 <code>y = mx + b</code> 关系</p>
+<h2 id="可视化约束的格式介绍"><a href="#可视化约束的格式介绍" class="headerlink" title="可视化约束的格式介绍"></a>可视化约束的格式介绍</h2><p>NSLayoutConstraint 类方法创建可视化的约束，尽管可视化约束的内容能够关联多个视图，但是它们会被 NSLayoutConstraint 翻译为每次只关联一个或多个视图。这种方式创建的约束为数组的形式。</p>
+<a id="more"></a>
+<p>可视化格式，由一个描述布局方式的文本字符串组成。根据约束关联项在视图中出现的顺序一次列出它们。文本序列指定间隔、不等量和优先级。看代码比较直接：</p>
+<pre><code>[self.view addConstraints:[NSLayoutConstraint constraintWithVisualFormat:@&quot;V:[view1]-8-[view2]&quot;]]
+    options:NSLayoutFormatAlignAllLeading
+    metrics:nil
+    views:[NSDictionaryOfVariableBings(view1,view2)]
+];
+</code></pre><p>上面代码创建的约束为：在 View1 和 View2组成的左对齐一列，间距为 8 ，下面是几点说明：</p>
+<ul>
+<li>坐标轴：作为前缀指定，H-水平，V-垂直，如果不指定，默认为 H，但是强烈建议显示指定</li>
+<li>每个视图的变量名出现在方括号中，包起来</li>
+<li>视图出现的顺序，与布局系统中请求的顺序匹配，一般为从左到右</li>
+<li>两个视图的间隔以固定数字出现</li>
+<li>选型参数指定对齐方式</li>
+<li>metrics 没用到</li>
+<li>views 表示真实对象与布局格式中 View 的绑定关系，一般使用语义化的词语来绑定真实的对象</li>
+</ul>
+<p>为什么要使用这种方式呢，首先，简洁，使用这种方式创建的约束可能需要之前实例化 NSLayoutConstraint 方式好几个才行。第二是高度抽象，即当前表示的布局方式是基于一个比较高的角度去考虑。第三，很容易调整。</p>
+<h2 id="选项"><a href="#选项" class="headerlink" title="选项"></a>选项</h2><p>可视化格式方法的选项，包括 对齐掩码、格式方向掩码</p>
+<h3 id="对齐"><a href="#对齐" class="headerlink" title="对齐"></a>对齐</h3><p>应当总是正交地使用掩码，比如在水平方向上创建了一行 view ，那么需要顶部对齐，基准线对齐，或者中心对齐</p>
+<p>有些地方可以省略，例如给 options 传入 0，这个时候，只会创建可视化的约束，不建立对齐约束</p>
+<h3 id="变量绑定"><a href="#变量绑定" class="headerlink" title="变量绑定"></a>变量绑定</h3><p>将布局系统中表示视图的字符串与实际的对象绑定起来，使用 NSDictionaryOfVariableBindings（）宏来创建绑定。</p>
+<p>你也可以自己来创建字典。但是字典对于视图数组很不友好，会在解析时出现问题。因为可视化格式对于一些步骤比较长的视图解析起来有些力不从心，例如 [self.view viewWithTag:100] 等。</p>
+<p>为了解决上面的问题，可以使用代码创建字典和格式字符串，上代码：</p>
+<pre><code>// 初始化格式字符串和绑定字典  
+NSMutableString *formatString = [NSMutableString string];  
+NSMutableDictionary *bindings = [NSMutableDictionary dictionary]; 
+
+// 视图数量 int i = 1; 
+// 创建一行视图，Build a format string that lays out the views in a row 
+// e.g. @&quot;H:|-[view1] [view2]-[view3]...&quot; 
+[formatString appendString:@&quot;H:|-&quot;]; 
+for (UIView *view in views) { 
+    // 创建一个视图的名字 
+    NSString *viewName = [NSString stringWithFormat:@&quot;view%0d&quot;, i++]; 
+
+    // 将这个视图添加到格式化字符串中 
+    [formatString appendFormat:@&quot;[%@]%@&quot;,viewName, (i &lt;= views.count) ? @&quot;-&quot; : @&quot;&quot;]; 
+
+    // 将视图的名称与对象做绑定 
+    bindings[viewName] = view; 
+}
+</code></pre><h3 id="度量"><a href="#度量" class="headerlink" title="度量"></a>度量</h3><p>如果一开始不知道某个常量的值，可以使用度量字典提供的值。例如</p>
+<pre><code>@&quot;V:[view1]-spacing-[view2]&quot;
+</code></pre><p>以后知道了值时，创建一个字典对象将其关联起来，传递给 metrics：</p>
+<pre><code>NSDictionary *metrics = @{@&quot;spacing&quot;:@10};
+[NSLayoutConstraint constraintsWithVisualFormat:@&quot;V:[view1]-spacing-[view2]&quot;
+    options: ...
+    metrics:metrics
+    views:bindings
+]
+</code></pre><p>在实际开发中，这个很有用，可以写一些可以复用的代码：</p>
+<pre><code>- (void)constrainView:(UIView *)view toWidth:(CGFloat) width {
+    NSString *formatString = @&quot;H:[view(==width)]&quot;;    // 创建约束字符串
+    NSDictionary *bindings = NSDictionaryOfVariableBindings(view);
+    NSDictionary *metrics = @{@&quot;width&quot;:@(width)};
+
+    NSArray *constraints = [NSLayoutConstraint constraintsWithVisualFormat ...
+
+    [view addConstraints:constraints];
+}
+</code></pre><h3 id="格式字符串结构"><a href="#格式字符串结构" class="headerlink" title="格式字符串结构"></a>格式字符串结构</h3><p>前面我们已经接触了很多次格式化字符串的结构，大概也能猜到一些，具体的语法为：</p>
+<pre><code>(&lt;orientation&gt;:)? 
+(&lt;superView&gt;&lt;connection&gt;)? 
+&lt;view&gt;(&lt;conection&gt;&lt;view&gt;)* 
+(&lt;connection&gt;&lt;superview&gt;)?
+</code></pre><p>看起来很复杂，其实用到后面就会觉得简单了，<code>？</code>表示可选，<code>*</code> 表示0个或多个</p>
+<h3 id="方向"><a href="#方向" class="headerlink" title="方向"></a>方向</h3><p>可视化格式，以一个方向开始，可以是 H：水平方向，V：垂直方向</p>
+<h3 id="视图名称"><a href="#视图名称" class="headerlink" title="视图名称"></a>视图名称</h3><p>视图名称被方括号包围，使用变量绑定视图名时，视图名称指的是视图本身的变量名</p>
+<p>使用竖线 <code>|</code> 来表示父视图，一般出现在格式字符串的开头或者结尾，开头时，一般出现在 <code>H:| ...</code>，结尾时，一般为最后一个引号之前</p>
+<p>下面是几个典型的例子：</p>
+<ul>
+<li>使当前视图按照父视图延伸（水平或者垂直）：<code>&quot;H:|[view]|&quot;</code></li>
+<li>某个视图偏移父视图的某条边：<code>&quot;V:[view]-10-|&quot;</code>,表示距离父视图底部 10 间隔</li>
+<li>创建一行或者一列与父视图对齐的视图：<code>&quot;V:|-[view1]-[view2]-[view3]-|&quot;</code> </li>
+</ul>
+<h3 id="连接"><a href="#连接" class="headerlink" title="连接"></a>连接</h3><p>连接表示了视图之间的间隔</p>
+<h4 id="空连接"><a href="#空连接" class="headerlink" title="空连接"></a>空连接</h4><p>一般是 <code>[view1][view2]</code> 这种形式，表示紧挨着</p>
+<h4 id="标准间隔"><a href="#标准间隔" class="headerlink" title="标准间隔"></a>标准间隔</h4><p>这个时候使用连字符 <code>-</code> 代表固定的间隔，例如：</p>
+<pre><code>&quot;H:|-[view1]-[view2]&quot;
+</code></pre><p>表示 view1 和 view2 水平方向上标准的间隔，视图与视图之间为 8 ，子视图与父视图之间为 20</p>
+<h4 id="数字间隔"><a href="#数字间隔" class="headerlink" title="数字间隔"></a>数字间隔</h4><p>可以在两个连字符中间插入数字表示准确的间隔值，如 <code>[view1]-30-[view2]</code> 。</p>
+<h4 id="引用父视图"><a href="#引用父视图" class="headerlink" title="引用父视图"></a>引用父视图</h4><p>使用 <code>|</code> 表示父视图，例如 <code>&quot;H:|[view1]-[view2]|&quot;</code> 表示 view1 和 view2 之间有标准间隙，并且view1 的左边与父视图左边界相邻，view2 右边与父视图右边相邻，必须要制定 view1 或 view2 其中一个的宽度，不要会发生歧义。</p>
+<h4 id="与父视图的间隔"><a href="#与父视图的间隔" class="headerlink" title="与父视图的间隔"></a>与父视图的间隔</h4><p>加入连字符或者带数字的连字符即可，例如 <code>&quot;H:|-[view1]-[view2]-30-|&quot;</code></p>
+<h4 id="可变的间隔"><a href="#可变的间隔" class="headerlink" title="可变的间隔"></a>可变的间隔</h4><p>有的时候，我们需要在两个视图之间加入一个可变的间隔。例如 <code>&quot;H:|-[view1]-(&gt;=0)-[view2]-|&quot;</code> 表示，view1 和 view2 保持自己的尺寸，这个间隔最少为0 ，可以拉伸。</p>
+<h4 id="圆括号"><a href="#圆括号" class="headerlink" title="圆括号"></a>圆括号</h4><p>上面的例子中，大于等于关系包含在圆括号中，主要是有些数值可能带有负号，防止与连线符混淆。</p>
+<p>对于同一种布局方式，有很多表示。例如表示两个视图相邻：</p>
+<ul>
+<li>[view1][view2]</li>
+<li>[view1]-0-[view2]</li>
+<li>[view1]-(0)-[view2]</li>
+<li>[view1]-(==0)-[view2]</li>
+<li>[view1]-(&gt;=0,&lt;=0)-[view2]</li>
+<li>[view1]-(==0@1000)-[view2]</li>
+<li>[view1]-(&gt;=0,&lt;=0,==0,&lt;=30)-[view2]</li>
+</ul>
+<p>关系后跟 <code>@</code> 表示优先级，多个关系可以用逗号隔开</p>
+<h4 id="负数"><a href="#负数" class="headerlink" title="负数"></a>负数</h4><p>为任何使用负数值的间隔加上括号，负数还有其他用途：<code>V:[view1]-(-10)-[view2]</code> 表示view1 下边缘往上10点为 view2 上边缘，这样子 view1 view2 垂直方向上有 10 点的重合。</p>
+<h4 id="优先级"><a href="#优先级" class="headerlink" title="优先级"></a>优先级</h4><p>在数值或者关系上使用@添加优先级，一般为清晰起见，加上括号比较好。</p>
+<h4 id="多视图"><a href="#多视图" class="headerlink" title="多视图"></a>多视图</h4><p>可以在格式字符串中插入多个视图</p>
+<h3 id="视图尺寸"><a href="#视图尺寸" class="headerlink" title="视图尺寸"></a>视图尺寸</h3><p>方括号中除了表示视图名称，还可以指定尺寸，例如 <code>H:[view(100)]</code> 表示宽度 100，同样，也可以使用关系。</p>
+<p>视图尺寸也可以加优先级，或者是某个视图的倍数</p>
+<h3 id="格式字符串部件"><a href="#格式字符串部件" class="headerlink" title="格式字符串部件"></a>格式字符串部件</h3><p>如下表总结，可以使用逗号将其组合起来：</p>
+<p><img src="http://7vzucb.com1.z0.glb.clouddn.com/blog.VisualFormatStrings-1.png" alt="Visual Format Strings-1"><br><img src="http://7vzucb.com1.z0.glb.clouddn.com/blog.VisualFormatStrings-2.png" alt="Visual Format Strings-2"></p>
+<blockquote>
+<p>ios7 和 Xcode5 引入的 TopLayoutGuide 和 bottomLayoutGuide 需要先设置为本地变量然后再引用</p>
+</blockquote>
+<h3 id="错误"><a href="#错误" class="headerlink" title="错误"></a>错误</h3><p>Xcode 无法提供编译器的检查，所以需要你注意控制台中的错误提示。</p>
+<h3 id="NSLog-和可视化格式"><a href="#NSLog-和可视化格式" class="headerlink" title="NSLog 和可视化格式"></a>NSLog 和可视化格式</h3><p>有时候 Xcode 能够输出约束的可视化格式，有时候不行</p>
+<h2 id="约束到父视图"><a href="#约束到父视图" class="headerlink" title="约束到父视图"></a>约束到父视图</h2><p>可以使用代码方便的为父视图添加可视化字符串式的约束。<br>可以在 ViewWillDidAppear 中打印出所有 view 的 frame</p>
+<pre><code>void constrainToSuperview(UIView *view, float minimumSize, NSUInteger priority) {
+    if (!view || !view.superview) { 
+        return; 
+    } 
+
+    for (NSString *format in @[  
+        @&quot;H:|-&gt;=0@priority-[view(==minimumSize@priority)]&quot;,  
+        @&quot;H:[view]-&gt;=0@priority-|&quot;, 
+        @&quot;V:|-&gt;=0@priority-[view(==minimumSize@priority)]&quot;, 
+        @&quot;V:[view]-&gt;=0@priority-|&quot;])  
+    { 
+        NSArray *constraints = [NSLayoutConstraint 
+            constraintsWithVisualFormat:format options:0 
+            metrics: @{@&quot;priority&quot;:@(priority), 
+            @&quot;minimumSize&quot;:@(minimumSize)} 
+            views:@{@&quot;view&quot;: view}]; 
+            [view.superview addConstraints:constraints];  
+        } 
+    }
+</code></pre><h2 id="视图拉伸"><a href="#视图拉伸" class="headerlink" title="视图拉伸"></a>视图拉伸</h2><p>将视图向它们的父视图拉伸</p>
+<pre><code>void stretchToSuperview(VIEW_CLASS *view, CGFloat indent, NSUInteger priority) {        
+    for (NSString *format in @[
+            @&quot;H:|-indent-[view]-indent-|&quot;,
+            @&quot;V:|-indent-[view]-indent-|&quot; ]) {
+        NSArray *constraints = [NSLayoutConstraint
+                constraintsWithVisualFormat:format 
+                options:0 metrics:@{@&quot;indent&quot;:@(indent)}
+                views:@{@&quot;view&quot;: view}];
+        for (NSLayoutConstraint *constraint in constraints) {
+            constraint.priority = priority;
+            [view.superview addConstraint:constraint];
+        }
+    }
+}
+</code></pre><h2 id="约束尺寸"><a href="#约束尺寸" class="headerlink" title="约束尺寸"></a>约束尺寸</h2><p>将视图固定为制定的尺寸值</p>
+<pre><code>void constrainViewSize(VIEW_CLASS *view, CGSize size, NSUInteger priority) {
+    NSDictionary *bindings = NSDictionaryOfVariableBindings(view); 
+    NSDictionary *metrics = @{
+        @&quot;width&quot;:@(size.width),
+        @&quot;height&quot;:@(size.height),
+        @&quot;priority&quot;:@(priority)
+    };
+    for (NSString *formatString in @[ 
+        @&quot;H:[view(==width@priority)]&quot;, 
+        @&quot;V:[view(==height@priority)]&quot;, ]) {
+        NSArray *constraints = [NSLayoutConstraint
+            constraintsWithVisualFormat:formatString
+            options:0 metrics:metrics views:bindings];
+        [view addConstraints:constraints];
+    }
+}
+</code></pre><h2 id="创建一行或者一列"><a href="#创建一行或者一列" class="headerlink" title="创建一行或者一列"></a>创建一行或者一列</h2><p>创建视图，排成一行或者一列：</p>
+<pre><code>#define IS_HORIZONTAL_ALIGNMENT(ALIGNMENT) 
+\[@[@(NSLayoutFormatAlignAllLeft), @(NSLayoutFormatAlignAllRight),
+\@(NSLayoutFormatAlignAllLeading), @(NSLayoutFormatAlignAllTrailing),
+\@(NSLayoutFormatAlignAllCenterX)] containsObject:@(ALIGNMENT)]    
+
+void buildLineWithSpacing(NSArray *views, NSLayoutFormatOptions alignment, NSString *spacing, NSUInteger priority)
+{
+    if (views.count == 0)
+        return;
+
+    VIEW_CLASS *view1, *view2;
+    // Calculate the axis and its string representation. 
+    // The axis is orthogonal to the requested alignment 
+    // eg, centerX alignment creates a column, and
+    // trailing builds a row.
+    BOOL axisIsH = IS_HORIZONTAL_ALIGNMENT(alignment);
+    NSString *axisString = (axisIsH) ? @&quot;H:&quot; : @&quot;V:&quot;;
+    // Build the format
+    NSString *format = [NSString
+        stringWithFormat:@&quot;%@[view1]%@[view2]&quot;, axisString, spacing];
+    // Apply the format to view pairs
+    for (int i = 1; i &lt; views.count; i++) {
+        view1 = views[i-1];
+        view2 = views[i];
+        NSDictionary *bindings = NSDictionaryOfVariableBindings(view1, view2);
+        NSArray *constraints = [NSLayoutConstraint 
+        constraintsWithVisualFormat:format options:alignment
+            metrics:nil views:bindings];
+        for (NSLayoutConstraint *constraint in constraints)
+            [constraint install:priority];
+    }
+}
+</code></pre><h2 id="匹配尺寸"><a href="#匹配尺寸" class="headerlink" title="匹配尺寸"></a>匹配尺寸</h2><p>传入一个视图，然后将其他所有视图与第一个匹配</p>
+<h2 id="为什么不能够分布视图"><a href="#为什么不能够分布视图" class="headerlink" title="为什么不能够分布视图"></a>为什么不能够分布视图</h2><p>可能很多时候，你希望沿着某个方向等间隔的分布视图，这个无法做到的原因就是，约束同时最多引用两个视图。<br>这个时候，有两种 hack 的方式，一种是先将总宽度分为 N 个区域，然后每个区域中心点放置一个视图。但是如果视图之间的尺寸不一致时，效果会大打折扣。还有一种方法就是用透明的 View 来充当间隔。</p>
+
+  </section>
+
+</article>
+
+<section class="read-more">
+           
+    
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">Newer Post</span>
+                <h2 class="post-list__post-title post-title"><a href="/2015/04/30/2015-04-30-ios-bing-fa-bian-cheng-zhi-nan-san-dispatch-queues/" title="iOS 并发编程指南(三)-Dispatch Queues">iOS 并发编程指南(三)-Dispatch Queues</a></h2>
+                <p class="excerpt">
+                
+                GCD 调度队列是执行任务的强大工具，可以使用同步或异步方式执行任意的代码块。调度队列可以执行几乎所有的单线程代码。相比于线程代码，其更易于使用，且效率要高。
+本章将介绍调度队列，以及如何使用它执行大多数任务。
+Dispatch Queue 介绍调度队列是在程序中执行同步或异步代码的比较简单的一种方式，任务就是程序中需要执行的一些简单的工作。举个🌰，比如执行一些计算，创建或者修改一个数据结构，从文件中读取数据进行处理，等等这样的一些工作。你通过在函数或 block 中写入相应的代码来定义任务，然后将其添加至调度队列。
+调度队列是一种类似对象的结构，管理你提交给它的任务。所有的调度队列都是先进先出（FIFO）的，因此任务开始执行的顺序与添加顺序一致。GCD 已经提供了一些常用的调度队列，你也可以根据需求创建新的调度队列。下面的表列出了几种调度队列，并做了简要的说明
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2015-04-30T12:48:38.000Z" class="post-list__meta--date date">2015-04-30</time> &#8226; <span class="post-list__meta--tags tags">于 
+  <a class="tag-link" href="/tags/GCD/">GCD</a>, <a class="tag-link" href="/tags/并发编程/">并发编程</a>, <a class="tag-link" href="/tags/翻译/">翻译</a>
+</span><a class="btn-border-small" href="/2015/04/30/2015-04-30-ios-bing-fa-bian-cheng-zhi-nan-san-dispatch-queues/">继续阅读</a></div>
+                           
+            </div>
+        
+        
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">Older Post</span>
+                <h2 class="post-list__post-title post-title"><a href="/2015/04/29/2015-04-29-swift-xue-xi-bi-ji-1/" title="Swift 学习笔记(一)">Swift 学习笔记(一)</a></h2>
+                <p class="excerpt">
+                
+                
+swift 这门语言一直想取深入了解下，苦于时间少，现在快毕业了，呆在学校时间还算比较充足，所以开始学习一哈。
+
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2015-04-29T11:22:58.000Z" class="post-list__meta--date date">2015-04-29</time> &#8226; <span class="post-list__meta--tags tags">于 
+  <a class="tag-link" href="/tags/Swift/">Swift</a>, <a class="tag-link" href="/tags/学习笔记/">学习笔记</a>
+</span><a class="btn-border-small" href="/2015/04/29/2015-04-29-swift-xue-xi-bi-ji-1/">继续阅读</a></div>
+                       
+            </div>
+        
+     
+   
+   
+  
+</section>
+
+  
+
+            <footer class="footer">
+    <span class="footer__copyright">
+        &copy; 2019 Well Cheng - 本站点采用 <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>
+       
+    </span>
+    <span class="footer__copyright">
+             - 基于 <a href="http://hexo.io">Hexo</a> 搭建，使用 <a href="https://github.com/monniya/hexo-theme-new-vno ">new-vno</a> 主题，由<a href="https://monniya.com ">@Monniya</a> 修改自 <a href="https://github.com/lenbo-ma/hexo-theme-vno" target="_blank">Vno</a>, 原创出自<a href="http://github.com/onevcat/vno" target="_blank">onevcat</a>
+         </span>
+       
+    
+    
+</footer>
+
+
+        </div>
+    </div>
+
+     
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-78918255-1', 'auto');
+	ga('send', 'pageview');
+</script>
+
+    
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?9cdad07c755fa23f6aced510c6760e87";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
+
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    
+</body>
+</html>

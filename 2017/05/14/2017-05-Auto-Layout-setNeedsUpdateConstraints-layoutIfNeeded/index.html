@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="z">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    
+    <title>Auto Layout 中的 setNeedsUpdateConstraints 和 layoutIfNeeded | Charvel 互联网自留地</title>
+    <meta name="renderer" content="webkit">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta name="description" content="先抛出结论：
+setNeedsUpdateConstraints 保证之后肯定会调用 updateConstraintsIfNeeded .
+SetNeedsLayout 保证之后肯定会调用 layoutIfNeeded .
+AutoLayout 的本质
+  AutoLayout 是指，用一套规则（约束）来定义视图之间的位置。
+  AutoLayout 能够让每个 view 有唯一的 frame。">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Auto Layout 中的 setNeedsUpdateConstraints 和 layoutIfNeeded | Charvel 互联网自留地">
+    <meta name="twitter:description" content="先抛出结论：
+setNeedsUpdateConstraints 保证之后肯定会调用 updateConstraintsIfNeeded .
+SetNeedsLayout 保证之后肯定会调用 layoutIfNeeded .
+AutoLayout 的本质
+  AutoLayout 是指，用一套规则（约束）来定义视图之间的位置。
+  AutoLayout 能够让每个 view 有唯一的 frame。">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Auto Layout 中的 setNeedsUpdateConstraints 和 layoutIfNeeded | Charvel 互联网自留地">
+    <meta property="og:description" content="先抛出结论：
+setNeedsUpdateConstraints 保证之后肯定会调用 updateConstraintsIfNeeded .
+SetNeedsLayout 保证之后肯定会调用 layoutIfNeeded .
+AutoLayout 的本质
+  AutoLayout 是指，用一套规则（约束）来定义视图之间的位置。
+  AutoLayout 能够让每个 view 有唯一的 frame。">
+
+    
+    <meta name="author" content="Well Cheng">
+    
+    <link rel="stylesheet" href="/css/vno.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+
+    
+    <link rel="icon" href="/images/avatar-small.png">
+    
+
+    <meta name="generator" content="hexo"/>
+    
+    <link rel="alternate" type="application/rss+xml" title="Charvel 互联网自留地" href="/atom.xml">
+    
+
+    <link rel="canonical" href="http://blog.devcheng.com/2017/05/14/2017-05-Auto-Layout-setNeedsUpdateConstraints-layoutIfNeeded/"/>
+
+                 
+</head>
+
+<body class="home-template no-js">
+    <script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <span class="mobile btn-mobile-menu">
+        <i class="fa fa-list btn-mobile-menu__icon"></i>
+        <i class="fa fa-angle-up btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+<header class="panel-cover panel-cover--collapsed" style="background-image: url(/images/background-cover.jpg)">
+  <div class="panel-main">
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        <a href="/" title="前往 Charvel 互联网自留地 的主页"><img src="/images/avatar.jpg" width="80" alt="Charvel 互联网自留地 logo" class="panel-cover__logo logo"></a>
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage for Charvel 互联网自留地">Charvel 互联网自留地</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">记录生活的点点滴滴，记录技术的淅淅沥沥</span>
+        
+        <hr class="panel-cover__divider">
+        <p class="panel-cover__description"></p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary">
+
+        <div class="navigation-wrapper">
+          <div>
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+              <li class="navigation__item"><a href="/#blog" title="Visit the blog" class="blog-button">Blog</a></li>
+            
+              <li class="navigation__item"><a href="/favourite">黄金屋</a></li>
+            
+              <li class="navigation__item"><a href="/favourite/time.html">时光机</a></li>
+            
+              <li class="navigation__item"><a href="/favourite/image.html">幻想间</a></li>
+            
+              <li class="navigation__item"><a href="/aboutme">关于我</a></li>
+            
+            </ul>
+          </nav>
+          </div>
+          <div>
+          <nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+  <!-- Weibo-->
+  
+
+  <!-- Github -->
+  
+  <li class="navigation__item">
+    <a href="https://github.com/monniya" title="GitHub" target="_blank">
+      <i class="social fa fa-github"></i>
+      <span class="label">Github</span>
+    </a>
+  </li>
+
+
+<!-- Stack Overflow -->
+        
+
+  <!-- Google Plus -->
+  
+
+<!-- Facebook -->
+
+  
+<!-- Twitter -->
+
+  <li class="navigation__item">
+    <a href="https://twitter.com/onlymonniya" title="Twitter" target="_blank">
+      <i class="social fa fa-twitter"></i>
+      <span class="label">Twitter</span>
+    </a>
+  </li>
+
+  
+
+  <li class="navigation__item">
+    <a href="/atom.xml" title="RSS" target="_blank">
+      <i class="social fa fa-rss"></i>
+      <span class="label">RSS</span>
+    </a>
+  </li>
+
+
+  <li class="navigation__item">
+    <a href="mailto:chengwei3269@hotmail.com" title="Mail" target="_blank">
+      <i class="social fa fa-envelope"></i>
+      <span class="label">Email</span>
+    </a>
+  </li>
+
+
+  </ul>
+</nav>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay cover-purple"></div>
+  </div> 
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single">
+
+  <header class="post-header">
+    <div class="post-meta">
+      <time datetime="2017-05-14T15:03:01.000Z" class="post-list__meta--date date">2017-05-14</time> &#8226; <span class="post-meta__tags tags">于  </span>
+      <span class="page-pv">
+       Read <span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>
+      </span> 
+   
+    </div>
+    <h1 class="post-title">Auto Layout 中的 setNeedsUpdateConstraints 和 layoutIfNeeded</h1>
+  </header>
+
+  <section class="post">
+    <p>先抛出结论：</p>
+<p><code>setNeedsUpdateConstraints</code> 保证之后肯定会调用 <code>updateConstraintsIfNeeded</code> .</p>
+<p><code>SetNeedsLayout</code> 保证之后肯定会调用 <code>layoutIfNeeded</code> .</p>
+<h2 id="AutoLayout-的本质"><a href="#AutoLayout-的本质" class="headerlink" title="AutoLayout 的本质"></a>AutoLayout 的本质</h2><blockquote>
+<p>  AutoLayout 是指，用一套规则（约束）来定义视图之间的位置。</p>
+<p>  AutoLayout 能够让每个 view 有唯一的 frame。</p>
+</blockquote>
+<p>其实，这样子解释，还是让人很难理解，所以接下来会简单介绍下 AutoLayout ，在对其有所了解和深入后，再解释下面这几个问题：</p>
+<ul>
+<li><code>保证之后调用</code> 的之后是在什么时候？</li>
+<li>这些方法的调用时序大概是怎么样的？</li>
+<li>为什么要先 set 一下，而不是直接 updateConstraint 和 layout<a id="more"></a>
+</li>
+</ul>
+<h2 id="UIView-生命周期"><a href="#UIView-生命周期" class="headerlink" title="UIView 生命周期"></a>UIView 生命周期</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">init=&gt;start: InitWithFrame</span><br><span class="line"></span><br><span class="line">layout=&gt;operation: setNeedsDisplay: </span><br><span class="line">setNeedsUpdateConstraint:  </span><br><span class="line">setNeedsDisplay:</span><br><span class="line"></span><br><span class="line">ifUpdateCons=&gt;condition: update constraints ?</span><br><span class="line">updateCons=&gt;operation: updateConstraints</span><br><span class="line">ifLayout=&gt;condition: update layout ?</span><br><span class="line">layoutSubview=&gt;operation: layoutSubviews</span><br><span class="line">ifDisplay=&gt;condition: needs display ?</span><br><span class="line">draw=&gt;operation: Draw in Rect</span><br><span class="line">e=&gt;end: Event Loop</span><br><span class="line"></span><br><span class="line">init-&gt;layout-&gt;ifUpdateCons</span><br><span class="line">ifUpdateCons(yes)-&gt;updateCons-&gt;ifLayout</span><br><span class="line">ifUpdateCons(no)-&gt;ifLayout</span><br><span class="line">ifLayout(yes)-&gt;layoutSubview-&gt;ifDisplay</span><br><span class="line">ifLayout(no)-&gt;ifDisplay</span><br><span class="line">ifDisplay(yes)-&gt;draw(right)-&gt;e(right)</span><br><span class="line">ifDisplay(no)-&gt;e(right)</span><br><span class="line">e-&gt;ifUpdateCons</span><br></pre></td></tr></table></figure>
+<p>在 iOS 中，AutoLayout Engine 是一个迭代机。</p>
+<p>为什么这样说呢？先回到手写布局时代，我们通过计算 view 与屏幕之间的相对距离，得出 view 实际的 frame，然后赋值给 view，这样子每个 view 都会按照我们设置的位置正确地显示。</p>
+<p>接着我们来到当下的 iOS 开发，先列出几个问题：</p>
+<ul>
+<li>需要适配多种屏幕</li>
+<li>既可以在 iPhone 上使用，又可以在 iPad 上使用</li>
+<li>可以在横屏下使用</li>
+<li>在不同的屏幕尺寸下，有不同的布局方式（比如屏幕小，就一行放一个，屏幕大一行放两个）</li>
+</ul>
+<p>如果仍然在原始的手写布局下去完成上述工作，势必累死，也不一定能够很好的完成。</p>
+<h3 id="搞个机器人"><a href="#搞个机器人" class="headerlink" title="搞个机器人"></a>搞个机器人</h3><p>人类能够发展到现在的文明，就是因为 <code>善假于物也</code>。</p>
+<p>我希望现在有一套东西，我只需要告诉它，我希望视图表现成什么样子，然后它就会按照我的期望去计算出每个 view 的 frame，我只需要把 frame 拿来用就行了。</p>
+<p>AutoLayout 就是这样的一套东西，它接收视图与视图之间的规则，生成最终的 frame。</p>
+<blockquote>
+<p>  这里有个误区，AutoLayout 的确是最终生成了 frame，不过生成之后自动给 view 赋值上去了，所以我们没有看到 setFrame 这个过程。</p>
+</blockquote>
+<p>这个规则就是约束 constraint。</p>
+<h3 id="为什么需要-update-constraint"><a href="#为什么需要-update-constraint" class="headerlink" title="为什么需要 update constraint"></a>为什么需要 update constraint</h3><p>在 UIView 显示之前，先判断 view 是否能根据当前约束计算出唯一的 Frame。如果可以，那么就根据这个 Frame 去布局。同时，在这里我们认为 view 是满足约束的。</p>
+<p>严谨一些，是指在 AutoLayout Engine 中，该 view 的 constraint 是否为最新。</p>
+<p>AutoLayout Engine 是一个单独的约束处理系统，在绝大多数操作中，比如：</p>
+<ul>
+<li>Activating或Deactivating 启用和停用</li>
+<li>设置constant或priority</li>
+<li>添加和删除视图</li>
+</ul>
+<p>AutoLayout Engine 本身都会标记 view 的约束不是最新，即调用 <code>setNeedsUpdateConstraint</code> 。</p>
+<p>但是也有例外，AutoLayout Engine 并不知道你又修改了约束。因此在这种 case 下，需要手动调用  <code>setNeedsUpdateConstraint</code> 来标记约束需要更新。</p>
+<h4 id="setNeedsUpdateConstraint"><a href="#setNeedsUpdateConstraint" class="headerlink" title="setNeedsUpdateConstraint"></a>setNeedsUpdateConstraint</h4><p><code>setNeedsUpdateConstraint</code> 控制 view 的约束是否需要更新。当一个自定义view的某个属性发生改变，并且可能影响到constraint时，需要调用此方法去标记constraints需要在未来的某个点更新，系统然后会调用 updateConstraints，. 以解决这个由属性改变带来的影响。</p>
+<h4 id="updateConstraintsIfNeeded"><a href="#updateConstraintsIfNeeded" class="headerlink" title="updateConstraintsIfNeeded"></a>updateConstraintsIfNeeded</h4><p><code>updateConstraintsIfNeeded</code>立即触发约束更新，自动更新布局。</p>
+<h4 id="updateConstraints"><a href="#updateConstraints" class="headerlink" title="updateConstraints"></a>updateConstraints</h4><p>当 Custom View 发现属性或者其他的改变导致它的所有约束中有一个失效时，首先应该删除这个失效的约束，然后调用 setNeedsUpdateConstraints 表示当前的约束需要更新，然后在 updateConstraints 中恰当地地方检查当前 content 所需的必要约束。</p>
+<blockquote>
+<p>  注意：要在实现在最后调用[super updateConstraints]</p>
+</blockquote>
+<h4 id="layoutSubviews"><a href="#layoutSubviews" class="headerlink" title="layoutSubviews"></a>layoutSubviews</h4><p>在确定了 view 的约束后，AutoLayout 通过计算可以得出 view 的 frame，计算的过程就是 layout 的过程。</p>
+<p>Layout 的顺序，是由最外层向里递进，所以子视图只需要相对于父视图做好布局就可以。</p>
+<p>在调用 layoutSubviews 的同时，也会调用 setNeedsUpdateConstraint。</p>
+<h2 id="Auto-Layout-Process-自动布局过程（引用自Objccn-io）"><a href="#Auto-Layout-Process-自动布局过程（引用自Objccn-io）" class="headerlink" title="Auto Layout Process 自动布局过程（引用自Objccn.io）"></a>Auto Layout Process 自动布局过程（引用自Objccn.io）</h2><p>与使用springs and struts(autoresizingMask)比较，Auto layout在view显示之前，多引入了两个步骤：updating constraints 和laying out views。</p>
+<p>每一个步骤都依赖于上一个。display依赖layout，而layout依赖updating constraints。显示之前首先得知道布局，想要完整的布局就得更新约束（约束才能得出布局啊）。</p>
+<p>updating constraints-&gt;layout-&gt;display</p>
+<p>第一步：updating constraints，被称为测量阶段，其从下向上(from subview to super view),为下一步layout准备信息。</p>
+<p>可以通过调用方法setNeedUpdateConstraints去触发此步。constraints的改变也会自动的触发此步。但是，当你自定义view的时候，如果一些改变可能会影响到布局的时候，通常需要自己去通知Auto layout，updateConstraintsIfNeeded。</p>
+<p>自定义view的话，通常可以重写updateConstraints方法，在其中可以添加view需要的局部的contraints。</p>
+<p>第二步：layout，其从上向下(from super view to subview)，此步主要应用上一步的信息去设置view的center和bounds。可以通过调用setNeedsLayout去触发此步骤，此方法不会立即应用layout。如果想要系统立即的更新layout，可以调用layoutIfNeeded。另外，自定义view可以重写方法layoutSubViews来在layout的工程中得到更多的定制化效果。</p>
+<p>第三步：display，此步时把 view 渲染到屏幕上，它与你是否使用Auto layout无关，其操作是从上向下(from super view to subview)，通过调用setNeedsDisplay触发，</p>
+<p>因为每一步都依赖前一步，因此一个display可能会触发layout，当有任何layout没有被处理的时候，同理，layout可能会触发updating constraints，当constraint system更新改变的时候。</p>
+<p>需要注意的是，这三步不是单向的，constraint-based layout是一个迭代的过程，layout过程中，可能去改变constraints，有一次触发updating constraints，进行一轮layout过程。</p>
+<p>注意：如果你每一次调用自定义layoutSubviews都会导致另一个布局传递，那么你将会陷入一个无限循环中。</p>
+<p>就是说，layout 和 updateConstraints 不断迭代最终确立了整个布局和显示，然后交给屏幕去显示 </p>
+<h2 id="实践出真知"><a href="#实践出真知" class="headerlink" title="实践出真知"></a>实践出真知</h2><h3 id="layoutIfNeeded-调用导致-Crash"><a href="#layoutIfNeeded-调用导致-Crash" class="headerlink" title="layoutIfNeeded 调用导致 Crash"></a>layoutIfNeeded 调用导致 Crash</h3><p>在调用 layoutIfNeeded 时，view 必须要被 setNeedsLayout 后，才会理解执行 layoutSubviews。</p>
+<blockquote>
+<p>  一个视图缺少高宽约束，在设置完了约束后执行layoutIfNeeded，然后设置宽高，这种情况在低配机器上可能会出现崩问题。原因在于layoutIfNeeded需要有标记才会立刻调用layoutSubview得到宽高，不然是不会马上调用的。页面第一次显示是会自动标记上需要刷新这个标记的，所以第一次看显示都是看不出问题的，但页面再次调用layoutIfNeeded时是不会立刻执行layoutSubview的（但之前加上setNeedsLayout就会立刻执行），这时改变的宽高值会在上文生命周期中提到的Auto Layout Cycle中的Engine里的Deferred Layout Pass里执行layoutSubview，手动设置的layoutIfNeeded也会执行一遍layoutSubview，但是这个如果发生在Deferred Layout Pass之后就会出现崩的问题，因为当视图设置为setTranslatesAutoresizingMaskIntoConstraints:NO时会严格按照约束-&gt;Engine-&gt;显示这种流程，如在Deferred Layout Pass之前设置好是没有问题的，之后强制执行LayoutSubview会产生一个权重和先前一样的约束在类似动画block里更新布局让Engine执行导致Ambiguous Layouts这种权重相同冲突崩溃的情况发生。</p>
+</blockquote>
+<h3 id="RemoveFromSuperView"><a href="#RemoveFromSuperView" class="headerlink" title="RemoveFromSuperView"></a>RemoveFromSuperView</h3><p>将多个有相互约束关系视图removeFromSuperView后更新布局在低配机器上出现崩的问题。这个原因主要是根据不含视图项的约束不合法这个原则来的，同时会抛出野指针的错误。在内存吃紧机器上，当应用占内存较多系统会抓住任何可以释放heap区内存的机会视图被移除后会立刻被清空，这时约束如果还没有被释就满足不含视图项的约束会崩的情况了。</p>
+<p>remove 之前最好能够 clearConstraint。</p>
+<h2 id="我的一些疑问"><a href="#我的一些疑问" class="headerlink" title="我的一些疑问"></a>我的一些疑问</h2><blockquote>
+<p>  第一步：updating constraints，被称为测量阶段，其从下向上(from subview to super view),为下一步layout准备信息。</p>
+</blockquote>
+<p>始终不明白为什么要从下往上更新约束，我的理解是，先是父视图确定自己位置，子视图才确认自己视图。当然这个是 layout 的过程。</p>
+<p>我当前的理解是这样，子视图的约束先更新，再逐步向上触发父视图更新约束，猜测的原因是子视图的约束可能会导致父视图约束更改。</p>
+<h2 id="参考引用"><a href="#参考引用" class="headerlink" title="参考引用"></a>参考引用</h2><ul>
+<li><p><a href="https://objccn.io/issue-3-5/" target="_blank" rel="noopener">https://objccn.io/issue-3-5/</a></p>
+<p>​</p>
+</li>
+</ul>
+
+  </section>
+
+</article>
+
+<section class="read-more">
+           
+    
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">Newer Post</span>
+                <h2 class="post-list__post-title post-title"><a href="/2017/06/14/2017-06-Use-animation-in-Auto-Layout-and-masonry/" title="在 AutoLayout 和 Masonry 中使用动画">在 AutoLayout 和 Masonry 中使用动画</a></h2>
+                <p class="excerpt">
+                
+                动画是 iOS 中非常重要的一部分，它给用户展现出应用灵气的一面。
+在动画块中修改 Frame在原来使用 frame 布局时，在 UIView 的 animate block 中对 view 的布局进行修改，动画即可生效。
+123[UIView animte ... &amp;#123;    view.frame = ...&amp;#125;];
+AutoLayout 没有 Frame 时如何做动画在 AutoLayout 中，view 的布局等属性都是由约束 constraint 决定，Apple 也不建议在使用 AutoLayout 直接修改 view 的 frame。
+在介绍之前，先看一下 UIView 的 layoutIfNeeded 方法：
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2017-06-14T15:04:39.000Z" class="post-list__meta--date date">2017-06-14</time> &#8226; <span class="post-list__meta--tags tags">于 </span><a class="btn-border-small" href="/2017/06/14/2017-06-Use-animation-in-Auto-Layout-and-masonry/">继续阅读</a></div>
+                           
+            </div>
+        
+        
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">Older Post</span>
+                <h2 class="post-list__post-title post-title"><a href="/2017/01/19/2017-01-abount-gdc/" title="GCD 的一点疑惑与自解">GCD 的一点疑惑与自解</a></h2>
+                <p class="excerpt">
+                
+                GCD 的一点疑惑与自解GCD 其实已经了解了很久了，在实际工程中也会经常用，但是其实很多实践都是浅尝辄止。
+最近又在回头看这块儿的内容，有一些知识点，原来不甚明白的，现在有了新的认识，刚好也记录下。
+GCD 是一套方案，GCD 本身管理了一组线程池，GCD 负责线程池中的线程创建销毁、并且这种能力是动态化的，即可以充分利用当前 CPU 的多核特性。添加到 GCD 队列中的任务，会由 GCD 来决定运行在哪一个线程上。也就是说，GCD Queue 是一个抽象概念， task 是添加到 Queue 中不假，但是实际仍然是运行在线程上的。
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2017-01-19T14:48:22.000Z" class="post-list__meta--date date">2017-01-19</time> &#8226; <span class="post-list__meta--tags tags">于 </span><a class="btn-border-small" href="/2017/01/19/2017-01-abount-gdc/">继续阅读</a></div>
+                       
+            </div>
+        
+     
+   
+   
+  
+</section>
+
+  
+
+            <footer class="footer">
+    <span class="footer__copyright">
+        &copy; 2019 Well Cheng - 本站点采用 <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>
+       
+    </span>
+    <span class="footer__copyright">
+             - 基于 <a href="http://hexo.io">Hexo</a> 搭建，使用 <a href="https://github.com/monniya/hexo-theme-new-vno ">new-vno</a> 主题，由<a href="https://monniya.com ">@Monniya</a> 修改自 <a href="https://github.com/lenbo-ma/hexo-theme-vno" target="_blank">Vno</a>, 原创出自<a href="http://github.com/onevcat/vno" target="_blank">onevcat</a>
+         </span>
+       
+    
+    
+</footer>
+
+
+        </div>
+    </div>
+
+     
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-78918255-1', 'auto');
+	ga('send', 'pageview');
+</script>
+
+    
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?9cdad07c755fa23f6aced510c6760e87";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
+
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    
+</body>
+</html>

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="z">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    
+    <title>Swift 中的错误处理：try, try?, try! | Charvel 互联网自留地</title>
+    <meta name="renderer" content="webkit">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta name="description" content="错误处理（Error Handing）是很多语言都有的特性，程序中避免不了会出现错误或者异常的情况，我们需要对于这些「非期望」发生的错误进行正确的处理。本文很简单的将 Objective-C 和 Swift 中的错误处理做一点描述，描述一下自己的想法。">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Swift 中的错误处理：try, try?, try! | Charvel 互联网自留地">
+    <meta name="twitter:description" content="错误处理（Error Handing）是很多语言都有的特性，程序中避免不了会出现错误或者异常的情况，我们需要对于这些「非期望」发生的错误进行正确的处理。本文很简单的将 Objective-C 和 Swift 中的错误处理做一点描述，描述一下自己的想法。">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Swift 中的错误处理：try, try?, try! | Charvel 互联网自留地">
+    <meta property="og:description" content="错误处理（Error Handing）是很多语言都有的特性，程序中避免不了会出现错误或者异常的情况，我们需要对于这些「非期望」发生的错误进行正确的处理。本文很简单的将 Objective-C 和 Swift 中的错误处理做一点描述，描述一下自己的想法。">
+
+    
+    <meta name="author" content="Well Cheng">
+    
+    <link rel="stylesheet" href="/css/vno.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+
+    
+    <link rel="icon" href="/images/avatar-small.png">
+    
+
+    <meta name="generator" content="hexo"/>
+    
+    <link rel="alternate" type="application/rss+xml" title="Charvel 互联网自留地" href="/atom.xml">
+    
+
+    <link rel="canonical" href="http://blog.devcheng.com/2016/08/24/2016-08-about-swift-try/"/>
+
+                 
+</head>
+
+<body class="home-template no-js">
+    <script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <span class="mobile btn-mobile-menu">
+        <i class="fa fa-list btn-mobile-menu__icon"></i>
+        <i class="fa fa-angle-up btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+<header class="panel-cover panel-cover--collapsed" style="background-image: url(/images/background-cover.jpg)">
+  <div class="panel-main">
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        <a href="/" title="前往 Charvel 互联网自留地 的主页"><img src="/images/avatar.jpg" width="80" alt="Charvel 互联网自留地 logo" class="panel-cover__logo logo"></a>
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage for Charvel 互联网自留地">Charvel 互联网自留地</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">记录生活的点点滴滴，记录技术的淅淅沥沥</span>
+        
+        <hr class="panel-cover__divider">
+        <p class="panel-cover__description"></p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary">
+
+        <div class="navigation-wrapper">
+          <div>
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+              <li class="navigation__item"><a href="/#blog" title="Visit the blog" class="blog-button">Blog</a></li>
+            
+              <li class="navigation__item"><a href="/favourite">黄金屋</a></li>
+            
+              <li class="navigation__item"><a href="/favourite/time.html">时光机</a></li>
+            
+              <li class="navigation__item"><a href="/favourite/image.html">幻想间</a></li>
+            
+              <li class="navigation__item"><a href="/aboutme">关于我</a></li>
+            
+            </ul>
+          </nav>
+          </div>
+          <div>
+          <nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+  <!-- Weibo-->
+  
+
+  <!-- Github -->
+  
+  <li class="navigation__item">
+    <a href="https://github.com/monniya" title="GitHub" target="_blank">
+      <i class="social fa fa-github"></i>
+      <span class="label">Github</span>
+    </a>
+  </li>
+
+
+<!-- Stack Overflow -->
+        
+
+  <!-- Google Plus -->
+  
+
+<!-- Facebook -->
+
+  
+<!-- Twitter -->
+
+  <li class="navigation__item">
+    <a href="https://twitter.com/onlymonniya" title="Twitter" target="_blank">
+      <i class="social fa fa-twitter"></i>
+      <span class="label">Twitter</span>
+    </a>
+  </li>
+
+  
+
+  <li class="navigation__item">
+    <a href="/atom.xml" title="RSS" target="_blank">
+      <i class="social fa fa-rss"></i>
+      <span class="label">RSS</span>
+    </a>
+  </li>
+
+
+  <li class="navigation__item">
+    <a href="mailto:chengwei3269@hotmail.com" title="Mail" target="_blank">
+      <i class="social fa fa-envelope"></i>
+      <span class="label">Email</span>
+    </a>
+  </li>
+
+
+  </ul>
+</nav>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay cover-purple"></div>
+  </div> 
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single">
+
+  <header class="post-header">
+    <div class="post-meta">
+      <time datetime="2016-08-24T13:59:29.000Z" class="post-list__meta--date date">2016-08-24</time> &#8226; <span class="post-meta__tags tags">于 
+  <a class="tag-link" href="/tags/try/">try</a>, <a class="tag-link" href="/tags/try/">try!</a>, <a class="tag-link" href="/tags/try/">try?</a>
+ </span>
+      <span class="page-pv">
+       Read <span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>
+      </span> 
+   
+    </div>
+    <h1 class="post-title">Swift 中的错误处理：try, try?, try!</h1>
+  </header>
+
+  <section class="post">
+    <p>错误处理（Error Handing）是很多语言都有的特性，程序中避免不了会出现错误或者异常的情况，我们需要对于这些「非期望」发生的错误进行正确的处理。本文很简单的将 Objective-C 和 Swift 中的错误处理做一点描述，描述一下自己的想法。</p>
+<a id="more"></a>
+<h2 id="Objective-C"><a href="#Objective-C" class="headerlink" title="Objective-C"></a>Objective-C</h2><p>在 OC 中，错误处理都是将一个 NSError 对象的指针作为函数参数传入，待函数调用同步返回后，判断 error 对象是不是 nil，就知道是否发生了错误：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">NSError *error = nil;</span><br><span class="line">[task doSomethingWithError: &amp;error];</span><br><span class="line">if (error != nil) &#123;</span><br><span class="line">    // 错误处理</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)doSomethingWithError:(NSError *)error &#123;</span><br><span class="line">    // 处理任务</span><br><span class="line">    ...</span><br><span class="line">    if (在这里发生了错误) &#123;</span><br><span class="line">        error = ... // 具体的错误</span><br><span class="line">        return;</span><br><span class="line">    &#125; </span><br><span class="line">    </span><br><span class="line">    // 程序正常执行剩下的代码</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果是异步的方法，那么在 block 中，Error 也会作为参数传入。AFNetworking 中的 API 就是如此设计。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">NSURLSessionDataTask *dataTask = [manager dataTaskWithRequest:request completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) &#123;</span><br><span class="line">    if (error) &#123;</span><br><span class="line">        NSLog(@&quot;Error: %@&quot;, error);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        NSLog(@&quot;%@ %@&quot;, response, responseObject);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+<h2 id="Swift"><a href="#Swift" class="headerlink" title="Swift"></a>Swift</h2><p>Swift 中对于错误的处理是 throw，表面跟 Java 其他语言很像，但底层并不同相同。一般来讲，抛出异常是很耗费 CPU 的操作，因此在移动端不是特别适合。</p>
+<p>Swift 的 throw error 其实就是对 OC  中 NSError 的封装，封装后在语法上做了响应的约束，让你不能够像 OC 中那样随意地「忽视」错误。</p>
+<p>OC 中，NSError 这样的参数，很多开发者都是直接传入 nil，这其实是很不好的习惯。但是编译器不会阻止你，因此会在程序中留下很多隐患。</p>
+<p>Swift 中在编译器层面就做了限制，Swift 中有4种处理错误的方式：</p>
+<h3 id="把函数抛出的错误传递给调用此函数的代码"><a href="#把函数抛出的错误传递给调用此函数的代码" class="headerlink" title="把函数抛出的错误传递给调用此函数的代码"></a>把函数抛出的错误传递给调用此函数的代码</h3><p>比如有一个方法 <code>buyTicket() throws</code>, 后面的 throws 表示该方法可能会抛出一个错误，来描述买票过程中发生的异常情况，比如钱不够了，票不够了，票不是想要的。<br>还有另外几个方法 ：</p>
+<ul>
+<li><code>buyTrainTicket() throws</code>：买火车票</li>
+<li><code>buyBusTicket() throws</code>：买汽车票</li>
+<li><code>buyAirlineTicket() throws</code>：买飞机票</li>
+<li><code>buySpaceShipTicket() throws</code>买宇宙飞船票</li>
+</ul>
+<p>上面的四个买票方法也是会抛出错误的，比如汽车满员了，比如飞船爆炸啦。</p>
+<p>现在，我们在 <code>buyTicket() throws</code> 方法中调用上面的四个方法：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">buyTicket</span><span class="params">()</span></span> <span class="keyword">throws</span> &#123;</span><br><span class="line">    <span class="keyword">switch</span> 交通工具 &#123;</span><br><span class="line">        <span class="keyword">case</span> ... :</span><br><span class="line">        <span class="keyword">try</span> buyTrainTicket()</span><br><span class="line">        <span class="keyword">case</span> ... :</span><br><span class="line">        <span class="keyword">try</span> buyBusTicket()</span><br><span class="line">        ...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到，将小方法中可能出现的错误，原封不动扔给了大方法。这就是 「把函数抛出的错误传递给调用此函数的代码」</p>
+<h3 id="用do-catch语句处理错误"><a href="#用do-catch语句处理错误" class="headerlink" title="用do-catch语句处理错误"></a>用do-catch语句处理错误</h3><p>在刚才的大方法，即  <code>buyTicket() throws</code> 中，不管是在乘坐什么交通工具时出现了问题。都得去处理它才行，不然编译器就给你报错。</p>
+<p>因此，处理错误可以这样子：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">do</span> &#123;</span><br><span class="line">    <span class="keyword">try</span> buyTicket()</span><br><span class="line">&#125; <span class="keyword">catch</span> error &#123;</span><br><span class="line">    <span class="built_in">print</span>(error)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的例子中，只是简单的将错误打印出来，实际上啥也没干。但是编译器就不报错了，因为你「处理」了错误。<br>所以也就能够理解了，只是为了治「开发者」的懒病，也许你良心发现，觉得光打印出来没啥用，我好好地处理下错误吧。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">do</span> &#123;</span><br><span class="line">    <span class="keyword">try</span> buyTicket()</span><br><span class="line">&#125; <span class="keyword">catch</span> error <span class="keyword">where</span> error.type == train&#123;</span><br><span class="line">    <span class="comment">// 只处理买火车票时的错误</span></span><br><span class="line">    buyOtherTrain() <span class="comment">// 买领一趟车</span></span><br><span class="line">&#125; <span class="keyword">catch</span> error <span class="keyword">where</span> error.type == airline&#123;</span><br><span class="line">    <span class="comment">// 处理买机票时的问题</span></span><br><span class="line">    buyAnAirplane() <span class="comment">// 我有钱，我自己买一架</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果只是上面的代码，那么会报错，因为你没有处理完所有的错误可能性。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">do</span> &#123;</span><br><span class="line">    <span class="keyword">try</span> buyTicket()</span><br><span class="line">&#125; <span class="keyword">catch</span> error <span class="keyword">where</span> error.type == train&#123;</span><br><span class="line">    <span class="comment">// 只处理买火车票时的错误</span></span><br><span class="line">    buyOtherTrain() <span class="comment">// 买领一趟车</span></span><br><span class="line">&#125; <span class="keyword">catch</span> error <span class="keyword">where</span> error.type == airline&#123;</span><br><span class="line">    <span class="comment">// 处理买机票时的问题</span></span><br><span class="line">    buyAnAirplane() <span class="comment">// 我有钱，我自己买一架</span></span><br><span class="line">&#125; <span class="keyword">catch</span> &#123;</span><br><span class="line">    <span class="comment">// 居然一张票都买不到，气死了</span></span><br><span class="line">    killMySelf()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="将错误作为可选类型处理"><a href="#将错误作为可选类型处理" class="headerlink" title="将错误作为可选类型处理"></a>将错误作为可选类型处理</h3><p>我们修改下买票方法，–&gt; <code>func buyTicket() throws  -&gt; ticket:Ticket</code>, 其实啥也没干，就是让它把买到的票返回。</p>
+<p>对于老板来讲，他才不会 care 你买票时发生了什么，我只要<del>产出和结果</del>车票！因此老板是这样买票的：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 让秘书去买票</span></span><br><span class="line"><span class="keyword">let</span> boss = <span class="type">BOSS</span>()</span><br><span class="line"><span class="keyword">let</span> secretary = <span class="type">Secretary</span>()</span><br><span class="line"><span class="keyword">let</span> boughtTicket = <span class="keyword">try</span>? secretary-&gt;buyTicket()</span><br><span class="line"><span class="keyword">if</span> ticket = boughtTicket &#123;</span><br><span class="line">    <span class="type">BOOS</span>.<span class="built_in">print</span>(<span class="string">"干的漂亮！"</span>)</span><br><span class="line">&#125; esle &#123;</span><br><span class="line">    <span class="type">BOOS</span>.<span class="built_in">print</span>(<span class="string">"gun du zi！"</span>)</span><br><span class="line">    <span class="type">BOSS</span>.fire(secretary)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在这里，BOSS 只关心买票的时候，什么错误情况都没发生，要么拿到了票，要么这个返回的结果票是个 nil。<br>try ？ 会让函数在有 error throw 时返回 nil，没有 error 时返回正常值。也就是说上面的 boughtTicket 是可选类型。</p>
+<h3 id="断言此错误根本不会发生"><a href="#断言此错误根本不会发生" class="headerlink" title="断言此错误根本不会发生"></a>断言此错误根本不会发生</h3><p>老板的秘书特别厉害，老板特别相信她 or 他的能力，秘书上可九天摘星辰，下可五湖四海揽月。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 让秘书去买票</span></span><br><span class="line"><span class="keyword">let</span> boss = <span class="type">BOSS</span>()</span><br><span class="line"><span class="keyword">let</span> secretary = <span class="type">Secretary</span>()</span><br><span class="line"><span class="keyword">let</span> boughtTicket = <span class="keyword">try</span>! secretary-&gt;buyTicket()</span><br><span class="line"><span class="type">BOOS</span>.<span class="built_in">print</span>(<span class="string">"干的漂亮！"</span>)</span><br><span class="line"><span class="type">BOSS</span>.kiss(secretary)</span><br></pre></td></tr></table></figure>
+<p>try! 表示我作为一只有尊严的猿，笃定这里肯定不会出错。<br>当然，如果真的出了错，就发生一个 runtime error 打脸。</p>
+
+  </section>
+
+</article>
+
+<section class="read-more">
+           
+    
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">Newer Post</span>
+                <h2 class="post-list__post-title post-title"><a href="/2016/09/14/2016-09-swift-closure-capture/" title="Swift 中闭包 closure 的对象捕获">Swift 中闭包 closure 的对象捕获</a></h2>
+                <p class="excerpt">
+                
+                在 swift 中，closure 可以捕获当前作用域中的变量，并且持有它。
+函数是闭包的一种，因此函数也是可以持有变量的。
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2016-09-14T14:32:18.000Z" class="post-list__meta--date date">2016-09-14</time> &#8226; <span class="post-list__meta--tags tags">于 
+  <a class="tag-link" href="/tags/closure/">closure</a>
+</span><a class="btn-border-small" href="/2016/09/14/2016-09-swift-closure-capture/">继续阅读</a></div>
+                           
+            </div>
+        
+        
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">Older Post</span>
+                <h2 class="post-list__post-title post-title"><a href="/2016/07/15/2016-07-ios-application-state/" title="iOS 应用状态详解">iOS 应用状态详解</a></h2>
+                <p class="excerpt">
+                
+                iOS 应用状态详解iOS 与其他操作系统有很多不同，当 App 不在当前运行时，可以使用的资源特别有限。
+虽说 App 传统上讲只有两种状态，前台和后台。但是这种说法是不太清晰的。
+如果要清楚的讲明白 App 在不同状态下的异同点，那么可以从三个维度去看：
+
+是否可见。App 是否显示在屏幕上
+能不能接收事件，比如触摸、摇晃手机等
+能不能执行代码。这个是我们比较关心的
+
+App 的 5 中状态一个 App ，不管是处于什么情况下，总共的状态有五种，分别是：
+
+没有运行状态
+活跃
+不活跃
+后台运行
+暂停运行
+
+后面会详细的讲解某个状态以及状态之间的转换。
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2016-07-15T12:12:06.000Z" class="post-list__meta--date date">2016-07-15</time> &#8226; <span class="post-list__meta--tags tags">于 </span><a class="btn-border-small" href="/2016/07/15/2016-07-ios-application-state/">继续阅读</a></div>
+                       
+            </div>
+        
+     
+   
+   
+  
+</section>
+
+  
+
+            <footer class="footer">
+    <span class="footer__copyright">
+        &copy; 2019 Well Cheng - 本站点采用 <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>
+       
+    </span>
+    <span class="footer__copyright">
+             - 基于 <a href="http://hexo.io">Hexo</a> 搭建，使用 <a href="https://github.com/monniya/hexo-theme-new-vno ">new-vno</a> 主题，由<a href="https://monniya.com ">@Monniya</a> 修改自 <a href="https://github.com/lenbo-ma/hexo-theme-vno" target="_blank">Vno</a>, 原创出自<a href="http://github.com/onevcat/vno" target="_blank">onevcat</a>
+         </span>
+       
+    
+    
+</footer>
+
+
+        </div>
+    </div>
+
+     
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-78918255-1', 'auto');
+	ga('send', 'pageview');
+</script>
+
+    
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?9cdad07c755fa23f6aced510c6760e87";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
+
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    
+</body>
+</html>

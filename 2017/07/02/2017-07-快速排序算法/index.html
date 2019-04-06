@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="z">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    
+    <title>常用排序算法：快速排序算法 | Charvel 互联网自留地</title>
+    <meta name="renderer" content="webkit">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta name="description" content="快速排序算法，简称快排，其应用了递归的思想，现选择一个基准值 baseValue，然后利用这个 baseValue 将代排序的序列分割为两部分，左边是小于 base 的，右边是大于 base 的（这里以从小到大排序为例）。
+接着，递归调用左边的部分和右边部分，最终递归下去，每个部分会只有一个元素，一个元素自然是已经排好序的。然后将这些小片段 join 起来，就是一个完整的有序序列。">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="常用排序算法：快速排序算法 | Charvel 互联网自留地">
+    <meta name="twitter:description" content="快速排序算法，简称快排，其应用了递归的思想，现选择一个基准值 baseValue，然后利用这个 baseValue 将代排序的序列分割为两部分，左边是小于 base 的，右边是大于 base 的（这里以从小到大排序为例）。
+接着，递归调用左边的部分和右边部分，最终递归下去，每个部分会只有一个元素，一个元素自然是已经排好序的。然后将这些小片段 join 起来，就是一个完整的有序序列。">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="常用排序算法：快速排序算法 | Charvel 互联网自留地">
+    <meta property="og:description" content="快速排序算法，简称快排，其应用了递归的思想，现选择一个基准值 baseValue，然后利用这个 baseValue 将代排序的序列分割为两部分，左边是小于 base 的，右边是大于 base 的（这里以从小到大排序为例）。
+接着，递归调用左边的部分和右边部分，最终递归下去，每个部分会只有一个元素，一个元素自然是已经排好序的。然后将这些小片段 join 起来，就是一个完整的有序序列。">
+
+    
+    <meta name="author" content="Well Cheng">
+    
+    <link rel="stylesheet" href="/css/vno.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+
+    
+    <link rel="icon" href="/images/avatar-small.png">
+    
+
+    <meta name="generator" content="hexo"/>
+    
+    <link rel="alternate" type="application/rss+xml" title="Charvel 互联网自留地" href="/atom.xml">
+    
+
+    <link rel="canonical" href="http://blog.devcheng.com/2017/07/02/2017-07-快速排序算法/"/>
+
+                 
+</head>
+
+<body class="home-template no-js">
+    <script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <span class="mobile btn-mobile-menu">
+        <i class="fa fa-list btn-mobile-menu__icon"></i>
+        <i class="fa fa-angle-up btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+<header class="panel-cover panel-cover--collapsed" style="background-image: url(/images/background-cover.jpg)">
+  <div class="panel-main">
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        <a href="/" title="前往 Charvel 互联网自留地 的主页"><img src="/images/avatar.jpg" width="80" alt="Charvel 互联网自留地 logo" class="panel-cover__logo logo"></a>
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage for Charvel 互联网自留地">Charvel 互联网自留地</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">记录生活的点点滴滴，记录技术的淅淅沥沥</span>
+        
+        <hr class="panel-cover__divider">
+        <p class="panel-cover__description"></p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary">
+
+        <div class="navigation-wrapper">
+          <div>
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+              <li class="navigation__item"><a href="/#blog" title="Visit the blog" class="blog-button">Blog</a></li>
+            
+              <li class="navigation__item"><a href="/favourite">黄金屋</a></li>
+            
+              <li class="navigation__item"><a href="/favourite/time.html">时光机</a></li>
+            
+              <li class="navigation__item"><a href="/favourite/image.html">幻想间</a></li>
+            
+              <li class="navigation__item"><a href="/aboutme">关于我</a></li>
+            
+            </ul>
+          </nav>
+          </div>
+          <div>
+          <nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+  <!-- Weibo-->
+  
+
+  <!-- Github -->
+  
+  <li class="navigation__item">
+    <a href="https://github.com/monniya" title="GitHub" target="_blank">
+      <i class="social fa fa-github"></i>
+      <span class="label">Github</span>
+    </a>
+  </li>
+
+
+<!-- Stack Overflow -->
+        
+
+  <!-- Google Plus -->
+  
+
+<!-- Facebook -->
+
+  
+<!-- Twitter -->
+
+  <li class="navigation__item">
+    <a href="https://twitter.com/onlymonniya" title="Twitter" target="_blank">
+      <i class="social fa fa-twitter"></i>
+      <span class="label">Twitter</span>
+    </a>
+  </li>
+
+  
+
+  <li class="navigation__item">
+    <a href="/atom.xml" title="RSS" target="_blank">
+      <i class="social fa fa-rss"></i>
+      <span class="label">RSS</span>
+    </a>
+  </li>
+
+
+  <li class="navigation__item">
+    <a href="mailto:chengwei3269@hotmail.com" title="Mail" target="_blank">
+      <i class="social fa fa-envelope"></i>
+      <span class="label">Email</span>
+    </a>
+  </li>
+
+
+  </ul>
+</nav>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay cover-purple"></div>
+  </div> 
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single">
+
+  <header class="post-header">
+    <div class="post-meta">
+      <time datetime="2017-07-02T10:10:26.000Z" class="post-list__meta--date date">2017-07-02</time> &#8226; <span class="post-meta__tags tags">于 
+  <a class="tag-link" href="/tags/算法/">算法</a>
+ </span>
+      <span class="page-pv">
+       Read <span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>
+      </span> 
+   
+    </div>
+    <h1 class="post-title">常用排序算法：快速排序算法</h1>
+  </header>
+
+  <section class="post">
+    <p>快速排序算法，简称快排，其应用了递归的思想，现选择一个基准值 baseValue，然后利用这个 baseValue 将代排序的序列分割为两部分，左边是小于 base 的，右边是大于 base 的（这里以从小到大排序为例）。</p>
+<p>接着，递归调用左边的部分和右边部分，最终递归下去，每个部分会只有一个元素，一个元素自然是已经排好序的。然后将这些小片段 join 起来，就是一个完整的有序序列。</p>
+<a id="more"></a>
+<h2 id="一个快排序方法"><a href="#一个快排序方法" class="headerlink" title="一个快排序方法"></a>一个快排序方法</h2><p>快速排序也是分好多趟，每一趟都是使用最快的方法，将整个序列划分为两部分，前部分中每个值都比 base 小，后部分每个值都比 base 大。</p>
+<p>基于这个思想，快排序有不同的实现。</p>
+<h3 id="第一个元素为基数"><a href="#第一个元素为基数" class="headerlink" title="第一个元素为基数"></a>第一个元素为基数</h3><p>这个是我在《啊哈！算法》中看到的实现，选中第一个元素作为 base，然后从右边开始，找到第一个小于 base 的值，再从最左边开始找到第一个大于 base 的值，交换两者。接着继续从右找完从左找，找到后交换，如果左右相遇，先记住相遇位置，从这个位置开始，左边的序列都要比 base 小，右边的序列都要比 base 大，然后将 base 与这个相遇位置的值交换，就完成了第一次基准数归位。</p>
+<p>如下图，第一个值 6 作为 base，i 是从左到右的游标，j 是从右到左的游标。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">i									j</span><br><span class="line">6	1	2	7	9	3	4	5	10	8</span><br><span class="line">  	↑</span><br><span class="line">  base</span><br></pre></td></tr></table></figure>
+<ol>
+<li>j 先移动，找第一个小于 base 的值，即 5</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">i							j</span><br><span class="line">6	1	2	7	9	3	4	5	10	8</span><br><span class="line">  	↑</span><br><span class="line">  base</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>接着 i 开始移动，找到第一个比 base 大的值，即 7</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">			i				j</span><br><span class="line">6	1	2	7	9	3	4	5	10	8</span><br><span class="line">  	↑</span><br><span class="line">  base</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>两者都寻找完毕，记做一次 match，交换两者</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">			i				j</span><br><span class="line">6	1	2	5	9	3	4	7	10	8</span><br><span class="line">  	↑			↑				↑</span><br><span class="line">  base</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>重复步骤 1 和步骤 2。有一点需要注意，步骤 1 和 2 在移动时，始终要保持 i &lt; j，也就是两人不能碰头。</li>
+<li>这里 j 继续走会找到 4 ，i 找到 9，9 和 4 交换，再继续，j 找到 3，i 再走一步，与 j 碰头。碰头后，需要将碰头位置与 base 交换。最终如下：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">				   ij</span><br><span class="line">3	1	2	5	4	6	9	7	10	8</span><br><span class="line">  						↑		</span><br><span class="line">				   base</span><br></pre></td></tr></table></figure>
+<p>经过上面这些步骤，我们成功将 【    6、1、2、7、9、3、4、5、10、8】 这个序列分为了三部分：</p>
+<ul>
+<li>【3、1、2、5、4】</li>
+<li>【6】</li>
+<li>【9、7、10、8】</li>
+</ul>
+<p>接下来，只需要将第一部分和第三部分，分别处理为从小大排序，然后与中间部分的 6 拼接，那么整个序列就都是有序的。这个也是快排序递归的思想。</p>
+<h3 id="递归"><a href="#递归" class="headerlink" title="递归"></a>递归</h3><p>递归思想，主要是两点：</p>
+<ol>
+<li>从宏观上，找到类比性，比如我们现在的第一部分序列 【3、1、2、5、4】与原来的整个序列 【    6、1、2、7、9、3、4、5、10、8】，是很类似的，都是几个无序值。因此我们怎么处理大序列，就如何处理小序列。</li>
+<li>从微观上讲，递归递归，不能无限递归下去，递归是将规模问题逐层下降到小问题上。</li>
+</ol>
+<h3 id="分区"><a href="#分区" class="headerlink" title="分区"></a>分区</h3><p>快排序的核心是分区，也就是刚才上面寻找 base，划分区间的这个步骤。</p>
+<p>用代码描述刚才的步骤：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 给定待排序数组，以及区间，给出数组中从 lhs 到 rhs 这个区间的 base 值，并且数组已经被 base 划分完成</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">partition</span><span class="params">(arr:<span class="keyword">inout</span> [Int], lhs:Int, rhs:Int)</span></span> -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">  <span class="comment">// 使用 lhs 即最左边的数作为 base </span></span><br><span class="line">  <span class="keyword">var</span> base = lhs</span><br><span class="line">  <span class="keyword">let</span> baseValue = arr[base]</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 只有当没碰头时，才会先从右到左，再从左到右</span></span><br><span class="line">  <span class="keyword">while</span> (lhs != rhs) &#123;</span><br><span class="line">    <span class="comment">// 从右到左</span></span><br><span class="line">    <span class="keyword">while</span> arr[rhs] &gt; baseValue &amp;&amp; lhs &lt; rhs &#123;</span><br><span class="line">      rhs += <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 得到了第一个满足 arr[rhs] &lt; baseValue 的 rhs 游标, 所以退出 while 循环</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 从左到右</span></span><br><span class="line">    <span class="keyword">while</span> arr[lhs] &lt; baseValue &amp;&amp; lhs &lt; rhs &#123;</span><br><span class="line">      lhs += <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 得到了第一个满足 arr[lhs] &gt; baseValue 的 rhs 游标, 所以退出 while 循环    </span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 退出上面两个 while 循环，还有一种可能，就是 lhs &lt; rhs 这个条件不满足，右因为 lhs 一开始小于 rhs，所以此时 lhs 可能等于 rhs</span></span><br><span class="line">    <span class="keyword">if</span> lhs &lt; rhs &#123;</span><br><span class="line">      <span class="comment">// </span></span><br><span class="line">      arr.swapAt(lhs, rhs)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 当 lhs 和 rhs 还未相遇时，继续执行 while 循环</span></span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 由于 lhs 与 rhs 相遇，退出了上面的 while 循环</span></span><br><span class="line">  arr.swapAt(base, lhs)</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// 此时，在 arr 中给定的原 lhs 和 rhs 的区间里，已经被 base 划分为两块了</span></span><br><span class="line">  <span class="keyword">return</span> lhs</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>有了 partition 函数，就很方便地实现快排序了：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">quickSort</span><span class="params">(arr: <span class="keyword">inout</span> [Int])</span></span> &#123;</span><br><span class="line">  <span class="function"><span class="keyword">func</span> <span class="title">partition</span> <span class="params">()</span></span> &#123;</span><br><span class="line">    ...</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="function"><span class="keyword">func</span> <span class="title">sort</span><span class="params">(arr: <span class="keyword">inout</span> [Int], lhs:Int. rhs:Int)</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> lhs &lt; rhs &#123;</span><br><span class="line">      <span class="keyword">let</span> base = <span class="built_in">partition</span>(arr, lhs, rhs)</span><br><span class="line">      <span class="built_in">sort</span>(arr, lhs, base-<span class="number">1</span>)</span><br><span class="line">      <span class="built_in">sort</span>(arr, base+<span class="number">1</span>, rhs)      </span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="built_in">sort</span>(arr, <span class="number">0</span>, arr.<span class="built_in">count</span>-<span class="number">1</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>partition 在不断地分区时，最小区间可能只有一个元素，那么此时该元素就是已经排好序的，如果是两个元素，那么右边的游标左移动后就立刻与 lhs 相遇，因此 base 产生一个空序列与单元素序列，空序列无需处理，单元素序列刚才已经说过。仍然按照上面的例子，对整块原始序列进行分析：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">【<span class="number">6</span>、<span class="number">1</span>、<span class="number">2</span>、<span class="number">7</span>、<span class="number">9</span>、<span class="number">3</span>、<span class="number">4</span>、<span class="number">5</span>、<span class="number">10</span>、<span class="number">8</span>】</span><br><span class="line">  【<span class="number">3</span>，<span class="number">1</span>，<span class="number">2</span>，<span class="number">5</span>，<span class="number">4</span>】</span><br><span class="line">    【<span class="number">2</span>，<span class="number">1</span>】</span><br><span class="line">    	【<span class="number">1</span>】</span><br><span class="line">        	【<span class="number">1</span>】base</span><br><span class="line">    	【<span class="number">2</span>】base</span><br><span class="line">    【<span class="number">3</span>】base</span><br><span class="line">    【<span class="number">5</span>，<span class="number">4</span>】</span><br><span class="line">    	【<span class="number">4</span>】</span><br><span class="line">    		【<span class="number">4</span>】base</span><br><span class="line">    	【<span class="number">5</span>】base</span><br><span class="line">  【<span class="number">6</span>】base</span><br><span class="line">  【<span class="number">9</span>，<span class="number">7</span>，<span class="number">10</span>，<span class="number">8</span>】</span><br><span class="line">  	【<span class="number">8</span>，<span class="number">7</span>】</span><br><span class="line">  		【<span class="number">7</span>】</span><br><span class="line">  			【<span class="number">7</span>】base</span><br><span class="line">  		【<span class="number">8</span>】base</span><br><span class="line">  	【<span class="number">9</span>】base</span><br><span class="line">  	【<span class="number">10</span>】</span><br><span class="line">  		【<span class="number">10</span>】base</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">如上示意图，递归到最下面，都是单元素作为 base 基准值</span></span><br><span class="line"><span class="comment">从上到下，把所有 base 合起来，就是1-10 的有序序列了。</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+<h2 id="另一种-partition-方法"><a href="#另一种-partition-方法" class="headerlink" title="另一种 partition 方法"></a>另一种 partition 方法</h2><p>刚才是将第一个元素作为 base，现在尝试下将最后一个元素作为 base</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">partition</span><span class="params">( arr: <span class="keyword">inout</span> [Int], <span class="keyword">left</span> lhs: Int, <span class="keyword">right</span> rhs: Int)</span></span> -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 下一个可能要被交换的位置</span></span><br><span class="line">    <span class="keyword">var</span> rightBaseIndex = lhs</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 直接使用最右边的元素作为基准</span></span><br><span class="line">    <span class="keyword">let</span> pivotValue = arr[rhs]</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 从左到右（除了最后的基准元素），循环移动小于等于基准元素的元素到数组的开头</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> lhs...rhs-<span class="number">1</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> arr[i] &lt; pivotValue &#123;</span><br><span class="line">            arr.swapAt(i, rightBaseIndex)</span><br><span class="line">            rightBaseIndex += <span class="number">1</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    arr.swapAt(rightBaseIndex, rhs)</span><br><span class="line">    <span class="keyword">return</span> rightBaseIndex;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个 partition 方法的原理，可以自行思考一下。🤔</p>
+<blockquote>
+<p>  rightBaseIndex 表示这个位置有可能将序列划分为两部分，前边是小于base的，后边是大于 base 的。</p>
+<p>  所以在遍历时，当值小于 base 时，rightBase 要往后走一步，这样总能保证 rightBase 左边都是小于的值。</p>
+<p>  遍历时遇到大的值，就跳过，rightBase 不能继续走，因为 rightBase 当前位置的值要比 base 大，而 rightBase 要保证左边的值都要小于 base，所以它只好等待在遍历时能再次遇到一个小于 base 的值，与当前这个大的值替换，从而使得自己能够更进一步。</p>
+<p>  上述规则执行到最后，也就是遍历完毕时，rightBase 的位置刚好是能够将序列划分的位置，因此需要与 base 交换。</p>
+</blockquote>
+<h2 id="一定要写这么麻烦的-portition-吗？"><a href="#一定要写这么麻烦的-portition-吗？" class="headerlink" title="一定要写这么麻烦的 portition 吗？"></a>一定要写这么麻烦的 portition 吗？</h2><p>算法的奇妙就在于，使用一些技巧和思想，可以更快更少占资源地完成任务。</p>
+<p>如果不考虑空间复杂度，那么完全可以随便选一个 base，遍历所有元素，小于的单独放在一个数组中，大于的放在另一个。递归后，将所有元素 merge 即可得到结果。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>理解了 partition 方法才是 quickSort 的核心，那么 quickSort 也就简单了。</p>
+
+  </section>
+
+</article>
+
+<section class="read-more">
+           
+    
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">Newer Post</span>
+                <h2 class="post-list__post-title post-title"><a href="/2017/07/12/2017-07-ThreadProgrammingGuide-1/" title="iOS 中的多线程">iOS 中的多线程</a></h2>
+                <p class="excerpt">
+                
+                线程的使用在常见的多线程模型中，进程即一个运行着多个线程的程序。
+线程可以理解为一条独立的代码路径，在线程中，代码一行一行执行。
+线程在使用上，iOS 推荐使用一些高级封装。例如 OperationQueue、GCD、NSNotificationQueue、系统自带的异步方法、定时器等。
+iOS 和 macOS 底层都是基于 mach port 的，常用的仍然是 POSIX 模型的多线程 API。
+线程可以拥有一个 runloop，负责监听事件，有事件发生就唤醒去处理，不然就休眠。
+线程之间是可以共用所属进程的内存空间，所以跨线程通信的方法很多：
+
+直接使用 performSelector 发送消息。
+全局变量
+条件变量
+Runloop source
+端口和套接字
+消息队列
+
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2017-07-12T03:10:26.000Z" class="post-list__meta--date date">2017-07-12</time> &#8226; <span class="post-list__meta--tags tags">于 </span><a class="btn-border-small" href="/2017/07/12/2017-07-ThreadProgrammingGuide-1/">继续阅读</a></div>
+                           
+            </div>
+        
+        
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">Older Post</span>
+                <h2 class="post-list__post-title post-title"><a href="/2017/06/14/2017-06-Use-animation-in-Auto-Layout-and-masonry/" title="在 AutoLayout 和 Masonry 中使用动画">在 AutoLayout 和 Masonry 中使用动画</a></h2>
+                <p class="excerpt">
+                
+                动画是 iOS 中非常重要的一部分，它给用户展现出应用灵气的一面。
+在动画块中修改 Frame在原来使用 frame 布局时，在 UIView 的 animate block 中对 view 的布局进行修改，动画即可生效。
+123[UIView animte ... &amp;#123;    view.frame = ...&amp;#125;];
+AutoLayout 没有 Frame 时如何做动画在 AutoLayout 中，view 的布局等属性都是由约束 constraint 决定，Apple 也不建议在使用 AutoLayout 直接修改 view 的 frame。
+在介绍之前，先看一下 UIView 的 layoutIfNeeded 方法：
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2017-06-14T15:04:39.000Z" class="post-list__meta--date date">2017-06-14</time> &#8226; <span class="post-list__meta--tags tags">于 </span><a class="btn-border-small" href="/2017/06/14/2017-06-Use-animation-in-Auto-Layout-and-masonry/">继续阅读</a></div>
+                       
+            </div>
+        
+     
+   
+   
+  
+</section>
+
+  
+
+            <footer class="footer">
+    <span class="footer__copyright">
+        &copy; 2019 Well Cheng - 本站点采用 <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a>
+       
+    </span>
+    <span class="footer__copyright">
+             - 基于 <a href="http://hexo.io">Hexo</a> 搭建，使用 <a href="https://github.com/monniya/hexo-theme-new-vno ">new-vno</a> 主题，由<a href="https://monniya.com ">@Monniya</a> 修改自 <a href="https://github.com/lenbo-ma/hexo-theme-vno" target="_blank">Vno</a>, 原创出自<a href="http://github.com/onevcat/vno" target="_blank">onevcat</a>
+         </span>
+       
+    
+    
+</footer>
+
+
+        </div>
+    </div>
+
+     
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-78918255-1', 'auto');
+	ga('send', 'pageview');
+</script>
+
+    
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?9cdad07c755fa23f6aced510c6760e87";
+            var s = document.getElementsByTagName("script")[0]; 
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+
+
+
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    
+    
+</body>
+</html>
