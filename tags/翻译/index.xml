@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>翻译 on Even - A super concise theme for Hugo</title>
+    <link>http://wellcheng.github.io/tags/%E7%BF%BB%E8%AF%91/</link>
+    <description>Recent content in 翻译 on Even - A super concise theme for Hugo</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 08 May 2015 10:38:38 +0800</lastBuildDate><atom:link href="http://wellcheng.github.io/tags/%E7%BF%BB%E8%AF%91/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>iOS 并发编程指南(四)-Dispatch Sources</title>
+      <link>http://wellcheng.github.io/post/2015-05-08-ios-bing-fa-bian-cheng-zhi-nan-si-dispatch-sources/</link>
+      <pubDate>Fri, 08 May 2015 10:38:38 +0800</pubDate>
+      
+      <guid>http://wellcheng.github.io/post/2015-05-08-ios-bing-fa-bian-cheng-zhi-nan-si-dispatch-sources/</guid>
+      <description>&lt;p&gt;每当你与系统底层进行交互时，你必须要做好这种任务可能会大量耗时的准备。跟在自己的进程内相比较，调用内核或者其他系统层次涉及到的改变是相当耗时的。因为这些原因，许多系统的库都提供了异步的 API，允许你的代码向系统提交请求后继续做别的工作，这时请求仍在进行中。GCD 就是依据这种方式，允许你提交请求，并且使用 block 和调度队列来回调请求结果。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS 并发编程指南(三)-Dispatch Queues</title>
+      <link>http://wellcheng.github.io/post/2015-04-30-ios-bing-fa-bian-cheng-zhi-nan-san-dispatch-queues/</link>
+      <pubDate>Thu, 30 Apr 2015 20:48:38 +0800</pubDate>
+      
+      <guid>http://wellcheng.github.io/post/2015-04-30-ios-bing-fa-bian-cheng-zhi-nan-san-dispatch-queues/</guid>
+      <description>&lt;p&gt;GCD 调度队列是执行任务的强大工具，可以使用同步或异步方式执行任意的代码块。调度队列可以执行几乎所有的单线程代码。相比于线程代码，其更易于使用，且效率要高。&lt;/p&gt;
+&lt;p&gt;本章将介绍调度队列，以及如何使用它执行大多数任务。&lt;/p&gt;
+&lt;h2 id=&#34;dispatch-queue-介绍&#34;&gt;Dispatch Queue 介绍&lt;/h2&gt;
+&lt;p&gt;调度队列是在程序中执行同步或异步代码的比较简单的一种方式，任务就是程序中需要执行的一些简单的工作。举个🌰，比如执行一些计算，创建或者修改一个数据结构，从文件中读取数据进行处理，等等这样的一些工作。你通过在函数或 block 中写入相应的代码来定义任务，然后将其添加至调度队列。&lt;/p&gt;
+&lt;p&gt;调度队列是一种类似对象的结构，管理你提交给它的任务。所有的调度队列都是先进先出（FIFO）的，因此任务开始执行的顺序与添加顺序一致。GCD 已经提供了一些常用的调度队列，你也可以根据需求创建新的调度队列。下面的表列出了几种调度队列，并做了简要的说明&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS 并发编程指南（二）- Operation Queue</title>
+      <link>http://wellcheng.github.io/post/2015-04-27-ios-bing-fa-bian-cheng-zhi-nan-er--operation-queue/</link>
+      <pubDate>Mon, 27 Apr 2015 10:58:41 +0800</pubDate>
+      
+      <guid>http://wellcheng.github.io/post/2015-04-27-ios-bing-fa-bian-cheng-zhi-nan-er--operation-queue/</guid>
+      <description>&lt;p&gt;Cocoa operations 通过面向对象的方式封装了执行异步操作的工作。operations 是设计用来连接 operation queue。因为它们是基于 Objective-C 的，operations 常用于 iOS 和 OS X 中。&lt;/p&gt;
+&lt;p&gt;本章节描述了如何定义和使用 operations&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>iOS 并发编程指南(一)</title>
+      <link>http://wellcheng.github.io/post/2015-03-09-ios-bing-fa-bian-cheng-zhi-nan-1/</link>
+      <pubDate>Mon, 09 Mar 2015 15:38:28 +0800</pubDate>
+      
+      <guid>http://wellcheng.github.io/post/2015-03-09-ios-bing-fa-bian-cheng-zhi-nan-1/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;本文为翻译苹果官方文档，旨在自我学习，翻译之处会有坑，请酌情参考&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;简介&#34;&gt;简介&lt;/h2&gt;
+&lt;p&gt;并发是指多件事情同时发生。随着多核 CPU 的实现，每个处理器上的核心只会增加，开发人员需要新的方式来充分利用它们。尽管像 OS X 和 iOS 这样的操作系统（自卖自夸，别的 OS 被你吃了吗？）能够并行的运行多个程序，其中大多数的程序运行在后台，并且经常需要一小段 CPU 时间来执行任务。运行在前台的程序与用户交互并且占用大量的 CPU 时间。如果一个程序有很多任务去做但是只有一部分内核可以使用，那么额外的计算资源将被浪费。&lt;/p&gt;
+&lt;p&gt;在过去，在程序中引入并发需要创建额外的一个或多个线程。不幸的是，写线程级别的代码很具有挑战性。线程是很底层的工具，必须手动来管理。对于一个程序，由于线程的最佳数目基于系统负载和底层硬件动态改变，实现一个正确的线程解决方案是非常困难的。此外，线程的同步机制通常会给软件设计增加复杂性和带来风险，并不能保证一定会提高程序性能。&lt;/p&gt;
+&lt;p&gt;相比较传统的基于线程的系统和应用程序，OS X 和 iOS 更多地采用异步方法来执行并行的任务。应用程序只需要定义特定的任务，然后让系统执行它们，而不是直接创建线程。通过让操作系统来管理线程，使得应用程序具有了原生线程不可能带来的可扩展性。开发者也有了更加简单高效的编程模式。&lt;/p&gt;
+&lt;p&gt;本文档描述了并发编程的技术和技巧，使用与 OS X 和 iOS。&lt;/p&gt;
+&lt;p&gt;文档包含以下章节：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;并行和程序设计：介绍了基本的异步程序设计和异步执行自定义任务的技巧&lt;/li&gt;
+&lt;li&gt;Operation Queues（操作队列）：指出如何使用 Objective-C 对象封装任务并且执行&lt;/li&gt;
+&lt;li&gt;Dispatch Queue（分发队列）：如何并行的执行任务在 C 语言编程中&lt;/li&gt;
+&lt;li&gt;Dispatch Sources：如何异步的处理系统时间&lt;/li&gt;
+&lt;li&gt;Migrating Away from Threads：介绍如何将已存在的基于线程的代码迁移至新的技术上。&lt;/li&gt;
+&lt;/ul&gt;</description>
+    </item>
+    
+    <item>
+      <title>将你的iOS 工程转换为支持64位的版本</title>
+      <link>http://wellcheng.github.io/post/2015-03-05-jiang-ni-de-ios-gong-cheng-zhuan-huan-wei-zhi-chi-64wei-de-ban-ben/</link>
+      <pubDate>Thu, 05 Mar 2015 15:21:41 +0800</pubDate>
+      
+      <guid>http://wellcheng.github.io/post/2015-03-05-jiang-ni-de-ios-gong-cheng-zhuan-huan-wei-zhi-chi-64wei-de-ban-ben/</guid>
+      <description>&lt;p&gt;总的来说，可以根据以下步骤创建一个同时支持32位和64位运行环境的 App:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;确保 Xcode 版本至少为 5.0.1&lt;/li&gt;
+&lt;li&gt;打开你的项目，Xcode 提示适配你的工程，编译64位版本的时候可能会给你提出一些重要的警告或者错误。&lt;/li&gt;
+&lt;li&gt;设置你的项目最低为 iOS 5.1.1, iOS 5.1 之前的系统不支持64位&lt;/li&gt;
+&lt;li&gt;修改工程的编译指令集为 “Standard Architectures”，即 Xcode 默认版本，其中包括 ARMv7 和 ARM64&lt;/li&gt;
+&lt;li&gt;更新你的 App 以支持64位运行环境，编译器发出的警告和错误能够引导你处理整个过程，但是 Xcode 不是万能的，你还需要根据本文档来做一些事情。&lt;/li&gt;
+&lt;li&gt;在 64 位的真机上测试你的 App，模拟器也可以帮助你测试，但是可能有一部分问题只有在真机上才会出现。&lt;/li&gt;
+&lt;li&gt;使用 Instruments 来分析内存消耗以及性能。&lt;/li&gt;
+&lt;li&gt;提交支持32位和64位的 App&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;接下来的内容会陈列一些在转换过程中经常出现的问题，根据引导仔细检查你的代码。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

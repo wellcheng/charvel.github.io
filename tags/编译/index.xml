@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>编译 on Even - A super concise theme for Hugo</title>
+    <link>http://wellcheng.github.io/tags/%E7%BC%96%E8%AF%91/</link>
+    <description>Recent content in 编译 on Even - A super concise theme for Hugo</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 05 Mar 2015 15:21:41 +0800</lastBuildDate><atom:link href="http://wellcheng.github.io/tags/%E7%BC%96%E8%AF%91/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>将你的iOS 工程转换为支持64位的版本</title>
+      <link>http://wellcheng.github.io/post/2015-03-05-jiang-ni-de-ios-gong-cheng-zhuan-huan-wei-zhi-chi-64wei-de-ban-ben/</link>
+      <pubDate>Thu, 05 Mar 2015 15:21:41 +0800</pubDate>
+      
+      <guid>http://wellcheng.github.io/post/2015-03-05-jiang-ni-de-ios-gong-cheng-zhuan-huan-wei-zhi-chi-64wei-de-ban-ben/</guid>
+      <description>&lt;p&gt;总的来说，可以根据以下步骤创建一个同时支持32位和64位运行环境的 App:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;确保 Xcode 版本至少为 5.0.1&lt;/li&gt;
+&lt;li&gt;打开你的项目，Xcode 提示适配你的工程，编译64位版本的时候可能会给你提出一些重要的警告或者错误。&lt;/li&gt;
+&lt;li&gt;设置你的项目最低为 iOS 5.1.1, iOS 5.1 之前的系统不支持64位&lt;/li&gt;
+&lt;li&gt;修改工程的编译指令集为 “Standard Architectures”，即 Xcode 默认版本，其中包括 ARMv7 和 ARM64&lt;/li&gt;
+&lt;li&gt;更新你的 App 以支持64位运行环境，编译器发出的警告和错误能够引导你处理整个过程，但是 Xcode 不是万能的，你还需要根据本文档来做一些事情。&lt;/li&gt;
+&lt;li&gt;在 64 位的真机上测试你的 App，模拟器也可以帮助你测试，但是可能有一部分问题只有在真机上才会出现。&lt;/li&gt;
+&lt;li&gt;使用 Instruments 来分析内存消耗以及性能。&lt;/li&gt;
+&lt;li&gt;提交支持32位和64位的 App&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;接下来的内容会陈列一些在转换过程中经常出现的问题，根据引导仔细检查你的代码。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

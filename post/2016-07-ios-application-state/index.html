@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>iOS 应用状态详解 - Even - A super concise theme for Hugo</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Charvel" /><meta name="description" content="iOS 应用状态详解 iOS 与其他操作系统有很多不同，当 App 不在当前运行时，可以使用的资源特别有限。 虽说 App 传统上讲只有两种状态，前台和后台。但是这种说法是" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.104.3 with theme even" />
+
+
+<link rel="canonical" href="http://wellcheng.github.io/post/2016-07-ios-application-state/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.f92fd13721ddf72129410fd8250e73152cc6f2438082b6c0208dc24ee7c13fc4.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="iOS 应用状态详解" />
+<meta property="og:description" content="iOS 应用状态详解 iOS 与其他操作系统有很多不同，当 App 不在当前运行时，可以使用的资源特别有限。 虽说 App 传统上讲只有两种状态，前台和后台。但是这种说法是" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://wellcheng.github.io/post/2016-07-ios-application-state/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2016-07-15T20:12:06+00:00" />
+<meta property="article:modified_time" content="2016-07-15T20:12:06+00:00" />
+
+<meta itemprop="name" content="iOS 应用状态详解">
+<meta itemprop="description" content="iOS 应用状态详解 iOS 与其他操作系统有很多不同，当 App 不在当前运行时，可以使用的资源特别有限。 虽说 App 传统上讲只有两种状态，前台和后台。但是这种说法是"><meta itemprop="datePublished" content="2016-07-15T20:12:06+00:00" />
+<meta itemprop="dateModified" content="2016-07-15T20:12:06+00:00" />
+<meta itemprop="wordCount" content="1513">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="iOS 应用状态详解"/>
+<meta name="twitter:description" content="iOS 应用状态详解 iOS 与其他操作系统有很多不同，当 App 不在当前运行时，可以使用的资源特别有限。 虽说 App 传统上讲只有两种状态，前台和后台。但是这种说法是"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Even</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Even</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">iOS 应用状态详解</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2016-07-15 </span>
+        <div class="post-category">
+            <a href="/categories/ios/"> iOS </a>
+            </div>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#ios-应用状态详解">iOS 应用状态详解</a>
+      <ul>
+        <li><a href="#app-的-5-中状态">App 的 5 中状态</a>
+          <ul>
+            <li><a href="#非运行状态">非运行状态</a></li>
+            <li><a href="#活跃状态">活跃状态</a></li>
+            <li><a href="#非活跃状态">非活跃状态</a></li>
+            <li><a href="#后台运行">后台运行</a></li>
+            <li><a href="#暂停状态">暂停状态</a></li>
+          </ul>
+        </li>
+        <li><a href="#常见的状态转换">常见的状态转换</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h1 id="ios-应用状态详解">iOS 应用状态详解</h1>
+<p>iOS 与其他操作系统有很多不同，当 App 不在当前运行时，可以使用的资源特别有限。</p>
+<p>虽说 App 传统上讲只有两种状态，前台和后台。但是这种说法是不太清晰的。</p>
+<p>如果要清楚的讲明白 App 在不同状态下的异同点，那么可以从三个维度去看：</p>
+<ul>
+<li>是否可见。App 是否显示在屏幕上</li>
+<li>能不能接收事件，比如触摸、摇晃手机等</li>
+<li>能不能执行代码。这个是我们比较关心的</li>
+</ul>
+<h2 id="app-的-5-中状态">App 的 5 中状态</h2>
+<p>一个 App ，不管是处于什么情况下，总共的状态有五种，分别是：</p>
+<ul>
+<li>没有运行状态</li>
+<li>活跃</li>
+<li>不活跃</li>
+<li>后台运行</li>
+<li>暂停运行</li>
+</ul>
+<p>后面会详细的讲解某个状态以及状态之间的转换。</p>
+<!-- more -->
+<h3 id="非运行状态">非运行状态</h3>
+<p>很多 App 都是这个状态，在此状态下，设备的 RAM 中没有加载该 App 的任何代码。</p>
+<p>App 会长期地处于该中状态。在这种状态下，App 肯定是不会显示在屏幕上的，并且也不能接受事件，当然也不能执行代码。简单的理解为死掉的即可。</p>
+<h3 id="活跃状态">活跃状态</h3>
+<p>当 App 在运行时，就是此种状态。</p>
+<p>此时 App 可以接收事件、运行代码、显示内容。这种状态即平时讲的前台运行。</p>
+<h3 id="非活跃状态">非活跃状态</h3>
+<p>App 在某些情况下，会进入到该状态。</p>
+<p>在这种状态下，App 的内容有显示在屏幕上，并且能够执行代码，但是无法接收事件。</p>
+<p>App 一般在下列情况下，会进入这个状态：</p>
+<p>iOS 设备接收到 短信、电话、通知等，也就是说对于用户讲，App 本身不是第一个被关注的内容。</p>
+<p>这种情况下，App 的内容也显示在屏幕上，以一种模态的形式展现。</p>
+<h3 id="后台运行">后台运行</h3>
+<p>当用户使用 Home 键或者其他方式切换到另一个 App 或进入桌面后。App 将进入后台运行模式。</p>
+<p>无法显示内容，无法接收事件，但是能够执行代码。可执行代码的时间有限制。</p>
+<p>一般来说，App 在后台运行这个状态可以长达 10 秒，然后就会被系统调整到下一个状态，暂停状态</p>
+<h3 id="暂停状态">暂停状态</h3>
+<p>暂停状态是 App 最多一个一个状态，表示 App 的一些相关数据仍存在于内存中，但是 App 被悬挂起来，相当于 App 当时的状态被封停了。</p>
+<p>在这个状态下，App 可以迅速的返回到活跃状态。</p>
+<p>如果长期处于这个状态，并且系统在内存不够用时，会将处于暂停状态的 App 彻底杀死，转换到非运行状态。</p>
+<p>用户也可以通过手动杀死的方式，将 App 直接置于该种状态。</p>
+<h2 id="常见的状态转换">常见的状态转换</h2>
+<p>状态之间是可以相互转换的，下面简述几种常见的方式。</p>
+<p>当一个 App 在非运行状态时，用户可以通过点击 App 的 Icon 或者 App 的通知来打开一个 App。</p>
+<blockquote>
+<p>需要注意的是，即使 silent 通知，在这种状态下也是无法唤醒 App 的。</p>
+</blockquote>
+<p>然后 App 进入到活跃状态。</p>
+<p>当用户在使用 App 的过程中，会发生一些事件，然后 App 会进入非活跃状态。比如：</p>
+<p>收到一条短信、来电时。
+收到一个到期的提醒事项时。
+收到一个通知，并且该通知是属于那种弹出模式时。
+用户双击 Home 键，进入到 App 切换界面。</p>
+<p>用户一般不会在这个状态下停留很久的时间，当阻碍 App 成为用户第一焦点的其他消失或被用户处理后，App 马上恢复到活跃状态。</p>
+<p>用户摁下 Home 键或者切换到别的 App 时，App 将进入到后台运行状态，在这种状态下，只能在有限的时间内做一些简单的工作，然后 App 将会休眠，进入到暂停状态。</p>
+<p>在暂停状态下，App 是什么都干不了的，只能等待用户主动唤醒或者 silent 通知。</p>
+<p>休眠的 App 在收到 silent 通知时，将会进入后台状态，又可以在有限的时间内做一些工作。</p>
+<blockquote>
+<p>如果使用新闻类 App ,或者系统的邮箱服务时,可以发现,有时候 App 明明没有被打开过,但是在打开时,内容已经做了更新。
+这里就用到了 silent 推送，App 接收到 silent 推送然后进入后台运行模式，做网络请求，得到数据，然后更新 model。这样子用户在下次打开 App 时，将会看到已经更新好的数据，而不是再去做网络请求，这样子很好的提升了用户体验。</p>
+</blockquote>
+<p>当 App 在休眠状态太久，并且更多的 App 进入到休眠状态时，系统的内容将不够用，因为 App 在休眠时，为了能够快速的将其激活，是将其放在内存中的。</p>
+<p>这样子，用户就感觉好像使用的 App 没有被关闭，一直在运行。</p>
+<p>内存不够用时，休眠时间比较长的 App 会被清退出内存，进入到非运行状态。</p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">Charvel</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2016-07-15
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      
+      <nav class="post-nav">
+        <a class="prev" href="/post/2016-08-about-swift-try/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Swift 中的错误处理：try, try?, try!</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/2017-06-what-new-in-cocoatouch/">
+            <span class="next-text nav-default">WWDC 2016 Session 205 - What&#39;s new in CocoaTouch 总结</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-stack-overflow" title="stack-overflow"></a>
+      <a href="http://localhost:1313" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="http://localhost:1313" class="iconfont icon-facebook" title="facebook"></a>
+      <a href="http://localhost:1313" class="iconfont icon-linkedin" title="linkedin"></a>
+      <a href="http://localhost:1313" class="iconfont icon-google" title="google"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-zhihu" title="zhihu"></a>
+      <a href="http://localhost:1313" class="iconfont icon-douban" title="douban"></a>
+      <a href="http://localhost:1313" class="iconfont icon-pocket" title="pocket"></a>
+      <a href="http://localhost:1313" class="iconfont icon-tumblr" title="tumblr"></a>
+      <a href="http://localhost:1313" class="iconfont icon-instagram" title="instagram"></a>
+      <a href="http://localhost:1313" class="iconfont icon-gitlab" title="gitlab"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://wellcheng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>Charvel</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.4ae89da218555efa0e7093a20b92017d2e1202b66fff9fc2edf4cb8d44b44c6e.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

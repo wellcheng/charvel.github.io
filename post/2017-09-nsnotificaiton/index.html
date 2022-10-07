@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>使用 iOS 中不一样的 NSNotification Center - Even - A super concise theme for Hugo</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Charvel" /><meta name="description" content="通知中心利用观察者模式，能够很方便地进行一对多的通知，通俗点称作广播。 NSNotification default Center 内部维护了观察列表，并负责通知的派发。 使用 Notification 并不难，Foudat" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.104.3 with theme even" />
+
+
+<link rel="canonical" href="http://wellcheng.github.io/post/2017-09-nsnotificaiton/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.f92fd13721ddf72129410fd8250e73152cc6f2438082b6c0208dc24ee7c13fc4.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="使用 iOS 中不一样的 NSNotification Center" />
+<meta property="og:description" content="通知中心利用观察者模式，能够很方便地进行一对多的通知，通俗点称作广播。 NSNotification default Center 内部维护了观察列表，并负责通知的派发。 使用 Notification 并不难，Foudat" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://wellcheng.github.io/post/2017-09-nsnotificaiton/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2017-09-09T12:14:36+08:00" />
+<meta property="article:modified_time" content="2017-09-09T12:14:36+08:00" />
+
+<meta itemprop="name" content="使用 iOS 中不一样的 NSNotification Center">
+<meta itemprop="description" content="通知中心利用观察者模式，能够很方便地进行一对多的通知，通俗点称作广播。 NSNotification default Center 内部维护了观察列表，并负责通知的派发。 使用 Notification 并不难，Foudat"><meta itemprop="datePublished" content="2017-09-09T12:14:36+08:00" />
+<meta itemprop="dateModified" content="2017-09-09T12:14:36+08:00" />
+<meta itemprop="wordCount" content="2117">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="使用 iOS 中不一样的 NSNotification Center"/>
+<meta name="twitter:description" content="通知中心利用观察者模式，能够很方便地进行一对多的通知，通俗点称作广播。 NSNotification default Center 内部维护了观察列表，并负责通知的派发。 使用 Notification 并不难，Foudat"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Even</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Even</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">使用 iOS 中不一样的 NSNotification Center</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2017-09-09 </span>
+        
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#接收和发送通知">接收和发送通知</a>
+          <ul>
+            <li><a href="#接收通知">接收通知</a></li>
+            <li><a href="#添加-observer">添加 Observer</a></li>
+            <li><a href="#处理通知">处理通知</a></li>
+            <li><a href="#移除-obeserver">移除 Obeserver</a></li>
+            <li><a href="#发送通知">发送通知</a></li>
+            <li><a href="#通知的命名规则">通知的命名规则</a></li>
+            <li><a href="#自定义通知">自定义通知</a></li>
+          </ul>
+        </li>
+        <li><a href="#对-notification-进行单元测试">对 Notification 进行单元测试</a></li>
+        <li><a href="#异步发出通知">异步发出通知</a>
+          <ul>
+            <li><a href="#合并以及推迟通知">合并以及推迟通知</a></li>
+          </ul>
+        </li>
+        <li><a href="#小结">小结</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>通知中心利用观察者模式，能够很方便地进行一对多的通知，通俗点称作广播。</p>
+<p>NSNotification default Center 内部维护了观察列表，并负责通知的派发。</p>
+<p>使用 Notification 并不难，Foudation 提供了三个 class：</p>
+<ul>
+<li>NSNotification：通知的数据结构，包含通知的具体数据，包含通知名 name，一个对象 object 和一个可选的字典 userInfo。</li>
+<li>NSNotification Center：负责派发 notification 并维护观察者列表。每个 App 都有一个默认的实现，即 <code>[NSNoficationCenter defaultCenter]</code>。</li>
+<li>NSNotificationQueue：一个缓冲队列，可以在队列中过滤、合并通知。每个线程都有默认的 queue，即 defaultQueue。</li>
+</ul>
+<!-- more -->
+<h2 id="接收和发送通知">接收和发送通知</h2>
+<h3 id="接收通知">接收通知</h3>
+<p>iOS 系统默认提供了一百多种通知，方便我们使用。实现一个接收通知的代码很简单，例如当前的 ViewController 需要在 App 即将进入后台时对页面进行高斯模糊，并且设置下次 App 恢复到前台时要求登陆密码。很多银行类 App 都有这种需求。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Objc" data-lang="Objc"><span class="line"><span class="cl"><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">viewDidLoad</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// 向 Notification Center 添加观察者
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  	<span class="n">UIImage</span> <span class="o">*</span><span class="n">currentScreenImage</span> <span class="o">=</span> <span class="p">...;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">[[</span><span class="n">NSNotificationCenter</span> <span class="n">defaultCenter</span><span class="p">]</span> <span class="nl">addObserver</span><span class="p">:</span><span class="nb">self</span> <span class="nl">selector</span><span class="p">:</span><span class="k">@selector</span><span class="p">(</span><span class="nl">appDidEnterBack</span><span class="p">:)</span> <span class="nl">name</span><span class="p">:</span><span class="n">UIApplicationDidEnterBackgroundNotification</span> <span class="nl">object</span><span class="p">:</span><span class="n">currentScreenImage</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">appDidEnterBack:</span><span class="p">(</span><span class="n">NSNotification</span> <span class="o">*</span><span class="p">)</span><span class="nv">notification</span>
+</span></span><span class="line"><span class="cl"><span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">notification</span><span class="p">.</span><span class="n">name</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">notification</span><span class="p">.</span><span class="n">object</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">notification</span><span class="p">.</span><span class="n">userInfo</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="c1">// 在当前 view 上添加模糊图
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>  	<span class="c1">// 开启登陆验证
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>当 App 进入后台时，NotificationCenter 发现我们这个 ViewController 注册了该通知，就会调用 <code>appDidEnterBack</code> 方法。可以在方法中访问 notification 的三个属性获取额外信息。</p>
+<p>利用通知一般需要三个步骤：</p>
+<h3 id="添加-observer">添加 Observer</h3>
+<p>observer 就是要接受通知的对象，通知最后会发送到该对象上，即调用该对象在注册通知时的 selector。</p>
+<p>通常会在 Notification Center 中添加该 Observer，并且传入需要观察的通知的 name（标识符）。另外还有一个 object 参数可供我们使用，一般 object 表示谁发出这个通知，即通知的发起方。</p>
+<p>object 对象在处理多个同名通知时有用，比如当前 ViewController 有多个 UITextField，它们都发出 UITextFieldTextDidChangeNotification 这个通知，那么能够正确地区分每一个 TextField 将会使我们的工作简单很多。</p>
+<h3 id="处理通知">处理通知</h3>
+<p>Obeserver 在被添加到 Notification Center 后，会持续不断地接收通知，除非从 NotificationCenter 中移除。</p>
+<p>NotificationCenter 会在通知发生时调用 ``addObserver:selector:name:object:<code> </code> 方法中的 selector，方法被掉起时的所在的线程与通知被 post 时一致。</p>
+<p>还可以将通知处理的方法放在 block 中，提升阅读性：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-objc" data-lang="objc"><span class="line"><span class="cl"><span class="p">-</span> <span class="p">(</span><span class="kt">id</span> <span class="o">&lt;</span><span class="n">NSObject</span><span class="o">&gt;</span><span class="p">)</span><span class="nf">addObserverForName:</span><span class="p">(</span><span class="n">nullable</span> <span class="n">NSNotificationName</span><span class="p">)</span><span class="nv">name</span> <span class="nf">object:</span><span class="p">(</span><span class="n">nullable</span> <span class="kt">id</span><span class="p">)</span><span class="nv">obj</span> <span class="nf">queue:</span><span class="p">(</span><span class="n">nullable</span> <span class="n">NSOperationQueue</span> <span class="o">*</span><span class="p">)</span><span class="nv">queue</span> <span class="nf">usingBlock:</span><span class="p">(</span><span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">NSNotification</span> <span class="o">*</span><span class="n">note</span><span class="p">))</span><span class="nv">block</span> <span class="n">API_AVAILABLE</span><span class="p">(</span><span class="n">macos</span><span class="p">(</span><span class="mf">10.6</span><span class="p">),</span> <span class="n">ios</span><span class="p">(</span><span class="mf">4.0</span><span class="p">),</span> <span class="n">watchos</span><span class="p">(</span><span class="mf">2.0</span><span class="p">),</span> <span class="n">tvos</span><span class="p">(</span><span class="mf">9.0</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// The return value is retained by the system, and should be held onto by the caller in
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// order to remove the observer with removeObserver: later, to stop observation.
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="移除-obeserver">移除 Obeserver</h3>
+<p>当不需要再对通知响应时，就需要将其移出，不然会因为给已经 dealloc 的实例发送方法而遇到 Crash。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-objc" data-lang="objc"><span class="line"><span class="cl"><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">removeObserver:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">observer</span> <span class="nf">name:</span><span class="p">(</span><span class="n">NSNotificationName</span><span class="p">)</span><span class="nv">aName</span> <span class="nf">object:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">anObject</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">removeObserver:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">observer</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>NSNotification 提供了上述两个方法。前者是移出指定的通知，后者是移出某个 observer 的所有通知。常用的做法是在 delloc 中移除该 observer 的所有通知，对象都销毁了，自然就无需监听通知了。</p>
+<h3 id="发送通知">发送通知</h3>
+<p>可使用默认的通知中心发送通知，指定通知名 name 与发送方 senderObject 以及参数字典 userInfo即可。后面两个参数是可以省略的。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-objective-c" data-lang="objective-c"><span class="line"><span class="cl"><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">postNotificationName:</span><span class="p">(</span><span class="n">NSNotificationName</span><span class="p">)</span><span class="nv">aName</span> <span class="nf">object:</span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">anObject</span> <span class="nf">userInfo:</span><span class="p">(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">aUserInfo</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>通知会在这个发起线程里，向所有已注册该 notification 的 observer 发送，这个顺序并不是确定的。通知是被同步发出，也就是说通知被发送且处理完成之后，post 方法才会返回。</p>
+<h3 id="通知的命名规则">通知的命名规则</h3>
+<p>按照编码规范，通知命名遵循如下标准：</p>
+<blockquote>
+<p>NameOfAssociatedClass +  [ Did | Will ] + [ UniquePartOfName ] + Notification</p>
+</blockquote>
+<p>例如：ReigsterControllerDidPassedNotification</p>
+<h3 id="自定义通知">自定义通知</h3>
+<p>有时默认的 NSNotification 不能满足我们的要求，或者会产生很多胶水代码：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-objective-c" data-lang="objective-c"><span class="line"><span class="cl"><span class="n">NSNotification</span> <span class="o">*</span><span class="n">noti</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSNotificaiton</span> <span class="n">new</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="n">noti</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="p">...</span>
+</span></span><span class="line"><span class="cl"><span class="n">noti</span><span class="p">.</span><span class="n">object</span> <span class="o">=</span> <span class="p">...</span>
+</span></span><span class="line"><span class="cl"><span class="n">noti</span><span class="p">.</span><span class="n">userInfo</span> <span class="o">=</span> <span class="l">@{</span>
+</span></span><span class="line"><span class="cl">  <span class="s">@&#34;#1&#34;</span> <span class="o">:</span> <span class="p">...,</span>
+</span></span><span class="line"><span class="cl">  <span class="s">@&#34;#2&#34;</span> <span class="o">:</span> <span class="p">...,</span>
+</span></span><span class="line"><span class="cl">  <span class="s">@&#34;#3&#34;</span> <span class="o">:</span> <span class="p">...,</span>
+</span></span><span class="line"><span class="cl"><span class="l">}</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// 使用 Category，以及计算属性，使得 Notification 可定制化
+</span></span></span><span class="line"><span class="cl"><span class="c1">// 属性使用 readonly 声明，防止被修改
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">NSNotification</span> <span class="o">*</span><span class="n">noti</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSNotificaiton</span> <span class="nl">withUser</span><span class="p">:</span><span class="n">user</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">@interface</span> <span class="nc">NSNotification</span> <span class="nl">(UserObserver)</span>
+</span></span><span class="line"><span class="cl"><span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span> <span class="k">readonly</span><span class="p">)</span> <span class="n">CVLUser</span> <span class="o">*</span><span class="n">hpe_audioPlayer</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">@property</span> <span class="p">(</span><span class="k">nonatomic</span><span class="p">,</span> <span class="k">readonly</span><span class="p">)</span> <span class="n">NSTimeInterval</span> <span class="n">hpe_endTime</span><span class="p">;</span> 
+</span></span><span class="line"><span class="cl"><span class="k">@end</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="k">@implementation</span> <span class="nc">NSNotification</span> <span class="nl">(HPEAudioPlayerObserver)</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="p">-</span> <span class="p">(</span><span class="n">HPEAudioPlayer</span><span class="o">*</span><span class="p">)</span><span class="nf">hpe_audioPlayer</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nb">self</span><span class="p">.</span><span class="n">object</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="p">-</span> <span class="p">(</span><span class="n">NSTimeInterval</span><span class="p">)</span><span class="nf">hpe_endTime</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="p">[[</span><span class="nb">self</span><span class="p">.</span><span class="n">userInfo</span> <span class="nl">objectForKey</span><span class="p">:</span><span class="n">HPEAudioPlayerNotificationEndTimeKey</span><span class="p">]</span> <span class="n">doubleValue</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl"> 
+</span></span><span class="line"><span class="cl"><span class="k">@end</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="对-notification-进行单元测试">对 Notification 进行单元测试</h2>
+<p>查看  <a href="http://ocmock.org/reference/#observer-mocks">http://ocmock.org/reference/#observer-mocks</a> 即可。</p>
+<h2 id="异步发出通知">异步发出通知</h2>
+<p>NotificationCenter 是同步处理通知的，即通知发出后会立刻处理通知。如果通知特别频繁的话，那么对性能的影响比较大，同时也容易出现一些问题，比如频繁地更新 UI。</p>
+<p>Foundation 提供了 NSNotificationQueue 用于处理这种场景，能够将通知放在队列中，合并或者延迟调用。NSNotificationQueue 与 Runloop 息息相关，Notification Queue 以 FIFO 顺序持有 notifications，notification 在队列中出队时，会发送给关联的 Notification Center 中。</p>
+<p>由于 Notifications 与 Runloop 相关，因此有一些坑：</p>
+<ul>
+<li>队列中的 Notifications 可能不会按时发送</li>
+<li>队列中的 Notifications 可能不会再被派发到 NotificationCenter 中（比如线程对应的 Runloop 退出，剩余的 Notifications 会被丢弃）</li>
+</ul>
+<p>因此，无法保证 NotificationQueue 中的 Notification 一定会被 post，或者在某个特定的线程接收。</p>
+<h3 id="合并以及推迟通知">合并以及推迟通知</h3>
+<p>使用下面的方法可以在队列中添加一个通知：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-objective-c" data-lang="objective-c"><span class="line"><span class="cl"><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">enqueueNotification:</span><span class="p">(</span><span class="n">NSNotification</span> <span class="o">*</span><span class="p">)</span><span class="nv">notification</span> 
+</span></span><span class="line"><span class="cl">  	<span class="nf">postingStyle:</span><span class="p">(</span><span class="n">NSPostingStyle</span><span class="p">)</span><span class="nv">postingStyle</span> 
+</span></span><span class="line"><span class="cl">    <span class="nf">coalesceMask:</span><span class="p">(</span><span class="n">NSNotificationCoalescing</span><span class="p">)</span><span class="nv">coalesceMask</span> 
+</span></span><span class="line"><span class="cl">    <span class="nf">forModes:</span><span class="p">(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSRunLoopMode</span><span class="o">&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">modes</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>由于这个方法是异步的，因此会立刻返回。</p>
+<p><code>postingStyle </code> 决定了通知被延迟的方式：</p>
+<ul>
+<li>NSPostNow：同步发出通知，也就是一添加到队列中，如果 coalescing 没有被指定，那么就会立刻执行。</li>
+<li>NSPostASAP：当前 Runloop 完成时执行，相当于一个 0 毫秒延迟的 timer。</li>
+<li>NSPostWhenIdle：只有当 Runloop 处于 wait 或者 idle 状态时，才会去处理。</li>
+</ul>
+<p>延迟处理 notification 特别有用，可以避免大量 notification 出现时的窘境。例如在一个 socket 连接中，将大量的 notfication 中的数据合并后作为一个 notification 发出。</p>
+<p>coalescing 有三种选项：</p>
+<ul>
+<li>NSNotificationNoCoalescing：不合并</li>
+<li>NSNotificationCoalescingOnName：合并相同 name 的通知</li>
+<li>NSNotificationCoalescingOnSender：合并相同的 sender</li>
+</ul>
+<h2 id="小结">小结</h2>
+<p>Notification 用起来好，但是不能泛滥，coalescing 合并也不是万金油，在需要使用 coalescing 时选项时，可以考虑是否能用其他方式替代。</p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">Charvel</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2017-09-09
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      
+      <nav class="post-nav">
+        <a class="prev" href="/post/2017-10-runtime/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">随便说 iOS 中的 runtime</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/2017-08-lldb/">
+            <span class="next-text nav-default">使用 LLDB 调试 iOS</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-stack-overflow" title="stack-overflow"></a>
+      <a href="http://localhost:1313" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="http://localhost:1313" class="iconfont icon-facebook" title="facebook"></a>
+      <a href="http://localhost:1313" class="iconfont icon-linkedin" title="linkedin"></a>
+      <a href="http://localhost:1313" class="iconfont icon-google" title="google"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-zhihu" title="zhihu"></a>
+      <a href="http://localhost:1313" class="iconfont icon-douban" title="douban"></a>
+      <a href="http://localhost:1313" class="iconfont icon-pocket" title="pocket"></a>
+      <a href="http://localhost:1313" class="iconfont icon-tumblr" title="tumblr"></a>
+      <a href="http://localhost:1313" class="iconfont icon-instagram" title="instagram"></a>
+      <a href="http://localhost:1313" class="iconfont icon-gitlab" title="gitlab"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://wellcheng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>Charvel</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.4ae89da218555efa0e7093a20b92017d2e1202b66fff9fc2edf4cb8d44b44c6e.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>读书笔记 on Even - A super concise theme for Hugo</title>
+    <link>http://wellcheng.github.io/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</link>
+    <description>Recent content in 读书笔记 on Even - A super concise theme for Hugo</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 22 Apr 2015 21:34:19 +0800</lastBuildDate><atom:link href="http://wellcheng.github.io/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>AutoLayout 读书笔记(一)</title>
+      <link>http://wellcheng.github.io/post/2015-04-22-autolayout-du-shu-bi-ji-1/</link>
+      <pubDate>Wed, 22 Apr 2015 21:34:19 +0800</pubDate>
+      
+      <guid>http://wellcheng.github.io/post/2015-04-22-autolayout-du-shu-bi-ji-1/</guid>
+      <description>&lt;h2 id=&#34;第一章-autolayout-介绍&#34;&gt;第一章 AutoLayout 介绍&lt;/h2&gt;
+&lt;p&gt;###1.1 由来：&lt;/p&gt;
+&lt;p&gt;前身为 Cassowary 约束解析工具包，本质是通过定义的约束构成联立方程组，然后求解，得出界面元素唯一的布局可能。&lt;/p&gt;
+&lt;p&gt;###1.2 好处都有啥？&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;几何关系&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;工作原理为通过创建界面上元素之间的关系从而实现布局。对于自然界之间的一些关系，可以用一些统一的规则来描述，能够建立界面元素之间强健的几何关系，在一定程度上使用抽象的语言描述。&lt;/p&gt;
+&lt;p&gt;改变 AutoLayout 约束的值，还可以创建出优美的动画。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

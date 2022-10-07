@@ -1,0 +1,316 @@
+<?xml-stylesheet type="text/xsl" href="http://wellcheng.github.io/sitemap.xsl"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <url>
+    <loc>http://wellcheng.github.io/</loc>
+    <lastmod>2022-10-07T19:06:01+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://wellcheng.github.io/post/</loc>
+    <lastmod>2022-10-07T19:06:01+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://wellcheng.github.io/post/new-hugo-blog-with-even-theme/</loc>
+    <lastmod>2022-10-07T19:06:01+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://wellcheng.github.io/post/2017-10-runtime/</loc>
+    <lastmod>2017-11-19T18:24:28+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://wellcheng.github.io/post/2017-09-nsnotificaiton/</loc>
+    <lastmod>2017-09-09T12:14:36+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://wellcheng.github.io/post/2017-08-lldb/</loc>
+    <lastmod>2017-08-18T21:10:26+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://wellcheng.github.io/post/2017-07-threadprogrammingguide-1/</loc>
+    <lastmod>2017-07-12T11:10:26+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://wellcheng.github.io/tags/</loc>
+    <lastmod>2017-07-02T18:10:26+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://wellcheng.github.io/post/2017-07-%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/</loc>
+    <lastmod>2017-07-02T18:10:26+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://wellcheng.github.io/tags/%E7%AE%97%E6%B3%95/</loc>
+    <lastmod>2017-07-02T18:10:26+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://wellcheng.github.io/post/2017-06-use-animation-in-auto-layout-and-masonry/</loc>
+    <lastmod>2017-06-14T23:04:39+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://wellcheng.github.io/post/2017-05-auto-layout-setneedsupdateconstraints-layoutifneeded/</loc>
+    <lastmod>2017-05-14T23:03:01+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://wellcheng.github.io/post/2016-09-ios-project-structure/</loc>
+    <lastmod>2016-09-24T22:38:13+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://wellcheng.github.io/post/2016-09-swift-closure-capture/</loc>
+    <lastmod>2016-09-14T22:32:18+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://wellcheng.github.io/post/2016-08-about-swift-try/</loc>
+    <lastmod>2016-08-24T21:59:29+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://wellcheng.github.io/categories/</loc>
+    <lastmod>2016-07-15T20:12:06+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://wellcheng.github.io/categories/ios/</loc>
+    <lastmod>2016-07-15T20:12:06+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://wellcheng.github.io/post/2016-07-ios-application-state/</loc>
+    <lastmod>2016-07-15T20:12:06+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://wellcheng.github.io/post/2017-06-what-new-in-cocoatouch/</loc>
+    <lastmod>2016-06-25T17:03:22+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://wellcheng.github.io/tags/gcd/</loc>
+    <lastmod>2015-05-12T23:20:49+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://wellcheng.github.io/post/2015-05-12-ios-bing-fa-bian-cheng-zhi-nan-wu-jiang-xian-you-dai-ma-qian-yi-wei-ke-bing-fa/</loc>
+    <lastmod>2015-05-12T23:20:49+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://wellcheng.github.io/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/</loc>
+    <lastmod>2015-05-12T23:20:49+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://wellcheng.github.io/post/2015-05-08-ios-bing-fa-bian-cheng-zhi-nan-si-dispatch-sources/</loc>
+    <lastmod>2015-05-08T10:38:38+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://wellcheng.github.io/tags/%E7%BF%BB%E8%AF%91/</loc>
+    <lastmod>2015-05-08T10:38:38+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://wellcheng.github.io/tags/swift/</loc>
+    <lastmod>2015-05-02T19:23:20+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://wellcheng.github.io/post/2015-05-02-swift-xue-xi-bi-ji-2/</loc>
+    <lastmod>2015-05-02T19:23:20+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://wellcheng.github.io/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</loc>
+    <lastmod>2015-05-02T19:23:20+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://wellcheng.github.io/post/2015-04-30-ios-bing-fa-bian-cheng-zhi-nan-san-dispatch-queues/</loc>
+    <lastmod>2015-04-30T20:48:38+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://wellcheng.github.io/post/2015-04-30-autolayout-du-shu-bi-ji-san-ke-shi-hua-ge-shi/</loc>
+    <lastmod>2015-04-30T14:22:42+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://wellcheng.github.io/post/2015-04-29-swift-xue-xi-bi-ji-1/</loc>
+    <lastmod>2015-04-29T19:22:58+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://wellcheng.github.io/post/2015-04-27-ios-bing-fa-bian-cheng-zhi-nan-er--operation-queue/</loc>
+    <lastmod>2015-04-27T10:58:41+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://wellcheng.github.io/tags/autolayout/</loc>
+    <lastmod>2015-04-23T09:00:52+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://wellcheng.github.io/post/2015-04-23-autolayout-du-shu-bi-ji-er/</loc>
+    <lastmod>2015-04-23T09:00:52+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://wellcheng.github.io/post/2015-04-22-autolayout-du-shu-bi-ji-1/</loc>
+    <lastmod>2015-04-22T21:34:19+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://wellcheng.github.io/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/</loc>
+    <lastmod>2015-04-22T21:34:19+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://wellcheng.github.io/tags/cocoapods/</loc>
+    <lastmod>2015-04-04T20:23:36+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://wellcheng.github.io/tags/%E4%BE%9D%E8%B5%96/</loc>
+    <lastmod>2015-04-04T20:23:36+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://wellcheng.github.io/post/2015-04-04-chuang-jian-zi-ji-de-cocoapods-podspec-wen-jian/</loc>
+    <lastmod>2015-04-04T20:23:36+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://wellcheng.github.io/post/2015-03-09-ios-bing-fa-bian-cheng-zhi-nan-1/</loc>
+    <lastmod>2015-03-09T15:38:28+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://wellcheng.github.io/post/2015-03-05-jiang-ni-de-ios-gong-cheng-zhuan-huan-wei-zhi-chi-64wei-de-ban-ben/</loc>
+    <lastmod>2015-03-05T15:21:41+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://wellcheng.github.io/tags/%E7%BC%96%E8%AF%91/</loc>
+    <lastmod>2015-03-05T15:21:41+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://wellcheng.github.io/post/2015-03-02-ios-gong-cheng-zhong-de-architectures/</loc>
+    <lastmod>2015-03-02T11:05:58+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://wellcheng.github.io/post/2015-11-scrollview-%E4%B8%AD%E4%BD%BF%E7%94%A8-autolayout-%E7%9A%84%E5%9D%91%E4%B8%8E%E5%A1%AB%E5%9D%91/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://wellcheng.github.io/post/2015-year-end-summary/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>http://wellcheng.github.io/post/2017-01-abount-gdc/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+</urlset>

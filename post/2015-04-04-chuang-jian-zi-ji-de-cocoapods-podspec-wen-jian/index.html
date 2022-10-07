@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>创建自己的cocoaPods - podspec 文件 - Even - A super concise theme for Hugo</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Charvel" /><meta name="description" content=" 现在很多开源的第三方库都支持 cocoaPods 来管理，这对于 iOS 开发人员来说是一个福音，基础的运用为创建 podfile 然后在文件中加入自己需要依赖的第三方库就可以啦。不过在实际的使用中，有可能需要依赖自己的库或者公司的库，或者有些库没有加入到 cocoaPods 中，这个时候就需要我们制定自己的 cocoaPods 库了。
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.104.3 with theme even" />
+
+
+<link rel="canonical" href="http://wellcheng.github.io/post/2015-04-04-chuang-jian-zi-ji-de-cocoapods-podspec-wen-jian/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.f92fd13721ddf72129410fd8250e73152cc6f2438082b6c0208dc24ee7c13fc4.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="创建自己的cocoaPods - podspec 文件" />
+<meta property="og:description" content="
+现在很多开源的第三方库都支持 cocoaPods 来管理，这对于 iOS 开发人员来说是一个福音，基础的运用为创建 podfile 然后在文件中加入自己需要依赖的第三方库就可以啦。不过在实际的使用中，有可能需要依赖自己的库或者公司的库，或者有些库没有加入到 cocoaPods 中，这个时候就需要我们制定自己的 cocoaPods 库了。
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://wellcheng.github.io/post/2015-04-04-chuang-jian-zi-ji-de-cocoapods-podspec-wen-jian/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2015-04-04T20:23:36+08:00" />
+<meta property="article:modified_time" content="2015-04-04T20:23:36+08:00" />
+
+<meta itemprop="name" content="创建自己的cocoaPods - podspec 文件">
+<meta itemprop="description" content="
+现在很多开源的第三方库都支持 cocoaPods 来管理，这对于 iOS 开发人员来说是一个福音，基础的运用为创建 podfile 然后在文件中加入自己需要依赖的第三方库就可以啦。不过在实际的使用中，有可能需要依赖自己的库或者公司的库，或者有些库没有加入到 cocoaPods 中，这个时候就需要我们制定自己的 cocoaPods 库了。
+"><meta itemprop="datePublished" content="2015-04-04T20:23:36+08:00" />
+<meta itemprop="dateModified" content="2015-04-04T20:23:36+08:00" />
+<meta itemprop="wordCount" content="1190">
+<meta itemprop="keywords" content="CocoaPods,依赖," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="创建自己的cocoaPods - podspec 文件"/>
+<meta name="twitter:description" content="
+现在很多开源的第三方库都支持 cocoaPods 来管理，这对于 iOS 开发人员来说是一个福音，基础的运用为创建 podfile 然后在文件中加入自己需要依赖的第三方库就可以啦。不过在实际的使用中，有可能需要依赖自己的库或者公司的库，或者有些库没有加入到 cocoaPods 中，这个时候就需要我们制定自己的 cocoaPods 库了。
+"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Even</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Even</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">创建自己的cocoaPods - podspec 文件</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2015-04-04 </span>
+        
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#cocoapods-基本原理">CocoaPods 基本原理</a>
+          <ul>
+            <li><a href="#cocoapods-的基本流程大概为">CocoaPods 的基本流程大概为：</a></li>
+            <li><a href="#添加第三方库">添加第三方库</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <blockquote>
+<p>现在很多开源的第三方库都支持 cocoaPods 来管理，这对于 iOS 开发人员来说是一个福音，基础的运用为创建 <code>podfile</code> 然后在文件中加入自己需要依赖的第三方库就可以啦。不过在实际的使用中，有可能需要依赖自己的库或者公司的库，或者有些库没有加入到 cocoaPods 中，这个时候就需要我们制定自己的 cocoaPods 库了。</p>
+</blockquote>
+<h2 id="cocoapods-基本原理">CocoaPods 基本原理</h2>
+<h3 id="cocoapods-的基本流程大概为">CocoaPods 的基本流程大概为：</h3>
+<ol>
+<li>初始化一个 WorkSpace，将原有的 project 包含进来，同时创建一个专用于管理依赖的 project： <code>Pods</code> 。这个时候，你的项目应该是这样的结构：一个 WorkSpace 中有两个 project ，一个是你真正的项目，另一个是用于管理依赖的 Pods project。</li>
+<li>通过 git 下载 <code>Podfile</code> 文件中的第三方库，每一个库作为 Pods 项目的 target，编译生成一个以库名命名的静态库文件，例如 <code>AFNetworking.a</code>。</li>
+<li>将所有的 .a 文件合并为最终主项目依赖的静态库，名为 <code>libPods.a</code></li>
+<li>依据每个第三方库的.podspec 文件，将其被添加进工程中。.podspec文件可以标识该第三方库所需要的源码文件、依赖库、编译选项，以及其他第三方库需要的配置。</li>
+<li>最后，Pods 修改主项目中的编译、链接参数，让你的项目完美集成第三方库。</li>
+</ol>
+<h3 id="添加第三方库">添加第三方库</h3>
+<p>当Cocoapods向项目中增加了一个第三方库的时候，不仅仅是将添加代码这么简单。由于每个第三方库有不同的target，所以每次添加第三方库时，都只有几个文件被添加。每个源代码都需要：</p>
+<h4 id="一个包含编译选项的xcconfig文件">一个包含编译选项的.xcconfig文件</h4>
+<p>这个文件主要描述当前的库需要哪些系统库的支持，举几个例子就很容易明白啦：</p>
+<ul>
+<li>
+<p>AFNetworking：</p>
+<pre><code>  PODS_AFNETWORKING_OTHER_LDFLAGS = -framework &quot;CoreGraphics&quot; 
+  -framework &quot;MobileCoreServices&quot; 
+  -framework &quot;Security&quot; 
+  -framework &quot;SystemConfiguration&quot;
+</code></pre>
+</li>
+<li>
+<p>Base64：</p>
+<pre><code>  Base64 只提供了方法，不需要系统库支持，所以这个文件为空
+</code></pre>
+</li>
+<li>
+<p>FMDB：</p>
+<pre><code>  PODS_FMDB_OTHER_LDFLAGS = -l&quot;sqlite3&quot;
+</code></pre>
+</li>
+<li>
+<p>Reachability：</p>
+<pre><code>  PODS_REACHABILITY_OTHER_LDFLAGS = 
+  -framework &quot;SystemConfiguration&quot;
+</code></pre>
+</li>
+</ul>
+<h4 id="一个同时拥有编译设置和cocoapods默认配置的私有xcconfig文件">一个同时拥有编译设置和CocoaPods默认配置的私有.xcconfig文件</h4>
+<p>xcconfig文件正如其名字一样，就是xcode里的config文件。 我们在开发过程中，需要配置一些参数，这些都可以在xcode工程的setting对项目进行配置，xcconfig就是将这些配置项以文件的形式独立出来，方便共享与配置。比如两个项目用到相同的配置，那么只需要在xcode中选择对应的xcconfig文件即可，方便与灵活共享。</p>
+<p>CocoaPods 需要这个文件来设置当前 target 的配置选项，从而正确的编译出静态库 .a 文件。</p>
+<h4 id="编译所必须的prefixpch文件">编译所必须的prefix.pch文件</h4>
+<h4 id="另一个编译必须的文件dummym">另一个编译必须的文件dummy.m</h4>
+<p>一旦每个pod的target都完成了以上步骤，整个Pods的Target就会被创建。这增加了相同的文件，与另外几个。如果有源代码中包含了资源bundle，向app的target中添加bundle的方式将写入Pods-Resources.sh。还有一个叫Pods-environment.h的文件，文件中含有许多检查组件是否来自pod的宏定义。最后，将生成两个确认文件，一个.plist文件，一个用于给用户查阅许可信息的markdown文件。</p>
+<blockquote>
+<p>待续</p>
+</blockquote>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">Charvel</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2015-04-04
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/cocoapods/">CocoaPods</a>
+          <a href="/tags/%E4%BE%9D%E8%B5%96/">依赖</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/2015-04-22-autolayout-du-shu-bi-ji-1/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">AutoLayout 读书笔记(一)</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/2015-03-09-ios-bing-fa-bian-cheng-zhi-nan-1/">
+            <span class="next-text nav-default">iOS 并发编程指南(一)</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-stack-overflow" title="stack-overflow"></a>
+      <a href="http://localhost:1313" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="http://localhost:1313" class="iconfont icon-facebook" title="facebook"></a>
+      <a href="http://localhost:1313" class="iconfont icon-linkedin" title="linkedin"></a>
+      <a href="http://localhost:1313" class="iconfont icon-google" title="google"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-zhihu" title="zhihu"></a>
+      <a href="http://localhost:1313" class="iconfont icon-douban" title="douban"></a>
+      <a href="http://localhost:1313" class="iconfont icon-pocket" title="pocket"></a>
+      <a href="http://localhost:1313" class="iconfont icon-tumblr" title="tumblr"></a>
+      <a href="http://localhost:1313" class="iconfont icon-instagram" title="instagram"></a>
+      <a href="http://localhost:1313" class="iconfont icon-gitlab" title="gitlab"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://wellcheng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>Charvel</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.4ae89da218555efa0e7093a20b92017d2e1202b66fff9fc2edf4cb8d44b44c6e.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

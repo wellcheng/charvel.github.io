@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>算法 on Even - A super concise theme for Hugo</title>
+    <link>http://wellcheng.github.io/tags/%E7%AE%97%E6%B3%95/</link>
+    <description>Recent content in 算法 on Even - A super concise theme for Hugo</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 02 Jul 2017 18:10:26 +0800</lastBuildDate><atom:link href="http://wellcheng.github.io/tags/%E7%AE%97%E6%B3%95/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>常用排序算法：快速排序算法</title>
+      <link>http://wellcheng.github.io/post/2017-07-%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/</link>
+      <pubDate>Sun, 02 Jul 2017 18:10:26 +0800</pubDate>
+      
+      <guid>http://wellcheng.github.io/post/2017-07-%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/</guid>
+      <description>快速排序算法，简称快排，其应用了递归的思想，现选择一个基准值 baseValue，然后利用这个 baseValue 将代排序的序列分割为两部分，左边是小于 base 的，右</description>
+    </item>
+    
+  </channel>
+</rss>

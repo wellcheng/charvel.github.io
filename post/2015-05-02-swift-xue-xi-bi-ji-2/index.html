@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Swift 学习笔记（二） - Even - A super concise theme for Hugo</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Charvel" /><meta name="description" content="今天学习一些基本运算符想关的知识。运算符是检查、改变、合并值的特殊符号或短语。
+另一个很重要的地方是将以前变成容易因为运算法导致的问题解决了一哈。增加了区间运算符，还加入了 OC 中没有的运算符重载
+" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.104.3 with theme even" />
+
+
+<link rel="canonical" href="http://wellcheng.github.io/post/2015-05-02-swift-xue-xi-bi-ji-2/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.f92fd13721ddf72129410fd8250e73152cc6f2438082b6c0208dc24ee7c13fc4.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Swift 学习笔记（二）" />
+<meta property="og:description" content="今天学习一些基本运算符想关的知识。运算符是检查、改变、合并值的特殊符号或短语。
+另一个很重要的地方是将以前变成容易因为运算法导致的问题解决了一哈。增加了区间运算符，还加入了 OC 中没有的运算符重载" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://wellcheng.github.io/post/2015-05-02-swift-xue-xi-bi-ji-2/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2015-05-02T19:23:20+08:00" />
+<meta property="article:modified_time" content="2015-05-02T19:23:20+08:00" />
+
+<meta itemprop="name" content="Swift 学习笔记（二）">
+<meta itemprop="description" content="今天学习一些基本运算符想关的知识。运算符是检查、改变、合并值的特殊符号或短语。
+另一个很重要的地方是将以前变成容易因为运算法导致的问题解决了一哈。增加了区间运算符，还加入了 OC 中没有的运算符重载"><meta itemprop="datePublished" content="2015-05-02T19:23:20+08:00" />
+<meta itemprop="dateModified" content="2015-05-02T19:23:20+08:00" />
+<meta itemprop="wordCount" content="643">
+<meta itemprop="keywords" content="Swift,学习笔记," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Swift 学习笔记（二）"/>
+<meta name="twitter:description" content="今天学习一些基本运算符想关的知识。运算符是检查、改变、合并值的特殊符号或短语。
+另一个很重要的地方是将以前变成容易因为运算法导致的问题解决了一哈。增加了区间运算符，还加入了 OC 中没有的运算符重载"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Even</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Even</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Swift 学习笔记（二）</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2015-05-02 </span>
+        
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#基本运算符">基本运算符</a>
+          <ul>
+            <li><a href="#赋值运算符">赋值运算符</a></li>
+            <li><a href="#算术运算法">算术运算法</a></li>
+            <li><a href="#组合赋值运算compound-assignment-operators">组合赋值运算（Compound Assignment Operators）</a></li>
+            <li><a href="#比较运算符">比较运算符</a></li>
+            <li><a href="#三目运算符">三目运算符</a></li>
+            <li><a href="#空合运算符">空合运算符</a></li>
+            <li><a href="#区间运算符">区间运算符</a></li>
+            <li><a href="#逻辑运算符">逻辑运算符</a></li>
+          </ul>
+        </li>
+        <li><a href="#控制流">控制流</a>
+          <ul>
+            <li><a href="#loop">Loop</a></li>
+            <li><a href="#switch">switch</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>今天学习一些基本运算符想关的知识。运算符是检查、改变、合并值的特殊符号或短语。</p>
+<p>另一个很重要的地方是将以前变成容易因为运算法导致的问题解决了一哈。增加了区间运算符，还加入了 OC 中没有的运算符重载</p>
+<h2 id="基本运算符">基本运算符</h2>
+<p>运算符有一元、二元、三元运算符，其中元表示操作对象的数目。</p>
+<h3 id="赋值运算符">赋值运算符</h3>
+<p>跟其他语言一样，使用 <code>=</code> 来赋值。</p>
+<p>赋值右边为元组时，元素被分解：</p>
+<pre><code>let (x, y) = (1, 2)
+// x = 1, y = 2
+</code></pre>
+<p>与 C 语言和 Objective-C 不同，Swift 中的赋值操作不返回任何值，这样子就避免了在 if 语句中经常发生的错误：</p>
+<pre><code>if (x = y) {
+    // 编译器报错
+}
+</code></pre>
+<h3 id="算术运算法">算术运算法</h3>
+<p>支持基本四则算术运算：加减乘除。Swift 默认情况下不支持数值运算中的溢出，可参照 <code>溢出运算符</code></p>
+<p>加法用于 <code>String</code> 类型拼接：</p>
+<pre><code>var helloWorld = &quot;hello&quot; + &quot; &quot; + &quot;world&quot; + &quot;!&quot;
+// helloWorld = &quot;hello world!&quot;
+</code></pre>
+<h4 id="取余运算符">取余运算符</h4>
+<p>这个没有很大的变化，对负数取余时，会忽略其负号，即 <code>a % b</code> 和 <code>a % -b</code> 结果相同</p>
+<p>不同于 C 语言，Swift 是可以对浮点数进行求余运算的（实际中有什么用处呢？），其计算原理仍然是先得到最大的倍数，然后得到余数作为结果，不过这个余数是 Double 类型的。</p>
+<h4 id="自增自减运算符">自增自减运算符</h4>
+<p>自增（++）自减（&ndash;）操作都是操作数本身加 1 或者减 1 ，不过在 Swift 中对浮点数也可操作。</p>
+<p>如果只是对操作数本身做增加减少操作，前置后置都行</p>
+<p>如果需要需要使用返回值，那么需要注意</p>
+<ul>
+<li>++ 前置，先自增后返回</li>
+<li>++ 后置，先返回后自增</li>
+</ul>
+<p>一般如果不使用后置的特性，推荐使用前置写法 <code>++ a</code> 更加明确表达意图</p>
+<h4 id="一元负号运算符">一元负号运算符</h4>
+<h3 id="组合赋值运算compound-assignment-operators">组合赋值运算（Compound Assignment Operators）</h3>
+<h3 id="比较运算符">比较运算符</h3>
+<h3 id="三目运算符">三目运算符</h3>
+<h3 id="空合运算符">空合运算符</h3>
+<h3 id="区间运算符">区间运算符</h3>
+<h3 id="逻辑运算符">逻辑运算符</h3>
+<h2 id="控制流">控制流</h2>
+<h3 id="loop">Loop</h3>
+<h3 id="switch">switch</h3>
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">Charvel</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2015-05-02
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/swift/">Swift</a>
+          <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/2015-05-08-ios-bing-fa-bian-cheng-zhi-nan-si-dispatch-sources/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">iOS 并发编程指南(四)-Dispatch Sources</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/2015-04-30-ios-bing-fa-bian-cheng-zhi-nan-san-dispatch-queues/">
+            <span class="next-text nav-default">iOS 并发编程指南(三)-Dispatch Queues</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-stack-overflow" title="stack-overflow"></a>
+      <a href="http://localhost:1313" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="http://localhost:1313" class="iconfont icon-facebook" title="facebook"></a>
+      <a href="http://localhost:1313" class="iconfont icon-linkedin" title="linkedin"></a>
+      <a href="http://localhost:1313" class="iconfont icon-google" title="google"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-zhihu" title="zhihu"></a>
+      <a href="http://localhost:1313" class="iconfont icon-douban" title="douban"></a>
+      <a href="http://localhost:1313" class="iconfont icon-pocket" title="pocket"></a>
+      <a href="http://localhost:1313" class="iconfont icon-tumblr" title="tumblr"></a>
+      <a href="http://localhost:1313" class="iconfont icon-instagram" title="instagram"></a>
+      <a href="http://localhost:1313" class="iconfont icon-gitlab" title="gitlab"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://wellcheng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>Charvel</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.4ae89da218555efa0e7093a20b92017d2e1202b66fff9fc2edf4cb8d44b44c6e.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

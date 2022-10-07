@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>随便说 iOS 中的 runtime - Even - A super concise theme for Hugo</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Charvel" /><meta name="description" content="Objc 作为动态语言，可以将消息转发给想要的对象去处理。但是编译器能做的只有将代码转为汇编指令，然后固定的指令流水执行。因此在 Objecive-C 中，还有一套强大的" /><meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.104.3 with theme even" />
+
+
+<link rel="canonical" href="http://wellcheng.github.io/post/2017-10-runtime/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.f92fd13721ddf72129410fd8250e73152cc6f2438082b6c0208dc24ee7c13fc4.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="随便说 iOS 中的 runtime" />
+<meta property="og:description" content="Objc 作为动态语言，可以将消息转发给想要的对象去处理。但是编译器能做的只有将代码转为汇编指令，然后固定的指令流水执行。因此在 Objecive-C 中，还有一套强大的" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://wellcheng.github.io/post/2017-10-runtime/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2017-11-19T18:24:28+08:00" />
+<meta property="article:modified_time" content="2017-11-19T18:24:28+08:00" />
+
+<meta itemprop="name" content="随便说 iOS 中的 runtime">
+<meta itemprop="description" content="Objc 作为动态语言，可以将消息转发给想要的对象去处理。但是编译器能做的只有将代码转为汇编指令，然后固定的指令流水执行。因此在 Objecive-C 中，还有一套强大的"><meta itemprop="datePublished" content="2017-11-19T18:24:28+08:00" />
+<meta itemprop="dateModified" content="2017-11-19T18:24:28+08:00" />
+<meta itemprop="wordCount" content="2014">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="随便说 iOS 中的 runtime"/>
+<meta name="twitter:description" content="Objc 作为动态语言，可以将消息转发给想要的对象去处理。但是编译器能做的只有将代码转为汇编指令，然后固定的指令流水执行。因此在 Objecive-C 中，还有一套强大的"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Even</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Even</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">随便说 iOS 中的 runtime</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2017-11-19 </span>
+        
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#oc-中的类与对象">OC 中的类与对象</a></li>
+        <li><a href="#metaclass-元类">MetaClass 元类</a></li>
+        <li><a href="#通过-yymodel-看-runtime-api">通过 YYModel 看 Runtime API</a></li>
+        <li><a href="#runtime-api">Runtime API</a></li>
+        <li><a href="#小结">小结</a></li>
+        <li><a href="#参考">参考</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>Objc 作为动态语言，可以将消息转发给想要的对象去处理。但是编译器能做的只有将代码转为汇编指令，然后固定的指令流水执行。因此在 Objecive-C 中，还有一套强大的 runtime 运行时系统，专门提供消息转发等运行时能力，还提供了大量的 API，例如 objc_send， class_get 等。</p>
+<!-- more -->
+<h2 id="oc-中的类与对象">OC 中的类与对象</h2>
+<p>Objective-C 中的类是 Class 类型，看下其定义：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-objc" data-lang="objc"><span class="line"><span class="cl"><span class="c1">// objc.h
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="c1">/// An opaque type that represents an Objective-C class.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">typedef</span> <span class="k">struct</span> <span class="n">objc_class</span> <span class="o">*</span><span class="kt">Class</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>注释中也说的很清楚，Class 就是一个指向 objc_class 结构体的指针，那么类自然就是由这个结构体来描述来，跟进继续查看：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-objc" data-lang="objc"><span class="line"><span class="cl"><span class="c1">// objc/runtime.h
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="k">struct</span> <span class="n">objc_class</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  	<span class="cm">/**
+</span></span></span><span class="line"><span class="cl"><span class="cm">  	*	类是一个抽象概念，描述类的数据结构时使用的是具体的实体，
+</span></span></span><span class="line"><span class="cl"><span class="cm">  	*	因此可说所有的类本身也是一个对象，对象又一定是某个类的实例，
+</span></span></span><span class="line"><span class="cl"><span class="cm">  	*	所以这里有个 isa 指针，指向了所属的类。
+</span></span></span><span class="line"><span class="cl"><span class="cm">  	*	这里比较特殊，是 Class 的 isa 指向了 Class，所以称为 metaClass，元类
+</span></span></span><span class="line"><span class="cl"><span class="cm">  	*/</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">Class</span> <span class="n">_Nonnull</span> <span class="n">isa</span>  <span class="n">OBJC_ISA_AVAILABILITY</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="cp">#if !__OBJC2__
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>    <span class="kt">Class</span> <span class="n">_Nullable</span> <span class="n">super_class</span>  	<span class="c1">// 指向父类     
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span> <span class="n">_Nonnull</span> <span class="n">name</span>  	<span class="c1">// class name
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">long</span> <span class="n">version</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">long</span> <span class="n">info</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">long</span> <span class="n">instance_size</span>  	<span class="c1">// 类初始化后实例的大小
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">struct</span> <span class="n">objc_ivar_list</span> <span class="o">*</span> <span class="n">_Nullable</span> <span class="n">ivars</span>  	<span class="c1">// 实例变量的列表
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">struct</span> <span class="n">objc_method_list</span> <span class="o">*</span> <span class="n">_Nullable</span> <span class="o">*</span> <span class="n">_Nullable</span> <span class="n">methodLists</span>  	<span class="c1">// 类方法列表
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">struct</span> <span class="n">objc_cache</span> <span class="o">*</span> <span class="n">_Nonnull</span> <span class="n">cache</span>  	<span class="c1">// 缓存最近使用过的方法
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="k">struct</span> <span class="n">objc_protocol_list</span> <span class="o">*</span> <span class="n">_Nullable</span> <span class="n">protocols</span> <span class="c1">// 实现的协议列表
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="cp">#endif
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span> <span class="n">OBJC2_UNAVAILABLE</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="cm">/* Use `Class` instead of `struct objc_class *` */</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>当 class 收到一条消息时，需要判断是否能够处理，查找时优先从cache 中找，找不到后从 method_list 中查找，找到后会添加到 cache 中。这也是一个 性能上的优化。</p>
+<p>看完了类，看下对象：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-objc" data-lang="objc"><span class="line"><span class="cl"><span class="c1">/// Represents an instance of a class.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">struct</span> <span class="n">objc_object</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">Class</span> <span class="n">_Nonnull</span> <span class="n">isa</span>  <span class="n">OBJC_ISA_AVAILABILITY</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">};</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">/// A pointer to an instance of a class.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">typedef</span> <span class="k">struct</span> <span class="n">objc_object</span> <span class="o">*</span><span class="kt">id</span><span class="p">;</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>对象也是用一个结构体来描述，内部比较简单，就是一个 isa 指针指向自己的类，因为 class 中保存了所有有关的信息，且这些信息都是对象共享的。</p>
+<p>代码的第二部分，解释了 id 是从何而来，id 就是指向这个结构体的指针，所有 OC 中所有的对象都可以用 id 来保存。</p>
+<h2 id="metaclass-元类">MetaClass 元类</h2>
+<p>创建对象可以使用类，但是如果我们想创建出类呢？那就必须根据metaclass创建出类，所以：先定义metaclass，然后创建类。</p>
+<p>对象是可以接收方法调用的，为什么类也可以使用类方法呢？因为类本身也是一个对象，这个对象由 metaClass 实例化。它接收方法调用，既然类是对象（之后称作类对象），那么就必然由一个 isa 指针指向该类对象的 Class。这个 Class 就是元类 metaClass。</p>
+<p><img src="/images/128529-b2aeea6630b9514a.jpg" alt="128529-b2aeea6630b9514a"></p>
+<p>对于实例方法，如上图紫色的顺序查找方法。</p>
+<p>对于类方法，按照绿色顺序查找方法。对于 Object，该类的 metaClass 是自己，形成闭环。</p>
+<h2 id="通过-yymodel-看-runtime-api">通过 YYModel 看 Runtime API</h2>
+<p>既然理解了 Class 是一个结构体指针，metaClass 描述 Class，那么就可以比较顺手地去使用 runtime 提供的强大 API 了。下面拿 YYModel 中的一些代码举例</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-objc" data-lang="objc"><span class="line"><span class="cl"><span class="c1">/// Get the &#39;NSBlock&#39; class.
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="k">static</span> <span class="n">force_inline</span> <span class="kt">Class</span> <span class="nf">YYNSBlockClass</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">static</span> <span class="kt">Class</span> <span class="n">cls</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">static</span> <span class="n">dispatch_once_t</span> <span class="n">onceToken</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">dispatch_once</span><span class="p">(</span><span class="o">&amp;</span><span class="n">onceToken</span><span class="p">,</span> <span class="o">^</span><span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="n">block</span><span class="p">)(</span><span class="kt">void</span><span class="p">)</span> <span class="o">=</span> <span class="o">^</span><span class="p">{};</span>
+</span></span><span class="line"><span class="cl">        <span class="n">cls</span> <span class="o">=</span> <span class="p">((</span><span class="n">NSObject</span> <span class="o">*</span><span class="p">)</span><span class="n">block</span><span class="p">).</span><span class="k">class</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">while</span> <span class="p">(</span><span class="n">class_getSuperclass</span><span class="p">(</span><span class="n">cls</span><span class="p">)</span> <span class="o">!=</span> <span class="p">[</span><span class="n">NSObject</span> <span class="k">class</span><span class="p">])</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">cls</span> <span class="o">=</span> <span class="n">class_getSuperclass</span><span class="p">(</span><span class="n">cls</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    <span class="p">});</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">cls</span><span class="p">;</span> <span class="c1">// current is &#34;NSBlock&#34;
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>class_getSuperclass</code> ： 获取 cls 的 superClas。</p>
+<p>例如，使用 YYModel 通过 Dictionary 生成 CVLModel 的对象：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-objc" data-lang="objc"><span class="line"><span class="cl"><span class="c1">// CVLModel 假设是我们自己的类，dict 是 server 返回的包
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="n">CVLModel</span> <span class="o">*</span><span class="n">model</span> <span class="o">=</span> <span class="p">[</span><span class="n">CVLModel</span> <span class="nl">yy_modelWithDictionary</span><span class="p">:</span><span class="n">dict</span><span class="p">];</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>1 获取 CVLModel 的 Class 信息：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-objc" data-lang="objc"><span class="line"><span class="cl"><span class="kt">Class</span> <span class="n">cls</span> <span class="o">=</span> <span class="p">[</span><span class="n">CVLModel</span> <span class="k">class</span><span class="p">];</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>2 将 cls 中的信息，read 到自定义类 YYModelMeta 中，</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-objc" data-lang="objc"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">_YYModelMeta</span> <span class="o">*</span><span class="n">modelMeta</span> <span class="o">=</span> <span class="p">[</span><span class="n">_YYModelMeta</span> <span class="nl">metaWithClass</span><span class="p">:</span><span class="n">cls</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1">// metaWithClass 的具体实现中，涉及了大量的缓存操作提升性能，会将之前创建过的 metaClass 缓存起来，所以我们只关注下核心的一行代码
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="n">meta</span> <span class="o">=</span> <span class="p">[[</span><span class="n">_YYModelMeta</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithClass</span><span class="p">:</span><span class="n">cls</span><span class="p">];</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>最终会走到 YYClassInfo 的初始化方法中，在这里通过 runtime 的 API 获取 cls 的数据。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-objc" data-lang="objc"><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">-</span> <span class="p">(</span><span class="kt">instancetype</span><span class="p">)</span><span class="nf">initWithClass:</span><span class="p">(</span><span class="kt">Class</span><span class="p">)</span><span class="nv">cls</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">cls</span><span class="p">)</span> <span class="k">return</span> <span class="nb">nil</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">self</span> <span class="o">=</span> <span class="p">[</span><span class="nb">super</span> <span class="n">init</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// 保存 cls 作为实例
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">_cls</span> <span class="o">=</span> <span class="n">cls</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// 获取父类的 cls
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">_superCls</span> <span class="o">=</span> <span class="n">class_getSuperclass</span><span class="p">(</span><span class="n">cls</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// 判断 cls 是否为 metaClass
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">_isMeta</span> <span class="o">=</span> <span class="n">class_isMetaClass</span><span class="p">(</span><span class="n">cls</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">_isMeta</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">      <span class="c1">// 非 metaClass，获取当前类的 metaClass
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>        <span class="n">_metaCls</span> <span class="o">=</span> <span class="n">objc_getMetaClass</span><span class="p">(</span><span class="n">class_getName</span><span class="p">(</span><span class="n">cls</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// cls 的类名
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">_name</span> <span class="o">=</span> <span class="n">NSStringFromClass</span><span class="p">(</span><span class="n">cls</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="c1">// 
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="p">[</span><span class="nb">self</span> <span class="n">_update</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// 递归调用获取父类的 classInfo
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="n">_superClassInfo</span> <span class="o">=</span> <span class="p">[</span><span class="nb">self</span><span class="p">.</span><span class="k">class</span> <span class="nl">classInfoWithClass</span><span class="p">:</span><span class="n">_superCls</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="nb">self</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">_update</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_ivarInfos</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_methodInfos</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">_propertyInfos</span> <span class="o">=</span> <span class="nb">nil</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="kt">Class</span> <span class="n">cls</span> <span class="o">=</span> <span class="nb">self</span><span class="p">.</span><span class="n">cls</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">	<span class="c1">// 开始获取方法列表
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">methodCount</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Method</span> <span class="o">*</span><span class="n">methods</span> <span class="o">=</span> <span class="n">class_copyMethodList</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">methodCount</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">methods</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">NSMutableDictionary</span> <span class="o">*</span><span class="n">methodInfos</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSMutableDictionary</span> <span class="n">new</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_methodInfos</span> <span class="o">=</span> <span class="n">methodInfos</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">methodCount</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">          	<span class="c1">// 将 method 也用 YYClassMethodInfo 保存起来
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>            <span class="n">YYClassMethodInfo</span> <span class="o">*</span><span class="n">info</span> <span class="o">=</span> <span class="p">[[</span><span class="n">YYClassMethodInfo</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithMethod</span><span class="p">:</span><span class="n">methods</span><span class="p">[</span><span class="n">i</span><span class="p">]];</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">info</span><span class="p">.</span><span class="n">name</span><span class="p">)</span> <span class="n">methodInfos</span><span class="p">[</span><span class="n">info</span><span class="p">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">info</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="n">free</span><span class="p">(</span><span class="n">methods</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">  	<span class="c1">// copy 属性列表
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">propertyCount</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">objc_property_t</span> <span class="o">*</span><span class="n">properties</span> <span class="o">=</span> <span class="n">class_copyPropertyList</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">propertyCount</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">properties</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">NSMutableDictionary</span> <span class="o">*</span><span class="n">propertyInfos</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSMutableDictionary</span> <span class="n">new</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_propertyInfos</span> <span class="o">=</span> <span class="n">propertyInfos</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">propertyCount</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">YYClassPropertyInfo</span> <span class="o">*</span><span class="n">info</span> <span class="o">=</span> <span class="p">[[</span><span class="n">YYClassPropertyInfo</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithProperty</span><span class="p">:</span><span class="n">properties</span><span class="p">[</span><span class="n">i</span><span class="p">]];</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">info</span><span class="p">.</span><span class="n">name</span><span class="p">)</span> <span class="n">propertyInfos</span><span class="p">[</span><span class="n">info</span><span class="p">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">info</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="n">free</span><span class="p">(</span><span class="n">properties</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">	<span class="c1">// copy 实例变量列表
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">ivarCount</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">Ivar</span> <span class="o">*</span><span class="n">ivars</span> <span class="o">=</span> <span class="n">class_copyIvarList</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">ivarCount</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="n">ivars</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">NSMutableDictionary</span> <span class="o">*</span><span class="n">ivarInfos</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSMutableDictionary</span> <span class="n">new</span><span class="p">];</span>
+</span></span><span class="line"><span class="cl">        <span class="n">_ivarInfos</span> <span class="o">=</span> <span class="n">ivarInfos</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">ivarCount</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">YYClassIvarInfo</span> <span class="o">*</span><span class="n">info</span> <span class="o">=</span> <span class="p">[[</span><span class="n">YYClassIvarInfo</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithIvar</span><span class="p">:</span><span class="n">ivars</span><span class="p">[</span><span class="n">i</span><span class="p">]];</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="p">(</span><span class="n">info</span><span class="p">.</span><span class="n">name</span><span class="p">)</span> <span class="n">ivarInfos</span><span class="p">[</span><span class="n">info</span><span class="p">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">info</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="n">free</span><span class="p">(</span><span class="n">ivars</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">_ivarInfos</span><span class="p">)</span> <span class="n">_ivarInfos</span> <span class="o">=</span> <span class="l">@{}</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">_methodInfos</span><span class="p">)</span> <span class="n">_methodInfos</span> <span class="o">=</span> <span class="l">@{}</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">_propertyInfos</span><span class="p">)</span> <span class="n">_propertyInfos</span> <span class="o">=</span> <span class="l">@{}</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="n">_needUpdate</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>可以看出来，YYModel 使用  runtime API，将 CVLModel 拔了个精光。</p>
+<h2 id="runtime-api">Runtime API</h2>
+<p><strong>object_getClass(id _Nullable obj)</strong></p>
+<p>通过 obj 获取对应的 Class。这里传入对象，得到对象的类信息。传入类，也就是把类作为对象传入，那么返回的是该类的 metaClass。</p>
+<p><strong>objc_getClass(const char * _Nonnull name)</strong></p>
+<p>同样是获取 class 信息，这里传入的是该类的 name，当然这个 name 也可以通过 object_getClassName 传入一个对象获得。</p>
+<p><strong>objc_getMetaClass(const char * _Nonnull name)</strong></p>
+<p>获取 metaClass 信息，我认为等同于</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Objc" data-lang="Objc"><span class="line"><span class="cl"><span class="c1">// 先获取普通 cls
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">Class</span> <span class="n">cls</span> <span class="o">=</span> <span class="n">objc_getClass</span><span class="p">(</span><span class="n">clsName</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="c1">// 再获取 metaClass
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="kt">Class</span> <span class="n">metaCls</span> <span class="o">=</span> <span class="n">object_getClass</span><span class="p">(</span><span class="n">cls</span><span class="p">);</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="小结">小结</h2>
+<p>通过 Objective-C 中类与对象的分析，再拓展到 runtime ，我们揭开这层神秘面纱，初探 runtime，可以看到 runtime 系统的厉害之处，再由 YYModel 的实现分析，学习如何动态创建对象并赋值。</p>
+<p>之后在项目中有需求要实现时，了解 runtime 后，也许会帮我们打开新的思路。runtime 不可怕但也要保持谨慎敬畏，我们无法完全理解并使用，谁也不知道里面是否存在坑（比如就一个方法替换，坑就很多，网上也不乏关于这些坑的介绍以及如何避免）。</p>
+<h2 id="参考">参考</h2>
+<ol>
+<li></li>
+<li></li>
+<li></li>
+</ol>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">Charvel</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2017-11-19
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      
+      <nav class="post-nav">
+        <a class="prev" href="/post/new-hugo-blog-with-even-theme/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">使用 Hugo 重新驱动博客系统</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/2017-09-nsnotificaiton/">
+            <span class="next-text nav-default">使用 iOS 中不一样的 NSNotification Center</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
+      <a href="http://localhost:1313" class="iconfont icon-stack-overflow" title="stack-overflow"></a>
+      <a href="http://localhost:1313" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="http://localhost:1313" class="iconfont icon-facebook" title="facebook"></a>
+      <a href="http://localhost:1313" class="iconfont icon-linkedin" title="linkedin"></a>
+      <a href="http://localhost:1313" class="iconfont icon-google" title="google"></a>
+      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
+      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
+      <a href="http://localhost:1313" class="iconfont icon-zhihu" title="zhihu"></a>
+      <a href="http://localhost:1313" class="iconfont icon-douban" title="douban"></a>
+      <a href="http://localhost:1313" class="iconfont icon-pocket" title="pocket"></a>
+      <a href="http://localhost:1313" class="iconfont icon-tumblr" title="tumblr"></a>
+      <a href="http://localhost:1313" class="iconfont icon-instagram" title="instagram"></a>
+      <a href="http://localhost:1313" class="iconfont icon-gitlab" title="gitlab"></a>
+      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="http://wellcheng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>Charvel</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.4ae89da218555efa0e7093a20b92017d2e1202b66fff9fc2edf4cb8d44b44c6e.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>
