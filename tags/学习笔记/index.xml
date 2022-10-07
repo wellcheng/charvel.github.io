@@ -1,42 +1,5 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>学习笔记 on Even - A super concise theme for Hugo</title>
-    <link>http://wellcheng.github.io/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
-    <description>Recent content in 学习笔记 on Even - A super concise theme for Hugo</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en</language>
-    <lastBuildDate>Sat, 02 May 2015 19:23:20 +0800</lastBuildDate><atom:link href="http://wellcheng.github.io/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Swift 学习笔记（二）</title>
-      <link>http://wellcheng.github.io/post/2015-05-02-swift-xue-xi-bi-ji-2/</link>
-      <pubDate>Sat, 02 May 2015 19:23:20 +0800</pubDate>
-      
-      <guid>http://wellcheng.github.io/post/2015-05-02-swift-xue-xi-bi-ji-2/</guid>
-      <description>&lt;p&gt;今天学习一些基本运算符想关的知识。运算符是检查、改变、合并值的特殊符号或短语。&lt;/p&gt;
-&lt;p&gt;另一个很重要的地方是将以前变成容易因为运算法导致的问题解决了一哈。增加了区间运算符，还加入了 OC 中没有的运算符重载&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Swift 学习笔记(一)</title>
-      <link>http://wellcheng.github.io/post/2015-04-29-swift-xue-xi-bi-ji-1/</link>
-      <pubDate>Wed, 29 Apr 2015 19:22:58 +0800</pubDate>
-      
-      <guid>http://wellcheng.github.io/post/2015-04-29-swift-xue-xi-bi-ji-1/</guid>
-      <description>&lt;blockquote&gt;
-&lt;p&gt;swift 这门语言一直想取深入了解下，苦于时间少，现在快毕业了，呆在学校时间还算比较充足，所以开始学习一哈。&lt;/p&gt;
-&lt;/blockquote&gt;</description>
-    </item>
-    
-    <item>
-      <title>AutoLayout 读书笔记(二)</title>
-      <link>http://wellcheng.github.io/post/2015-04-23-autolayout-du-shu-bi-ji-er/</link>
-      <pubDate>Thu, 23 Apr 2015 09:00:52 +0800</pubDate>
-      
-      <guid>http://wellcheng.github.io/post/2015-04-23-autolayout-du-shu-bi-ji-er/</guid>
-      <description>&lt;h2 id=&#34;约束&#34;&gt;约束&lt;/h2&gt;
-&lt;p&gt;AutoLayout 是一种约束满足系统，约束的本质就是&lt;code&gt;限制&lt;/code&gt;,布局中，创建的每一个规则都提出一个要求，这些要求规定了视图中一个部分与另一个部分之间的关系，这些规定具有优先级，AutoLayout 系统根据所有的规则，确定唯一的布局方式。&lt;/p&gt;</description>
-    </item>
-    
-  </channel>
-</rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>学习笔记 on Even - A super concise theme for Hugo</title><link>http://wellcheng.github.io/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link><description>Recent content in 学习笔记 on Even - A super concise theme for Hugo</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Sat, 02 May 2015 19:23:20 +0800</lastBuildDate><atom:link href="http://wellcheng.github.io/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.xml" rel="self" type="application/rss+xml"/><item><title>Swift 学习笔记（二）</title><link>http://wellcheng.github.io/post/2015-05-02-swift-xue-xi-bi-ji-2/</link><pubDate>Sat, 02 May 2015 19:23:20 +0800</pubDate><guid>http://wellcheng.github.io/post/2015-05-02-swift-xue-xi-bi-ji-2/</guid><description>&lt;p>今天学习一些基本运算符想关的知识。运算符是检查、改变、合并值的特殊符号或短语。&lt;/p>
+&lt;p>另一个很重要的地方是将以前变成容易因为运算法导致的问题解决了一哈。增加了区间运算符，还加入了 OC 中没有的运算符重载&lt;/p></description></item><item><title>Swift 学习笔记(一)</title><link>http://wellcheng.github.io/post/2015-04-29-swift-xue-xi-bi-ji-1/</link><pubDate>Wed, 29 Apr 2015 19:22:58 +0800</pubDate><guid>http://wellcheng.github.io/post/2015-04-29-swift-xue-xi-bi-ji-1/</guid><description>&lt;blockquote>
+&lt;p>swift 这门语言一直想取深入了解下，苦于时间少，现在快毕业了，呆在学校时间还算比较充足，所以开始学习一哈。&lt;/p>
+&lt;/blockquote></description></item><item><title>AutoLayout 读书笔记(二)</title><link>http://wellcheng.github.io/post/2015-04-23-autolayout-du-shu-bi-ji-er/</link><pubDate>Thu, 23 Apr 2015 09:00:52 +0800</pubDate><guid>http://wellcheng.github.io/post/2015-04-23-autolayout-du-shu-bi-ji-er/</guid><description>&lt;h2 id="约束">约束&lt;/h2>
+&lt;p>AutoLayout 是一种约束满足系统，约束的本质就是&lt;code>限制&lt;/code>,布局中，创建的每一个规则都提出一个要求，这些要求规定了视图中一个部分与另一个部分之间的关系，这些规定具有优先级，AutoLayout 系统根据所有的规则，确定唯一的布局方式。&lt;/p></description></item></channel></rss>

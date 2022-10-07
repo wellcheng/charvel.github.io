@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>iOS on Even - A super concise theme for Hugo</title><link>http://wellcheng.github.io/categories/ios/</link><description>Recent content in iOS on Even - A super concise theme for Hugo</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Fri, 15 Jul 2016 20:12:06 +0000</lastBuildDate><atom:link href="http://wellcheng.github.io/categories/ios/index.xml" rel="self" type="application/rss+xml"/><item><title>iOS 应用状态详解</title><link>http://wellcheng.github.io/post/2016-07-ios-application-state/</link><pubDate>Fri, 15 Jul 2016 20:12:06 +0000</pubDate><guid>http://wellcheng.github.io/post/2016-07-ios-application-state/</guid><description>iOS 应用状态详解 iOS 与其他操作系统有很多不同，当 App 不在当前运行时，可以使用的资源特别有限。 虽说 App 传统上讲只有两种状态，前台和后台。但是这种说法是</description></item><item><title>iOS 并发编程指南(一)</title><link>http://wellcheng.github.io/post/2015-03-09-ios-bing-fa-bian-cheng-zhi-nan-1/</link><pubDate>Mon, 09 Mar 2015 15:38:28 +0800</pubDate><guid>http://wellcheng.github.io/post/2015-03-09-ios-bing-fa-bian-cheng-zhi-nan-1/</guid><description>&lt;blockquote>
+&lt;p>本文为翻译苹果官方文档，旨在自我学习，翻译之处会有坑，请酌情参考&lt;/p>
+&lt;/blockquote>
+&lt;h2 id="简介">简介&lt;/h2>
+&lt;p>并发是指多件事情同时发生。随着多核 CPU 的实现，每个处理器上的核心只会增加，开发人员需要新的方式来充分利用它们。尽管像 OS X 和 iOS 这样的操作系统（自卖自夸，别的 OS 被你吃了吗？）能够并行的运行多个程序，其中大多数的程序运行在后台，并且经常需要一小段 CPU 时间来执行任务。运行在前台的程序与用户交互并且占用大量的 CPU 时间。如果一个程序有很多任务去做但是只有一部分内核可以使用，那么额外的计算资源将被浪费。&lt;/p>
+&lt;p>在过去，在程序中引入并发需要创建额外的一个或多个线程。不幸的是，写线程级别的代码很具有挑战性。线程是很底层的工具，必须手动来管理。对于一个程序，由于线程的最佳数目基于系统负载和底层硬件动态改变，实现一个正确的线程解决方案是非常困难的。此外，线程的同步机制通常会给软件设计增加复杂性和带来风险，并不能保证一定会提高程序性能。&lt;/p>
+&lt;p>相比较传统的基于线程的系统和应用程序，OS X 和 iOS 更多地采用异步方法来执行并行的任务。应用程序只需要定义特定的任务，然后让系统执行它们，而不是直接创建线程。通过让操作系统来管理线程，使得应用程序具有了原生线程不可能带来的可扩展性。开发者也有了更加简单高效的编程模式。&lt;/p>
+&lt;p>本文档描述了并发编程的技术和技巧，使用与 OS X 和 iOS。&lt;/p>
+&lt;p>文档包含以下章节：&lt;/p>
+&lt;ul>
+&lt;li>并行和程序设计：介绍了基本的异步程序设计和异步执行自定义任务的技巧&lt;/li>
+&lt;li>Operation Queues（操作队列）：指出如何使用 Objective-C 对象封装任务并且执行&lt;/li>
+&lt;li>Dispatch Queue（分发队列）：如何并行的执行任务在 C 语言编程中&lt;/li>
+&lt;li>Dispatch Sources：如何异步的处理系统时间&lt;/li>
+&lt;li>Migrating Away from Threads：介绍如何将已存在的基于线程的代码迁移至新的技术上。&lt;/li>
+&lt;/ul></description></item></channel></rss>

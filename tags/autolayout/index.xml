@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>AutoLayout on Even - A super concise theme for Hugo</title><link>http://wellcheng.github.io/tags/autolayout/</link><description>Recent content in AutoLayout on Even - A super concise theme for Hugo</description><generator>Hugo -- gohugo.io</generator><language>en</language><lastBuildDate>Thu, 23 Apr 2015 09:00:52 +0800</lastBuildDate><atom:link href="http://wellcheng.github.io/tags/autolayout/index.xml" rel="self" type="application/rss+xml"/><item><title>AutoLayout 读书笔记(二)</title><link>http://wellcheng.github.io/post/2015-04-23-autolayout-du-shu-bi-ji-er/</link><pubDate>Thu, 23 Apr 2015 09:00:52 +0800</pubDate><guid>http://wellcheng.github.io/post/2015-04-23-autolayout-du-shu-bi-ji-er/</guid><description>&lt;h2 id="约束">约束&lt;/h2>
+&lt;p>AutoLayout 是一种约束满足系统，约束的本质就是&lt;code>限制&lt;/code>,布局中，创建的每一个规则都提出一个要求，这些要求规定了视图中一个部分与另一个部分之间的关系，这些规定具有优先级，AutoLayout 系统根据所有的规则，确定唯一的布局方式。&lt;/p></description></item><item><title>AutoLayout 读书笔记(一)</title><link>http://wellcheng.github.io/post/2015-04-22-autolayout-du-shu-bi-ji-1/</link><pubDate>Wed, 22 Apr 2015 21:34:19 +0800</pubDate><guid>http://wellcheng.github.io/post/2015-04-22-autolayout-du-shu-bi-ji-1/</guid><description>&lt;h2 id="第一章-autolayout-介绍">第一章 AutoLayout 介绍&lt;/h2>
+&lt;p>###1.1 由来：&lt;/p>
+&lt;p>前身为 Cassowary 约束解析工具包，本质是通过定义的约束构成联立方程组，然后求解，得出界面元素唯一的布局可能。&lt;/p>
+&lt;p>###1.2 好处都有啥？&lt;/p>
+&lt;p>&lt;strong>几何关系&lt;/strong>&lt;/p>
+&lt;p>工作原理为通过创建界面上元素之间的关系从而实现布局。对于自然界之间的一些关系，可以用一些统一的规则来描述，能够建立界面元素之间强健的几何关系，在一定程度上使用抽象的语言描述。&lt;/p>
+&lt;p>改变 AutoLayout 约束的值，还可以创建出优美的动画。&lt;/p></description></item></channel></rss>

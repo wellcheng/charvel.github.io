@@ -1,265 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>AutoLayout 读书笔记(二) - Even - A super concise theme for Hugo</title>
-  <meta name="renderer" content="webkit" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-<meta name="theme-color" content="#f8f5ec" />
-<meta name="msapplication-navbutton-color" content="#f8f5ec">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
-
-
-<meta name="author" content="Charvel" /><meta name="description" content="约束 AutoLayout 是一种约束满足系统，约束的本质就是限制,布局中，创建的每一个规则都提出一个要求，这些要求规定了视图中一个部分与另一个部分之间的关系，这些规定具有优先级，AutoLayout 系统根据所有的规则，确定唯一的布局方式。
-" /><meta name="keywords" content="Hugo, theme, even" />
-
-
-
-
-
-
-<meta name="generator" content="Hugo 0.104.3 with theme even" />
-
-
-<link rel="canonical" href="http://wellcheng.github.io/post/2015-04-23-autolayout-du-shu-bi-ji-er/" />
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="manifest" href="/manifest.json">
-<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
-
-
-
-<link href="/sass/main.min.f92fd13721ddf72129410fd8250e73152cc6f2438082b6c0208dc24ee7c13fc4.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
-
-
-<meta property="og:title" content="AutoLayout 读书笔记(二)" />
-<meta property="og:description" content="约束
-AutoLayout 是一种约束满足系统，约束的本质就是限制,布局中，创建的每一个规则都提出一个要求，这些要求规定了视图中一个部分与另一个部分之间的关系，这些规定具有优先级，AutoLayout 系统根据所有的规则，确定唯一的布局方式。" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="http://wellcheng.github.io/post/2015-04-23-autolayout-du-shu-bi-ji-er/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2015-04-23T09:00:52+08:00" />
-<meta property="article:modified_time" content="2015-04-23T09:00:52+08:00" />
-
-<meta itemprop="name" content="AutoLayout 读书笔记(二)">
-<meta itemprop="description" content="约束
-AutoLayout 是一种约束满足系统，约束的本质就是限制,布局中，创建的每一个规则都提出一个要求，这些要求规定了视图中一个部分与另一个部分之间的关系，这些规定具有优先级，AutoLayout 系统根据所有的规则，确定唯一的布局方式。"><meta itemprop="datePublished" content="2015-04-23T09:00:52+08:00" />
-<meta itemprop="dateModified" content="2015-04-23T09:00:52+08:00" />
-<meta itemprop="wordCount" content="3358">
-<meta itemprop="keywords" content="AutoLayout,学习笔记," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="AutoLayout 读书笔记(二)"/>
-<meta name="twitter:description" content="约束
-AutoLayout 是一种约束满足系统，约束的本质就是限制,布局中，创建的每一个规则都提出一个要求，这些要求规定了视图中一个部分与另一个部分之间的关系，这些规定具有优先级，AutoLayout 系统根据所有的规则，确定唯一的布局方式。"/>
-
-<!--[if lte IE 9]>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
-<![endif]-->
-
-<!--[if lt IE 9]>
-  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
-<![endif]-->
-
-</head>
-<body>
-  <div id="mobile-navbar" class="mobile-navbar">
-  <div class="mobile-header-logo">
-    <a href="/" class="logo">Even</a>
-  </div>
-  <div class="mobile-navbar-icon">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
-</div>
-<nav id="mobile-menu" class="mobile-menu slideout-menu">
-  <ul class="mobile-menu-list">
-    <a href="/">
-        <li class="mobile-menu-item">Home</li>
-      </a><a href="/post/">
-        <li class="mobile-menu-item">Archives</li>
-      </a><a href="/tags/">
-        <li class="mobile-menu-item">Tags</li>
-      </a><a href="/categories/">
-        <li class="mobile-menu-item">Categories</li>
-      </a>
-  </ul>
-
-  
-
-
-</nav>
-
-  <div class="container" id="mobile-panel">
-    <header id="header" class="header">
-        <div class="logo-wrapper">
-  <a href="/" class="logo">Even</a>
-</div>
-
-
-
-
-
-<nav class="site-navbar">
-  <ul id="menu" class="menu">
-    <li class="menu-item">
-        <a class="menu-item-link" href="/">Home</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/post/">Archives</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/tags/">Tags</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/categories/">Categories</a>
-      </li>
-  </ul>
-</nav>
-
-    </header>
-
-    <main id="main" class="main">
-      <div class="content-wrapper">
-        <div id="content" class="content">
-          <article class="post">
-    
-    <header class="post-header">
-      <h1 class="post-title">AutoLayout 读书笔记(二)</h1>
-
-      <div class="post-meta">
-        <span class="post-time"> 2015-04-23 </span>
-        
-        
-      </div>
-    </header>
-
-    <div class="post-toc" id="post-toc">
-  <h2 class="post-toc-title">Contents</h2>
-  <div class="post-toc-content always-active">
-    <nav id="TableOfContents">
-  <ul>
-    <li>
-      <ul>
-        <li><a href="#约束">约束</a>
-          <ul>
-            <li><a href="#约束类型">约束类型</a></li>
-            <li><a href="#优先级">优先级</a></li>
-            <li><a href="#内容大小约束">内容大小约束</a></li>
-            <li><a href="#构建布局约束">构建布局约束</a></li>
-            <li><a href="#布局约束类">布局约束类</a></li>
-            <li><a href="#创建布局约束">创建布局约束</a></li>
-            <li><a href="#视图项">视图项</a></li>
-            <li><a href="#约束层次结构与边界系统">约束、层次结构与边界系统</a></li>
-            <li><a href="#安装约束">安装约束</a></li>
-            <li><a href="#比较约束">比较约束</a></li>
-            <li><a href="#布局约束法则">布局约束法则</a></li>
-          </ul>
-        </li>
-      </ul>
-    </li>
-  </ul>
-</nav>
-  </div>
-</div>
-    <div class="post-content">
-      <h2 id="约束">约束</h2>
-<p>AutoLayout 是一种约束满足系统，约束的本质就是<code>限制</code>,布局中，创建的每一个规则都提出一个要求，这些要求规定了视图中一个部分与另一个部分之间的关系，这些规定具有优先级，AutoLayout 系统根据所有的规则，确定唯一的布局方式。</p>
-<h3 id="约束类型">约束类型</h3>
-<p>AutoLayout 的核心约束类</p>
-<ul>
-<li>
-<p>布局约束（NSLayoutConstraint 类，Public）
-布局约束规则用来指定视图的几何特征，这些规则将视图与其他视图关联起来确定视图的位置和尺寸，要么直接指定其位置和尺寸为一个常数。</p>
-</li>
-<li>
-<p>内容大小约束（NSContentSizeLayoutConstraint，Private）
-内容大小规则，指定其视图尺寸与内容之间的关系，例如，内容吸附规则尽量避免添加补白，内容压缩规则阻止视图被剪裁。</p>
-</li>
-<li>
-<p>自动尺寸调整约束 （NSAutoresizingMaskLayoutConstraint，Private）
-自动尺寸调整约束，将原来的 Autoresizing 转换为 AutoLayout 系统中对应的约束。</p>
-</li>
-<li>
-<p>布局支持系统 （ _UILayoutSupportConstraint，Private）
-布局支持约束，是 iOS 7 中新增的约束，用来建立视图控制器实例顶部和底部的实际边界，它防止视图的内容与类似 statusBar 之类的障碍物发生重叠</p>
-</li>
-<li>
-<p>原型约束（NSIBProtypingLayoutConstraint，Private）
-iOS7 新增，它是 IB 为你添加的约束，在迭代构造界面的过程中，仍然保留一个用于测试的工作界面，在发布应用时，不能引用原型约束。</p>
-</li>
-</ul>
-<p>在开发和调试 AutoLayout 时，Xcode 调试信息会显示出这些类的实例。</p>
-<p>不管是什么类，所有约束类型：</p>
-<ol>
-<li>表达视图在屏幕上的布局方式</li>
-<li>都有一个内在的优先级，指定每个请求在 AutoLayout 系统中的强烈程度。</li>
-</ol>
-<h3 id="优先级">优先级</h3>
-<p>优先级表示规则请求强烈程度的数字，AutoLayout 使用优先级解决某些约束冲突。范围：<code>1~1000</code>，数字越大，优先级越高。</p>
-<p>iOS UIKit 提供了常用的优先级枚举值：</p>
-<pre><code>enum {
+<!doctype html><html lang=en><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge,chrome=1"><title>AutoLayout 读书笔记(二) - Even - A super concise theme for Hugo</title><meta name=renderer content="webkit"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta http-equiv=cache-control content="no-transform"><meta http-equiv=cache-control content="no-siteapp"><meta name=theme-color content="#f8f5ec"><meta name=msapplication-navbutton-color content="#f8f5ec"><meta name=apple-mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-status-bar-style content="#f8f5ec"><meta name=author content="Charvel"><meta name=description content="约束 AutoLayout 是一种约束满足系统，约束的本质就是限制,布局中，创建的每一个规则都提出一个要求，这些要求规定了视图中一个部分与另一个部分之间的关系，这些规定具有优先级，AutoLayout 系统根据所有的规则，确定唯一的布局方式。
+"><meta name=keywords content="Hugo,theme,even"><meta name=generator content="Hugo 0.104.3 with theme even"><link rel=canonical href=http://wellcheng.github.io/post/2015-04-23-autolayout-du-shu-bi-ji-er/><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/manifest.json><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link href=/sass/main.min.f92fd13721ddf72129410fd8250e73152cc6f2438082b6c0208dc24ee7c13fc4.css rel=stylesheet><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin=anonymous><meta property="og:title" content="AutoLayout 读书笔记(二)"><meta property="og:description" content="约束
+AutoLayout 是一种约束满足系统，约束的本质就是限制,布局中，创建的每一个规则都提出一个要求，这些要求规定了视图中一个部分与另一个部分之间的关系，这些规定具有优先级，AutoLayout 系统根据所有的规则，确定唯一的布局方式。"><meta property="og:type" content="article"><meta property="og:url" content="http://wellcheng.github.io/post/2015-04-23-autolayout-du-shu-bi-ji-er/"><meta property="article:section" content="post"><meta property="article:published_time" content="2015-04-23T09:00:52+08:00"><meta property="article:modified_time" content="2015-04-23T09:00:52+08:00"><meta itemprop=name content="AutoLayout 读书笔记(二)"><meta itemprop=description content="约束
+AutoLayout 是一种约束满足系统，约束的本质就是限制,布局中，创建的每一个规则都提出一个要求，这些要求规定了视图中一个部分与另一个部分之间的关系，这些规定具有优先级，AutoLayout 系统根据所有的规则，确定唯一的布局方式。"><meta itemprop=datePublished content="2015-04-23T09:00:52+08:00"><meta itemprop=dateModified content="2015-04-23T09:00:52+08:00"><meta itemprop=wordCount content="3358"><meta itemprop=keywords content="AutoLayout,学习笔记,"><meta name=twitter:card content="summary"><meta name=twitter:title content="AutoLayout 读书笔记(二)"><meta name=twitter:description content="约束
+AutoLayout 是一种约束满足系统，约束的本质就是限制,布局中，创建的每一个规则都提出一个要求，这些要求规定了视图中一个部分与另一个部分之间的关系，这些规定具有优先级，AutoLayout 系统根据所有的规则，确定唯一的布局方式。"><!--[if lte IE 9]><script src=https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js></script><![endif]--><!--[if lt IE 9]><script src=https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js></script>
+<script src=https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js></script><![endif]--></head><body><div id=mobile-navbar class=mobile-navbar><div class=mobile-header-logo><a href=/ class=logo>Even</a></div><div class=mobile-navbar-icon><span></span>
+<span></span>
+<span></span></div></div><nav id=mobile-menu class="mobile-menu slideout-menu"><ul class=mobile-menu-list><a href=/><li class=mobile-menu-item>Home</li></a><a href=/post/><li class=mobile-menu-item>Archives</li></a><a href=/tags/><li class=mobile-menu-item>Tags</li></a><a href=/categories/><li class=mobile-menu-item>Categories</li></a></ul></nav><div class=container id=mobile-panel><header id=header class=header><div class=logo-wrapper><a href=/ class=logo>Even</a></div><nav class=site-navbar><ul id=menu class=menu><li class=menu-item><a class=menu-item-link href=/>Home</a></li><li class=menu-item><a class=menu-item-link href=/post/>Archives</a></li><li class=menu-item><a class=menu-item-link href=/tags/>Tags</a></li><li class=menu-item><a class=menu-item-link href=/categories/>Categories</a></li></ul></nav></header><main id=main class=main><div class=content-wrapper><div id=content class=content><article class=post><header class=post-header><h1 class=post-title>AutoLayout 读书笔记(二)</h1><div class=post-meta><span class=post-time>2015-04-23</span></div></header><div class=post-toc id=post-toc><h2 class=post-toc-title>Contents</h2><div class="post-toc-content always-active"><nav id=TableOfContents><ul><li><ul><li><a href=#约束>约束</a><ul><li><a href=#约束类型>约束类型</a></li><li><a href=#优先级>优先级</a></li><li><a href=#内容大小约束>内容大小约束</a></li><li><a href=#构建布局约束>构建布局约束</a></li><li><a href=#布局约束类>布局约束类</a></li><li><a href=#创建布局约束>创建布局约束</a></li><li><a href=#视图项>视图项</a></li><li><a href=#约束层次结构与边界系统>约束、层次结构与边界系统</a></li><li><a href=#安装约束>安装约束</a></li><li><a href=#比较约束>比较约束</a></li><li><a href=#布局约束法则>布局约束法则</a></li></ul></li></ul></li></ul></nav></div></div><div class=post-content><h2 id=约束>约束</h2><p>AutoLayout 是一种约束满足系统，约束的本质就是<code>限制</code>,布局中，创建的每一个规则都提出一个要求，这些要求规定了视图中一个部分与另一个部分之间的关系，这些规定具有优先级，AutoLayout 系统根据所有的规则，确定唯一的布局方式。</p><h3 id=约束类型>约束类型</h3><p>AutoLayout 的核心约束类</p><ul><li><p>布局约束（NSLayoutConstraint 类，Public）
+布局约束规则用来指定视图的几何特征，这些规则将视图与其他视图关联起来确定视图的位置和尺寸，要么直接指定其位置和尺寸为一个常数。</p></li><li><p>内容大小约束（NSContentSizeLayoutConstraint，Private）
+内容大小规则，指定其视图尺寸与内容之间的关系，例如，内容吸附规则尽量避免添加补白，内容压缩规则阻止视图被剪裁。</p></li><li><p>自动尺寸调整约束 （NSAutoresizingMaskLayoutConstraint，Private）
+自动尺寸调整约束，将原来的 Autoresizing 转换为 AutoLayout 系统中对应的约束。</p></li><li><p>布局支持系统 （ _UILayoutSupportConstraint，Private）
+布局支持约束，是 iOS 7 中新增的约束，用来建立视图控制器实例顶部和底部的实际边界，它防止视图的内容与类似 statusBar 之类的障碍物发生重叠</p></li><li><p>原型约束（NSIBProtypingLayoutConstraint，Private）
+iOS7 新增，它是 IB 为你添加的约束，在迭代构造界面的过程中，仍然保留一个用于测试的工作界面，在发布应用时，不能引用原型约束。</p></li></ul><p>在开发和调试 AutoLayout 时，Xcode 调试信息会显示出这些类的实例。</p><p>不管是什么类，所有约束类型：</p><ol><li>表达视图在屏幕上的布局方式</li><li>都有一个内在的优先级，指定每个请求在 AutoLayout 系统中的强烈程度。</li></ol><h3 id=优先级>优先级</h3><p>优先级表示规则请求强烈程度的数字，AutoLayout 使用优先级解决某些约束冲突。范围：<code>1~1000</code>，数字越大，优先级越高。</p><p>iOS UIKit 提供了常用的优先级枚举值：</p><pre><code>enum {
     UILayoutPriorityRequired = 1000,    // 必须满足
     UILayoutPriorityDefaulthigh = 750,    // 压缩抵抗的默认优先级
     UILayoutPriorityDefaultLow = 500,    // 
     UILayoutPriorityFittingSizeLevel = 50,    // 
 }
-</code></pre>
-<p>一般建议创建自己的优先级约束枚举类型。</p>
-<h3 id="内容大小约束">内容大小约束</h3>
-<p>iOS 中，每一个 View 都是由其在父视图中的位置 position 和尺寸 size 来确定其位置的。虽然我们之前经常会指定其大小，但是现在在多屏幕尺寸的开发中，更迫切的希望能够跟随内容动态的调整其位置和大小。</p>
-<p>之前提过，label、imageView 和 其他 UIControl 的大小取决于其需要呈现的内容。
-而不包含自然内容的视图，其内在内容大小为（-1，-1），UIKit 将这种无内容的尺寸声明为 UIViewNoIntrinsicMetric。Apple 指出：</p>
-<blockquote>
-<p>并非所有的视图都有 intrinsicContentSize。UIView 的默认实现是返回 （intrinsicContentSize，intrinsicContentSize）。内在内容大小仅考虑视图自身中的数据，而不考虑其他视图中的数据。
-记住，仍然可以针对任何视图设置其高度、宽度约束。如果不希望这些尺寸随内容而改变，那么你不需要重写 instrinsicContentSize。</p>
-</blockquote>
-<p>内容吸附约束限制视图允许自身伸展和填充视图的程度。如果这个优先级比较高，那么视图的 frame 将与自身内容相匹配。</p>
-<p>压缩阻力防止视图剪切其内容。高优先级可以确保视图显示出完整的内在内容。</p>
-<p>可以通过代码为每一个视图指定内容吸附和压缩阻力优先级。
-内容吸附优先级为 250（所以指定尺寸时，内容吸附会被忽略）。压缩阻力优先级默认为 750：</p>
-<pre><code>- (void)setContentHuggingPriority:(UILayoutPriority)priority forAxis:(UILayoutConstraintAxis)axis
+</code></pre><p>一般建议创建自己的优先级约束枚举类型。</p><h3 id=内容大小约束>内容大小约束</h3><p>iOS 中，每一个 View 都是由其在父视图中的位置 position 和尺寸 size 来确定其位置的。虽然我们之前经常会指定其大小，但是现在在多屏幕尺寸的开发中，更迫切的希望能够跟随内容动态的调整其位置和大小。</p><p>之前提过，label、imageView 和 其他 UIControl 的大小取决于其需要呈现的内容。
+而不包含自然内容的视图，其内在内容大小为（-1，-1），UIKit 将这种无内容的尺寸声明为 UIViewNoIntrinsicMetric。Apple 指出：</p><blockquote><p>并非所有的视图都有 intrinsicContentSize。UIView 的默认实现是返回 （intrinsicContentSize，intrinsicContentSize）。内在内容大小仅考虑视图自身中的数据，而不考虑其他视图中的数据。
+记住，仍然可以针对任何视图设置其高度、宽度约束。如果不希望这些尺寸随内容而改变，那么你不需要重写 instrinsicContentSize。</p></blockquote><p>内容吸附约束限制视图允许自身伸展和填充视图的程度。如果这个优先级比较高，那么视图的 frame 将与自身内容相匹配。</p><p>压缩阻力防止视图剪切其内容。高优先级可以确保视图显示出完整的内在内容。</p><p>可以通过代码为每一个视图指定内容吸附和压缩阻力优先级。
+内容吸附优先级为 250（所以指定尺寸时，内容吸附会被忽略）。压缩阻力优先级默认为 750：</p><pre><code>- (void)setContentHuggingPriority:(UILayoutPriority)priority forAxis:(UILayoutConstraintAxis)axis
 - (UILayoutPriority)contentHuggingPriorityForAxis: (UILayoutConstraintAxis)axis
 - (void)setContentCompressionResistancePriority:(UILayoutPriority)priority forAxis:(UILayoutConstraintAxis)axis
 - (UILayoutPriority)contentCompressionResistancePriorityForAxis: (UILayoutConstraintAxis)axis
-</code></pre>
-<p>当然也可以通过 IB 设置内容大小约束。</p>
-<h3 id="构建布局约束">构建布局约束</h3>
-<p>布局约束（NSLayoutConstraint 的实例）定义了视图的物理几何特征的规则，指定了视图的布局方式，以及视图与同一层级结构中其他视图的关系。</p>
-<p><img src="http://7vzucb.com1.z0.glb.clouddn.com/blog.AutoLayout-elements.png" alt="自动布局约束元素表"></p>
-<h3 id="布局约束类">布局约束类</h3>
-<p>数学规则通过构建 NSLayoutConstraint 类的实例构建，然后将创建的规则应用到视图中，该类的实例提供以下几个基本约束：</p>
-<ul>
-<li>priority：优先级</li>
-<li>firstItem 与 secondItem ，约束关联的视图</li>
-<li>firstAttribute 与 secondAttribute ：约束系统中的名词，描述视图对齐矩阵的特征，如左边、右边、中心、高度，为上表中 12 个枚举类型中的任意一个，不存在第二项，使用 NSLayoutAttributeNotAnAttribute 占位符</li>
-<li>relation：动词。指出属性之间如何比较</li>
-<li>mutiplier 和 constant：提供代数元素，增强约束的功能和灵活性，通过这个属性，可以指出一个视图是另一个视图的一半，也可以指定一个视图是通过另一个视图偏移某个距离得到的。</li>
-</ul>
-<p>约束本质山就是数学中的相等或者不等关系，用公式表示就是：</p>
-<pre><code>y （关系）m * x + b
-</code></pre>
-<p>例如，视图 B 的左边 = 视图 A 的右边 + 15，这个是相等关系</p>
-<p>或者，视图 B 的左边 &gt;= 视图 A 的右边 + 15，这个是不等关系</p>
-<p>其中 m 是缩放因子，用来方法缩小视图，b 是偏移常数</p>
-<p>一般来说，构建的关系式都涉及两个视图，即</p>
-<pre><code>firstItem.firstAttribute (R) secondItemAttribute * m + b
-</code></pre>
-<p>firstItem 和 secondItem 的顺序可以任意，也可以表示为 [视图A]-10-[视图B]，从理解上来讲，应该是视图 B 右边距离视图 A 的右边 10pt，因为我们总是将左上的视图作为 firstItem，将右下的视图作为secondItem。</p>
-<h3 id="创建布局约束">创建布局约束</h3>
-<p>构建布局约束有 3 种方法：</p>
-<ul>
-<li>IB 设计界面</li>
-<li>可视化约束语言 ，允许 NSLayoutConstraint 根据请求生成实例</li>
-<li>为每一个组件提供一个基本关系，从而构建 NSLayoutConstraint 的实例</li>
-</ul>
-<p>从简易程度上讲，是从上到下的，并且从上到下也是 Apple 推荐的顺序，但是作为开发者，我认为还是从下往上比较好，因为在 IB 中创建约束后，你过后经常会忘记你当时想要的是什么布局，而且对于边界条件不能够很好的处理。</p>
-<p>NSlayoutConstraint 的类方法：</p>
-<pre><code>[NSLayoutConstraint constraintWithItem:
+</code></pre><p>当然也可以通过 IB 设置内容大小约束。</p><h3 id=构建布局约束>构建布局约束</h3><p>布局约束（NSLayoutConstraint 的实例）定义了视图的物理几何特征的规则，指定了视图的布局方式，以及视图与同一层级结构中其他视图的关系。</p><p><img src=http://7vzucb.com1.z0.glb.clouddn.com/blog.AutoLayout-elements.png alt=自动布局约束元素表></p><h3 id=布局约束类>布局约束类</h3><p>数学规则通过构建 NSLayoutConstraint 类的实例构建，然后将创建的规则应用到视图中，该类的实例提供以下几个基本约束：</p><ul><li>priority：优先级</li><li>firstItem 与 secondItem ，约束关联的视图</li><li>firstAttribute 与 secondAttribute ：约束系统中的名词，描述视图对齐矩阵的特征，如左边、右边、中心、高度，为上表中 12 个枚举类型中的任意一个，不存在第二项，使用 NSLayoutAttributeNotAnAttribute 占位符</li><li>relation：动词。指出属性之间如何比较</li><li>mutiplier 和 constant：提供代数元素，增强约束的功能和灵活性，通过这个属性，可以指出一个视图是另一个视图的一半，也可以指定一个视图是通过另一个视图偏移某个距离得到的。</li></ul><p>约束本质山就是数学中的相等或者不等关系，用公式表示就是：</p><pre><code>y （关系）m * x + b
+</code></pre><p>例如，视图 B 的左边 = 视图 A 的右边 + 15，这个是相等关系</p><p>或者，视图 B 的左边 >= 视图 A 的右边 + 15，这个是不等关系</p><p>其中 m 是缩放因子，用来方法缩小视图，b 是偏移常数</p><p>一般来说，构建的关系式都涉及两个视图，即</p><pre><code>firstItem.firstAttribute (R) secondItemAttribute * m + b
+</code></pre><p>firstItem 和 secondItem 的顺序可以任意，也可以表示为 [视图A]-10-[视图B]，从理解上来讲，应该是视图 B 右边距离视图 A 的右边 10pt，因为我们总是将左上的视图作为 firstItem，将右下的视图作为secondItem。</p><h3 id=创建布局约束>创建布局约束</h3><p>构建布局约束有 3 种方法：</p><ul><li>IB 设计界面</li><li>可视化约束语言 ，允许 NSLayoutConstraint 根据请求生成实例</li><li>为每一个组件提供一个基本关系，从而构建 NSLayoutConstraint 的实例</li></ul><p>从简易程度上讲，是从上到下的，并且从上到下也是 Apple 推荐的顺序，但是作为开发者，我认为还是从下往上比较好，因为在 IB 中创建约束后，你过后经常会忘记你当时想要的是什么布局，而且对于边界条件不能够很好的处理。</p><p>NSlayoutConstraint 的类方法：</p><pre><code>[NSLayoutConstraint constraintWithItem:
                              attribute:
                              relatedBy:
                                 toItem:
@@ -267,11 +33,7 @@ iOS7 新增，它是 IB 为你添加的约束，在迭代构造界面的过程�
                             multiplier:
                               constant:
  ]
-</code></pre>
-<p>每次只创建一个约束，每个布局约束定义一个规则，可能涉及一个或者两个视图。</p>
-<p>如果涉及到两个视图，那么上述约束将会创建一个严格的 <code>视图.属性 R 视图.属性 * 因数 + 常数</code> 的关系，其中关系 R 可以是等于或不等关系。</p>
-<p>举个🌰</p>
-<pre><code>[self.view addConstraint:
+</code></pre><p>每次只创建一个约束，每个布局约束定义一个规则，可能涉及一个或者两个视图。</p><p>如果涉及到两个视图，那么上述约束将会创建一个严格的 <code>视图.属性 R 视图.属性 * 因数 + 常数</code> 的关系，其中关系 R 可以是等于或不等关系。</p><p>举个🌰</p><pre><code>[self.view addConstraint:
 [NSLayoutConstraint constraintWithItem:self.view
                              attribute:NSLayoutAttributeCenterX
                              relatedBy:NSLayoutRelationEqual
@@ -280,161 +42,38 @@ iOS7 新增，它是 IB 为你添加的约束，在迭代构造界面的过程�
                             multiplier:1
                               constant:0
  ]];
-</code></pre>
-<p>该代码向视图控制器的视图（self.view）添加了一个约束，要求与 textField 输入框水平居中对齐。表达式如下：</p>
-<p><code>[self.view]的 centerX = （[文本字段]的 centerX * 1） + 0</code></p>
-<p>addConstraint 方法是将某个约束实例添加到视图中，类似与 IB 中 某个 View 下的 constraints</p>
-<p>有一部分约束是只需一个视图的。例如指定宽度等。</p>
-<p>约束至少需要与一个 View 有关系。</p>
-<h3 id="视图项">视图项</h3>
-<p>约束用 firstItem 和 secondItem 属性引用其所影响的视图，这些属性是只读的，只能在创建时期设置。可以拓展 NSLayoutConstraint 类（类别）来获取 NSLayoutConstraint 类实例的 firstItem 和 secondItem</p>
-<h3 id="约束层次结构与边界系统">约束、层次结构与边界系统</h3>
-<blockquote>
-<p>约束引用两个视图时，这两个视图必须在同一个视图层次结构，这个特别重要。</p>
-<p>对于两个涉及视图的约束，只有两种情况，一种是父视图与子视图，另一种就是视图是平级的，即它们拥有相同的祖先视图。</p>
-</blockquote>
-<h3 id="安装约束">安装约束</h3>
-<p>约束创建完成之后，还只是 NSLayoutConstraint 类的实例，如果想要约束生效，还需要将约束添加到 AutoLayout 系统，例如：</p>
-<pre><code>[myView addConstraint: aConstraintInstance];
-</code></pre>
-<p>因为可视化格式系统返回的是约束实例数组，所以还提供另一种方式：</p>
-<pre><code>[myView addConstraints: myArrayConstraints];
-</code></pre>
-<p>对于单个 item 的约束，安装到这个 item 对应 View 的本身，对于两个 Item，需要安装到它们最近的公共祖先视图上。</p>
-<p>需要删除约束时，有一种办法是删除约束涉及的某个 view，然后 AutoLayout 系统会自动将所有涉及 view 的约束删除掉，即调用 [view removeFromSuperView];</p>
-<p>还有一种就是 view 调用删除约束的方法，不过需要注意的是，这个时候传入的 constraint 实例必须是之前安装的实例，即两者的指针要相同。这个时候可能需要将之前安装的 constraint 实例保存后，才能正确的删除，不过也有一种办法就是搜索当前 View 中所有与希望删除约束等价的约束，然后将其删除。</p>
-<p>因为，视图将约束按照对象存储，如果两个约束不在内存中的同一个位置，即使它们的规则一样，视图仍然认为它们是不同的。</p>
-<h3 id="比较约束">比较约束</h3>
-<p>前面提到过，所有的约束都是一种关系：</p>
-<p><code>视图1.属性 （关系R）视图2.属性 * 因数 + 常数</code></p>
-<p>这些属性有 priority、firstItem、firstAttribute、relation、secondItem、secondAttribute、multiplier 和 constant。</p>
-<p>对两个约束，可以分别比较它们的这些属性来判断是否为等价的约束。</p>
-<p>约束安装后，可以删除，也可以用新的规则来替换。</p>
-<p>AutoLayout 使用约束创建动画时，很大部分是修改约束部分的常数来实现。</p>
-<h3 id="布局约束法则">布局约束法则</h3>
-<ul>
-<li>布局约束具有优先级</li>
-<li>布局约束没有天然顺序，所有具有相同优先级的约束都被同时考虑</li>
-<li>布局约束是关系，没有方向</li>
-<li>布局约束可以取近似值</li>
-<li>布局约束可以循环</li>
-<li>布局约束可以冗余（只要不发生冲突）</li>
-<li>布局约束可以引用兄弟视图</li>
-<li>AutoLayout 对变形的处理可能不是很好</li>
-<li>AutoLayout 不支持 iOS7 新增的视图动态功能</li>
-<li>AutoLayout 支持动画效果</li>
-<li>布局约束不应在不同的边界系统之间交叉使用</li>
-<li>布局约束会在运行时失败</li>
-<li>格式不正确的约束会 crash</li>
-<li>约束至少引用一个视图</li>
-<li>小心无效的属性结对</li>
-</ul>
-    </div>
-
-    <div class="post-copyright">
-  <p class="copyright-item">
-    <span class="item-title">Author</span>
-    <span class="item-content">Charvel</span>
-  </p>
-  <p class="copyright-item">
-    <span class="item-title">LastMod</span>
-    <span class="item-content">
-        2015-04-23
-        
-    </span>
-  </p>
-  
-  
-</div>
-<footer class="post-footer">
-      <div class="post-tags">
-          <a href="/tags/autolayout/">AutoLayout</a>
-          <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
-          </div>
-      <nav class="post-nav">
-        <a class="prev" href="/post/2015-04-27-ios-bing-fa-bian-cheng-zhi-nan-er--operation-queue/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">iOS 并发编程指南（二）- Operation Queue</span>
-            <span class="prev-text nav-mobile">Prev</span>
-          </a>
-        <a class="next" href="/post/2015-04-22-autolayout-du-shu-bi-ji-1/">
-            <span class="next-text nav-default">AutoLayout 读书笔记(一)</span>
-            <span class="next-text nav-mobile">Next</span>
-            <i class="iconfont icon-right"></i>
-          </a>
-      </nav>
-    </footer>
-  </article>
-        </div>
-        
-
-  
-
-  
-
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="social-links">
-      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
-      <a href="http://localhost:1313" class="iconfont icon-stack-overflow" title="stack-overflow"></a>
-      <a href="http://localhost:1313" class="iconfont icon-twitter" title="twitter"></a>
-      <a href="http://localhost:1313" class="iconfont icon-facebook" title="facebook"></a>
-      <a href="http://localhost:1313" class="iconfont icon-linkedin" title="linkedin"></a>
-      <a href="http://localhost:1313" class="iconfont icon-google" title="google"></a>
-      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
-      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
-      <a href="http://localhost:1313" class="iconfont icon-zhihu" title="zhihu"></a>
-      <a href="http://localhost:1313" class="iconfont icon-douban" title="douban"></a>
-      <a href="http://localhost:1313" class="iconfont icon-pocket" title="pocket"></a>
-      <a href="http://localhost:1313" class="iconfont icon-tumblr" title="tumblr"></a>
-      <a href="http://localhost:1313" class="iconfont icon-instagram" title="instagram"></a>
-      <a href="http://localhost:1313" class="iconfont icon-gitlab" title="gitlab"></a>
-      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
-  <a href="http://wellcheng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
-</div>
-
-<div class="copyright">
-  <span class="power-by">
-    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
-  </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-    Theme - 
-    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
-  </span>
-
-  
-
-  <span class="copyright-year">
-    &copy; 
-    2017 - 
-    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>Charvel</span>
-  </span>
-</div>
-
-    </footer>
-
-    <div class="back-to-top" id="back-to-top">
-      <i class="iconfont icon-up"></i>
-    </div>
-  </div>
-  
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
-
-
-
-<script type="text/javascript" src="/js/main.min.4ae89da218555efa0e7093a20b92017d2e1202b66fff9fc2edf4cb8d44b44c6e.js"></script>
-
-
-
-
-
-
-
-
-</body>
-</html>
+</code></pre><p>该代码向视图控制器的视图（self.view）添加了一个约束，要求与 textField 输入框水平居中对齐。表达式如下：</p><p><code>[self.view]的 centerX = （[文本字段]的 centerX * 1） + 0</code></p><p>addConstraint 方法是将某个约束实例添加到视图中，类似与 IB 中 某个 View 下的 constraints</p><p>有一部分约束是只需一个视图的。例如指定宽度等。</p><p>约束至少需要与一个 View 有关系。</p><h3 id=视图项>视图项</h3><p>约束用 firstItem 和 secondItem 属性引用其所影响的视图，这些属性是只读的，只能在创建时期设置。可以拓展 NSLayoutConstraint 类（类别）来获取 NSLayoutConstraint 类实例的 firstItem 和 secondItem</p><h3 id=约束层次结构与边界系统>约束、层次结构与边界系统</h3><blockquote><p>约束引用两个视图时，这两个视图必须在同一个视图层次结构，这个特别重要。</p><p>对于两个涉及视图的约束，只有两种情况，一种是父视图与子视图，另一种就是视图是平级的，即它们拥有相同的祖先视图。</p></blockquote><h3 id=安装约束>安装约束</h3><p>约束创建完成之后，还只是 NSLayoutConstraint 类的实例，如果想要约束生效，还需要将约束添加到 AutoLayout 系统，例如：</p><pre><code>[myView addConstraint: aConstraintInstance];
+</code></pre><p>因为可视化格式系统返回的是约束实例数组，所以还提供另一种方式：</p><pre><code>[myView addConstraints: myArrayConstraints];
+</code></pre><p>对于单个 item 的约束，安装到这个 item 对应 View 的本身，对于两个 Item，需要安装到它们最近的公共祖先视图上。</p><p>需要删除约束时，有一种办法是删除约束涉及的某个 view，然后 AutoLayout 系统会自动将所有涉及 view 的约束删除掉，即调用 [view removeFromSuperView];</p><p>还有一种就是 view 调用删除约束的方法，不过需要注意的是，这个时候传入的 constraint 实例必须是之前安装的实例，即两者的指针要相同。这个时候可能需要将之前安装的 constraint 实例保存后，才能正确的删除，不过也有一种办法就是搜索当前 View 中所有与希望删除约束等价的约束，然后将其删除。</p><p>因为，视图将约束按照对象存储，如果两个约束不在内存中的同一个位置，即使它们的规则一样，视图仍然认为它们是不同的。</p><h3 id=比较约束>比较约束</h3><p>前面提到过，所有的约束都是一种关系：</p><p><code>视图1.属性 （关系R）视图2.属性 * 因数 + 常数</code></p><p>这些属性有 priority、firstItem、firstAttribute、relation、secondItem、secondAttribute、multiplier 和 constant。</p><p>对两个约束，可以分别比较它们的这些属性来判断是否为等价的约束。</p><p>约束安装后，可以删除，也可以用新的规则来替换。</p><p>AutoLayout 使用约束创建动画时，很大部分是修改约束部分的常数来实现。</p><h3 id=布局约束法则>布局约束法则</h3><ul><li>布局约束具有优先级</li><li>布局约束没有天然顺序，所有具有相同优先级的约束都被同时考虑</li><li>布局约束是关系，没有方向</li><li>布局约束可以取近似值</li><li>布局约束可以循环</li><li>布局约束可以冗余（只要不发生冲突）</li><li>布局约束可以引用兄弟视图</li><li>AutoLayout 对变形的处理可能不是很好</li><li>AutoLayout 不支持 iOS7 新增的视图动态功能</li><li>AutoLayout 支持动画效果</li><li>布局约束不应在不同的边界系统之间交叉使用</li><li>布局约束会在运行时失败</li><li>格式不正确的约束会 crash</li><li>约束至少引用一个视图</li><li>小心无效的属性结对</li></ul></div><div class=post-copyright><p class=copyright-item><span class=item-title>Author</span>
+<span class=item-content>Charvel</span></p><p class=copyright-item><span class=item-title>LastMod</span>
+<span class=item-content>2015-04-23</span></p></div><footer class=post-footer><div class=post-tags><a href=/tags/autolayout/>AutoLayout</a>
+<a href=/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/>学习笔记</a></div><nav class=post-nav><a class=prev href=/post/2015-04-27-ios-bing-fa-bian-cheng-zhi-nan-er--operation-queue/><i class="iconfont icon-left"></i>
+<span class="prev-text nav-default">iOS 并发编程指南（二）- Operation Queue</span>
+<span class="prev-text nav-mobile">Prev</span></a>
+<a class=next href=/post/2015-04-22-autolayout-du-shu-bi-ji-1/><span class="next-text nav-default">AutoLayout 读书笔记(一)</span>
+<span class="next-text nav-mobile">Next</span>
+<i class="iconfont icon-right"></i></a></nav></footer></article></div></div></main><footer id=footer class=footer><div class=social-links><a href=mailto:your@email.com class="iconfont icon-email" title=email></a>
+<a href=http://localhost:1313 class="iconfont icon-stack-overflow" title=stack-overflow></a>
+<a href=http://localhost:1313 class="iconfont icon-twitter" title=twitter></a>
+<a href=http://localhost:1313 class="iconfont icon-facebook" title=facebook></a>
+<a href=http://localhost:1313 class="iconfont icon-linkedin" title=linkedin></a>
+<a href=http://localhost:1313 class="iconfont icon-google" title=google></a>
+<a href=http://localhost:1313 class="iconfont icon-github" title=github></a>
+<a href=http://localhost:1313 class="iconfont icon-weibo" title=weibo></a>
+<a href=http://localhost:1313 class="iconfont icon-zhihu" title=zhihu></a>
+<a href=http://localhost:1313 class="iconfont icon-douban" title=douban></a>
+<a href=http://localhost:1313 class="iconfont icon-pocket" title=pocket></a>
+<a href=http://localhost:1313 class="iconfont icon-tumblr" title=tumblr></a>
+<a href=http://localhost:1313 class="iconfont icon-instagram" title=instagram></a>
+<a href=http://localhost:1313 class="iconfont icon-gitlab" title=gitlab></a>
+<a href=http://localhost:1313 class="iconfont icon-bilibili" title=bilibili></a>
+<a href=http://wellcheng.github.io/index.xml type=application/rss+xml class="iconfont icon-rss" title=rss></a></div><div class=copyright><span class=power-by>Powered by <a class=hexo-link href=https://gohugo.io>Hugo</a></span>
+<span class=division>|</span>
+<span class=theme-info>Theme -
+<a class=theme-link href=https://github.com/olOwOlo/hugo-theme-even>Even</a></span>
+<span class=copyright-year>&copy;
+2017 -
+2022<span class=heart><i class="iconfont icon-heart"></i></span><span>Charvel</span></span></div></footer><div class=back-to-top id=back-to-top><i class="iconfont icon-up"></i></div></div><script src=https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin=anonymous></script>
+<script src=https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin=anonymous></script>
+<script src=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin=anonymous></script>
+<script type=text/javascript src=/js/main.min.4ae89da218555efa0e7093a20b92017d2e1202b66fff9fc2edf4cb8d44b44c6e.js></script></body></html>

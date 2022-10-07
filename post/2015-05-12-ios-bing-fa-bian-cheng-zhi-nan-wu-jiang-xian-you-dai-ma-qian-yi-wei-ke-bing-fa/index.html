@@ -1,48 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>iOS 并发编程指南(五)-将现有代码迁移为可并发 - Even - A super concise theme for Hugo</title>
-  <meta name="renderer" content="webkit" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-<meta name="theme-color" content="#f8f5ec" />
-<meta name="msapplication-navbutton-color" content="#f8f5ec">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
-
-
-<meta name="author" content="Charvel" /><meta name="description" content="将现有的代码迁移至可并发，例如 GCD 或 NSOperation ，有很多办法，尽管可能不是所有的代码都需要迁移，但是部分迁移能够提升程序性能：
+<!doctype html><html lang=en><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge,chrome=1"><title>iOS 并发编程指南(五)-将现有代码迁移为可并发 - Even - A super concise theme for Hugo</title><meta name=renderer content="webkit"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta http-equiv=cache-control content="no-transform"><meta http-equiv=cache-control content="no-siteapp"><meta name=theme-color content="#f8f5ec"><meta name=msapplication-navbutton-color content="#f8f5ec"><meta name=apple-mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-status-bar-style content="#f8f5ec"><meta name=author content="Charvel"><meta name=description content="将现有的代码迁移至可并发，例如 GCD 或 NSOperation ，有很多办法，尽管可能不是所有的代码都需要迁移，但是部分迁移能够提升程序性能：
 使用dispatch queue和Operaiton queue相比线程拥有许多优点： 应用不再需要存储线程栈到内存空间 消除了创建和配置线程的代码 消除了管理和调度线程工作的代码 简化了你要编写的代码 本章节主要提供一些迁移相关的 tips
-" /><meta name="keywords" content="Hugo, theme, even" />
-
-
-
-
-
-
-<meta name="generator" content="Hugo 0.104.3 with theme even" />
-
-
-<link rel="canonical" href="http://wellcheng.github.io/post/2015-05-12-ios-bing-fa-bian-cheng-zhi-nan-wu-jiang-xian-you-dai-ma-qian-yi-wei-ke-bing-fa/" />
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="manifest" href="/manifest.json">
-<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
-
-
-
-<link href="/sass/main.min.f92fd13721ddf72129410fd8250e73152cc6f2438082b6c0208dc24ee7c13fc4.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
-
-
-<meta property="og:title" content="iOS 并发编程指南(五)-将现有代码迁移为可并发" />
-<meta property="og:description" content="将现有的代码迁移至可并发，例如 GCD 或 NSOperation ，有很多办法，尽管可能不是所有的代码都需要迁移，但是部分迁移能够提升程序性能：
+"><meta name=keywords content="Hugo,theme,even"><meta name=generator content="Hugo 0.104.3 with theme even"><link rel=canonical href=http://wellcheng.github.io/post/2015-05-12-ios-bing-fa-bian-cheng-zhi-nan-wu-jiang-xian-you-dai-ma-qian-yi-wei-ke-bing-fa/><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/manifest.json><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link href=/sass/main.min.f92fd13721ddf72129410fd8250e73152cc6f2438082b6c0208dc24ee7c13fc4.css rel=stylesheet><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin=anonymous><meta property="og:title" content="iOS 并发编程指南(五)-将现有代码迁移为可并发"><meta property="og:description" content="将现有的代码迁移至可并发，例如 GCD 或 NSOperation ，有很多办法，尽管可能不是所有的代码都需要迁移，但是部分迁移能够提升程序性能：
 
 使用dispatch queue和Operaiton queue相比线程拥有许多优点：
 应用不再需要存储线程栈到内存空间
@@ -50,14 +8,7 @@
 消除了管理和调度线程工作的代码
 简化了你要编写的代码
 
-本章节主要提供一些迁移相关的 tips" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="http://wellcheng.github.io/post/2015-05-12-ios-bing-fa-bian-cheng-zhi-nan-wu-jiang-xian-you-dai-ma-qian-yi-wei-ke-bing-fa/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2015-05-12T23:20:49+08:00" />
-<meta property="article:modified_time" content="2015-05-12T23:20:49+08:00" />
-
-<meta itemprop="name" content="iOS 并发编程指南(五)-将现有代码迁移为可并发">
-<meta itemprop="description" content="将现有的代码迁移至可并发，例如 GCD 或 NSOperation ，有很多办法，尽管可能不是所有的代码都需要迁移，但是部分迁移能够提升程序性能：
+本章节主要提供一些迁移相关的 tips"><meta property="og:type" content="article"><meta property="og:url" content="http://wellcheng.github.io/post/2015-05-12-ios-bing-fa-bian-cheng-zhi-nan-wu-jiang-xian-you-dai-ma-qian-yi-wei-ke-bing-fa/"><meta property="article:section" content="post"><meta property="article:published_time" content="2015-05-12T23:20:49+08:00"><meta property="article:modified_time" content="2015-05-12T23:20:49+08:00"><meta itemprop=name content="iOS 并发编程指南(五)-将现有代码迁移为可并发"><meta itemprop=description content="将现有的代码迁移至可并发，例如 GCD 或 NSOperation ，有很多办法，尽管可能不是所有的代码都需要迁移，但是部分迁移能够提升程序性能：
 
 使用dispatch queue和Operaiton queue相比线程拥有许多优点：
 应用不再需要存储线程栈到内存空间
@@ -65,12 +16,7 @@
 消除了管理和调度线程工作的代码
 简化了你要编写的代码
 
-本章节主要提供一些迁移相关的 tips"><meta itemprop="datePublished" content="2015-05-12T23:20:49+08:00" />
-<meta itemprop="dateModified" content="2015-05-12T23:20:49+08:00" />
-<meta itemprop="wordCount" content="4962">
-<meta itemprop="keywords" content="并发编程,GCD," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="iOS 并发编程指南(五)-将现有代码迁移为可并发"/>
-<meta name="twitter:description" content="将现有的代码迁移至可并发，例如 GCD 或 NSOperation ，有很多办法，尽管可能不是所有的代码都需要迁移，但是部分迁移能够提升程序性能：
+本章节主要提供一些迁移相关的 tips"><meta itemprop=datePublished content="2015-05-12T23:20:49+08:00"><meta itemprop=dateModified content="2015-05-12T23:20:49+08:00"><meta itemprop=wordCount content="4962"><meta itemprop=keywords content="并发编程,GCD,"><meta name=twitter:card content="summary"><meta name=twitter:title content="iOS 并发编程指南(五)-将现有代码迁移为可并发"><meta name=twitter:description content="将现有的代码迁移至可并发，例如 GCD 或 NSOperation ，有很多办法，尽管可能不是所有的代码都需要迁移，但是部分迁移能够提升程序性能：
 
 使用dispatch queue和Operaiton queue相比线程拥有许多优点：
 应用不再需要存储线程栈到内存空间
@@ -78,188 +24,27 @@
 消除了管理和调度线程工作的代码
 简化了你要编写的代码
 
-本章节主要提供一些迁移相关的 tips"/>
-
-<!--[if lte IE 9]>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
-<![endif]-->
-
-<!--[if lt IE 9]>
-  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
-<![endif]-->
-
-</head>
-<body>
-  <div id="mobile-navbar" class="mobile-navbar">
-  <div class="mobile-header-logo">
-    <a href="/" class="logo">Even</a>
-  </div>
-  <div class="mobile-navbar-icon">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
-</div>
-<nav id="mobile-menu" class="mobile-menu slideout-menu">
-  <ul class="mobile-menu-list">
-    <a href="/">
-        <li class="mobile-menu-item">Home</li>
-      </a><a href="/post/">
-        <li class="mobile-menu-item">Archives</li>
-      </a><a href="/tags/">
-        <li class="mobile-menu-item">Tags</li>
-      </a><a href="/categories/">
-        <li class="mobile-menu-item">Categories</li>
-      </a>
-  </ul>
-
-  
-
-
-</nav>
-
-  <div class="container" id="mobile-panel">
-    <header id="header" class="header">
-        <div class="logo-wrapper">
-  <a href="/" class="logo">Even</a>
-</div>
-
-
-
-
-
-<nav class="site-navbar">
-  <ul id="menu" class="menu">
-    <li class="menu-item">
-        <a class="menu-item-link" href="/">Home</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/post/">Archives</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/tags/">Tags</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/categories/">Categories</a>
-      </li>
-  </ul>
-</nav>
-
-    </header>
-
-    <main id="main" class="main">
-      <div class="content-wrapper">
-        <div id="content" class="content">
-          <article class="post">
-    
-    <header class="post-header">
-      <h1 class="post-title">iOS 并发编程指南(五)-将现有代码迁移为可并发</h1>
-
-      <div class="post-meta">
-        <span class="post-time"> 2015-05-12 </span>
-        
-        
-      </div>
-    </header>
-
-    <div class="post-toc" id="post-toc">
-  <h2 class="post-toc-title">Contents</h2>
-  <div class="post-toc-content always-active">
-    <nav id="TableOfContents">
-  <ul>
-    <li>
-      <ul>
-        <li><a href="#使用dispatch-queue替代线程">使用Dispatch Queue替代线程</a></li>
-        <li><a href="#消除基于锁的代码">消除基于锁的代码</a>
-          <ul>
-            <li><a href="#实现异步锁">实现异步锁</a></li>
-            <li><a href="#同步执行临界区">同步执行临界区</a></li>
-          </ul>
-        </li>
-        <li><a href="#改进循环代码">改进循环代码</a></li>
-        <li><a href="#替换线程join">替换线程Join</a></li>
-        <li><a href="#修改生产者-消费者实现">修改“生产者-消费者”实现</a></li>
-        <li><a href="#替换semaphore代码">替换Semaphore代码</a></li>
-        <li><a href="#替换run-loop代码">替换Run-Loop代码</a></li>
-        <li><a href="#与posix线程的兼容性">与POSIX线程的兼容性</a></li>
-      </ul>
-    </li>
-  </ul>
-</nav>
-  </div>
-</div>
-    <div class="post-content">
-      <p>将现有的代码迁移至可并发，例如 GCD 或 NSOperation ，有很多办法，尽管可能不是所有的代码都需要迁移，但是部分迁移能够提升程序性能：</p>
-<ul>
-<li>使用dispatch queue和Operaiton queue相比线程拥有许多优点：</li>
-<li>应用不再需要存储线程栈到内存空间</li>
-<li>消除了创建和配置线程的代码</li>
-<li>消除了管理和调度线程工作的代码</li>
-<li>简化了你要编写的代码</li>
-</ul>
-<p>本章节主要提供一些迁移相关的 tips</p>
-<h2 id="使用dispatch-queue替代线程">使用Dispatch Queue替代线程</h2>
-<p>首先考虑应用可能使用线程的几种方式：</p>
-<ul>
-<li><strong>单一任务线程</strong>：创建一个线程执行单一任务，任务完成时释放线程</li>
-<li><strong>工作线程(Worker)</strong>：创建一个或多个工作线程执行特定的任务，定期地分配任务给每个线程</li>
-<li><strong>线程池</strong>：创建一个通用的线程池，并为每个线程设置run loop，当你需要执行一个任务时，从池中抓取一个线程，并分配任务给它。如果没有空闲线程可用，任务进入等待队列。</li>
-</ul>
-<p>虽然这些看上去是完全不同的技术，但实际上只是相同原理的变种。应用都是使用线程来执行某些任务，区别在于管理线程和任务排队的代码。使用dispatch queue和operation queue，你可以消除所有线程、及线程通信的代码，集中精力编写处理任务的代码。</p>
-<p>如果你使用了上面的线程模型，你应该已经非常了解应用需要执行的任务类型，只需要封装任务到Operation对象或Block对象，然后dispatch到适当的queue，就一切搞定!</p>
-<p>对于那些不使用锁的任务，你可以直接使用以下方法来进行迁移：</p>
-<ul>
-<li>单一任务线程，封装任务到block或operation对象，并提交到并发queue</li>
-<li>工作线程，首先你需要确定使用串行queue还是并发queue，如果工作线程需要同步特定任务的执行，就应该使用串行queue。如果工作线程只是执行任意任务，任务之间并无关联，就应该使用并发queue</li>
-<li>线程池，封装任务到block或operation对象，并提交到并发queue中执行</li>
-</ul>
-<p>当然，上面只是简单的情况。如果任务会争夺共享资源，理想的解决方案当然是消除或最小化共享资源的争夺。如果有办法重构代码，消除任务彼此对共享资源的依赖，这是最理想的。</p>
-<p>如果做不到消除共享资源依赖，你仍然可以使用queue，因为queue能够提供可预测的代码执行顺序。可预测意味着你不需要锁或其它重量级的同步机制，就可以实现代码的同步执行。</p>
-<p>你可以使用queue来取代锁执行以下任务：</p>
-<ul>
-<li>如果任务必须按特定顺序执行，提交到串行dispatch queue;如果你想使用Operation queue，就使用Operation对象依赖来确保这些对象的执行顺序。</li>
-<li>如果你已经使用锁来保护共享资源，创建一个串行queue来执行任务并修改该资源。串行queue可以替换现有的锁，直接作为同步机制使用。</li>
-<li>如果你使用线程join来等待后台任务完成，考虑使用dispatch group;也可以使用一个 NSBlockOperation 对象，或者Operation对象依赖，同样可以达到group-completion的行为。</li>
-<li>如果你使用“生产者-消费者”模型来管理有限资源池，考虑使用 dispatch queue 来简化“生产者-消费者”</li>
-<li>如果你使用线程来读取和写入描述符，或者监控文件操作，使用dispatch source</li>
-</ul>
-<p>记住queue不是替代线程的万能药!queue提供的异步编程模型适合于延迟无关紧要的场合。虽然queue提供配置任务执行优先级的方法，但更高的优先级也不能确保任务一定能在特定时间得到执行。因此线程仍然是实现最小延迟的适当选择，例如音频和视频playback等场合。</p>
-<h2 id="消除基于锁的代码">消除基于锁的代码</h2>
-<p>在线程代码中，锁是传统的多个线程之间同步资源的访问机制。但是锁的开销本身比较大，线程还需等待锁的释放。</p>
-<p>使用queue替代基于锁的线程代码，消除了锁带来的开销，并且简化了代码编写。你可以将任务放到串行queue，来控制任务对共享资源的访问。queue的开销要远远小于锁，因为将任务放入queue不需要陷入内核来获得mutex</p>
-<p>将任务放入queue时，你做的主要决定是同步还是异步，异步提交任务到queue让当前线程继续运行;同步提交任务则阻塞当前线程，直到任务执行完成。两种机制各有各的用途，不过通常异步优先于同步。</p>
-<h3 id="实现异步锁">实现异步锁</h3>
-<p>异步锁可以保护共享资源，而又不阻塞任何修改资源的代码。当代码的部分工作需要修改一个数据结构时，可以使用异步锁。使用传统的线程，你的实现方式是：获得共享资源的锁，做必要的修改，释放锁，继续任务的其它部分工作。但是使用dispatch queue，调用代码可以异步修改，无需等待这些修改操作完成。</p>
-<p>下面是异步锁实现的一个例子，受保护的资源定义了自己的串行dispatch queue。调用代码提交一个block到这个queue，在block中执行对资源的修改。由于queue串行的执行所有block，对这个资源的修改可以确保按顺序进行;而且由于任务是异步执行的，调用线程不会阻塞。</p>
-<pre><code>dispatch_async(obj-&gt;serial_queue, ^{
+本章节主要提供一些迁移相关的 tips"><!--[if lte IE 9]><script src=https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js></script><![endif]--><!--[if lt IE 9]><script src=https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js></script>
+<script src=https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js></script><![endif]--></head><body><div id=mobile-navbar class=mobile-navbar><div class=mobile-header-logo><a href=/ class=logo>Even</a></div><div class=mobile-navbar-icon><span></span>
+<span></span>
+<span></span></div></div><nav id=mobile-menu class="mobile-menu slideout-menu"><ul class=mobile-menu-list><a href=/><li class=mobile-menu-item>Home</li></a><a href=/post/><li class=mobile-menu-item>Archives</li></a><a href=/tags/><li class=mobile-menu-item>Tags</li></a><a href=/categories/><li class=mobile-menu-item>Categories</li></a></ul></nav><div class=container id=mobile-panel><header id=header class=header><div class=logo-wrapper><a href=/ class=logo>Even</a></div><nav class=site-navbar><ul id=menu class=menu><li class=menu-item><a class=menu-item-link href=/>Home</a></li><li class=menu-item><a class=menu-item-link href=/post/>Archives</a></li><li class=menu-item><a class=menu-item-link href=/tags/>Tags</a></li><li class=menu-item><a class=menu-item-link href=/categories/>Categories</a></li></ul></nav></header><main id=main class=main><div class=content-wrapper><div id=content class=content><article class=post><header class=post-header><h1 class=post-title>iOS 并发编程指南(五)-将现有代码迁移为可并发</h1><div class=post-meta><span class=post-time>2015-05-12</span></div></header><div class=post-toc id=post-toc><h2 class=post-toc-title>Contents</h2><div class="post-toc-content always-active"><nav id=TableOfContents><ul><li><ul><li><a href=#使用dispatch-queue替代线程>使用Dispatch Queue替代线程</a></li><li><a href=#消除基于锁的代码>消除基于锁的代码</a><ul><li><a href=#实现异步锁>实现异步锁</a></li><li><a href=#同步执行临界区>同步执行临界区</a></li></ul></li><li><a href=#改进循环代码>改进循环代码</a></li><li><a href=#替换线程join>替换线程Join</a></li><li><a href=#修改生产者-消费者实现>修改“生产者-消费者”实现</a></li><li><a href=#替换semaphore代码>替换Semaphore代码</a></li><li><a href=#替换run-loop代码>替换Run-Loop代码</a></li><li><a href=#与posix线程的兼容性>与POSIX线程的兼容性</a></li></ul></li></ul></nav></div></div><div class=post-content><p>将现有的代码迁移至可并发，例如 GCD 或 NSOperation ，有很多办法，尽管可能不是所有的代码都需要迁移，但是部分迁移能够提升程序性能：</p><ul><li>使用dispatch queue和Operaiton queue相比线程拥有许多优点：</li><li>应用不再需要存储线程栈到内存空间</li><li>消除了创建和配置线程的代码</li><li>消除了管理和调度线程工作的代码</li><li>简化了你要编写的代码</li></ul><p>本章节主要提供一些迁移相关的 tips</p><h2 id=使用dispatch-queue替代线程>使用Dispatch Queue替代线程</h2><p>首先考虑应用可能使用线程的几种方式：</p><ul><li><strong>单一任务线程</strong>：创建一个线程执行单一任务，任务完成时释放线程</li><li><strong>工作线程(Worker)</strong>：创建一个或多个工作线程执行特定的任务，定期地分配任务给每个线程</li><li><strong>线程池</strong>：创建一个通用的线程池，并为每个线程设置run loop，当你需要执行一个任务时，从池中抓取一个线程，并分配任务给它。如果没有空闲线程可用，任务进入等待队列。</li></ul><p>虽然这些看上去是完全不同的技术，但实际上只是相同原理的变种。应用都是使用线程来执行某些任务，区别在于管理线程和任务排队的代码。使用dispatch queue和operation queue，你可以消除所有线程、及线程通信的代码，集中精力编写处理任务的代码。</p><p>如果你使用了上面的线程模型，你应该已经非常了解应用需要执行的任务类型，只需要封装任务到Operation对象或Block对象，然后dispatch到适当的queue，就一切搞定!</p><p>对于那些不使用锁的任务，你可以直接使用以下方法来进行迁移：</p><ul><li>单一任务线程，封装任务到block或operation对象，并提交到并发queue</li><li>工作线程，首先你需要确定使用串行queue还是并发queue，如果工作线程需要同步特定任务的执行，就应该使用串行queue。如果工作线程只是执行任意任务，任务之间并无关联，就应该使用并发queue</li><li>线程池，封装任务到block或operation对象，并提交到并发queue中执行</li></ul><p>当然，上面只是简单的情况。如果任务会争夺共享资源，理想的解决方案当然是消除或最小化共享资源的争夺。如果有办法重构代码，消除任务彼此对共享资源的依赖，这是最理想的。</p><p>如果做不到消除共享资源依赖，你仍然可以使用queue，因为queue能够提供可预测的代码执行顺序。可预测意味着你不需要锁或其它重量级的同步机制，就可以实现代码的同步执行。</p><p>你可以使用queue来取代锁执行以下任务：</p><ul><li>如果任务必须按特定顺序执行，提交到串行dispatch queue;如果你想使用Operation queue，就使用Operation对象依赖来确保这些对象的执行顺序。</li><li>如果你已经使用锁来保护共享资源，创建一个串行queue来执行任务并修改该资源。串行queue可以替换现有的锁，直接作为同步机制使用。</li><li>如果你使用线程join来等待后台任务完成，考虑使用dispatch group;也可以使用一个 NSBlockOperation 对象，或者Operation对象依赖，同样可以达到group-completion的行为。</li><li>如果你使用“生产者-消费者”模型来管理有限资源池，考虑使用 dispatch queue 来简化“生产者-消费者”</li><li>如果你使用线程来读取和写入描述符，或者监控文件操作，使用dispatch source</li></ul><p>记住queue不是替代线程的万能药!queue提供的异步编程模型适合于延迟无关紧要的场合。虽然queue提供配置任务执行优先级的方法，但更高的优先级也不能确保任务一定能在特定时间得到执行。因此线程仍然是实现最小延迟的适当选择，例如音频和视频playback等场合。</p><h2 id=消除基于锁的代码>消除基于锁的代码</h2><p>在线程代码中，锁是传统的多个线程之间同步资源的访问机制。但是锁的开销本身比较大，线程还需等待锁的释放。</p><p>使用queue替代基于锁的线程代码，消除了锁带来的开销，并且简化了代码编写。你可以将任务放到串行queue，来控制任务对共享资源的访问。queue的开销要远远小于锁，因为将任务放入queue不需要陷入内核来获得mutex</p><p>将任务放入queue时，你做的主要决定是同步还是异步，异步提交任务到queue让当前线程继续运行;同步提交任务则阻塞当前线程，直到任务执行完成。两种机制各有各的用途，不过通常异步优先于同步。</p><h3 id=实现异步锁>实现异步锁</h3><p>异步锁可以保护共享资源，而又不阻塞任何修改资源的代码。当代码的部分工作需要修改一个数据结构时，可以使用异步锁。使用传统的线程，你的实现方式是：获得共享资源的锁，做必要的修改，释放锁，继续任务的其它部分工作。但是使用dispatch queue，调用代码可以异步修改，无需等待这些修改操作完成。</p><p>下面是异步锁实现的一个例子，受保护的资源定义了自己的串行dispatch queue。调用代码提交一个block到这个queue，在block中执行对资源的修改。由于queue串行的执行所有block，对这个资源的修改可以确保按顺序进行;而且由于任务是异步执行的，调用线程不会阻塞。</p><pre><code>dispatch_async(obj-&gt;serial_queue, ^{
 
 // Critical section
 
 });
-</code></pre>
-<h3 id="同步执行临界区">同步执行临界区</h3>
-<p>如果当前代码必须等到指定任务完成，你可以使用 dispatch_sync 函数同步的提交任务，这个函数将任务添加到dispatch queue，并阻塞当前线程直到任务完成执行。dispatch queue本身可以是串行或并发queue，你可以根据具体的需要来选择使用。由于 dispatch_sync 函数会阻塞当前线程，你只应该在确实需要的时候才使用。</p>
-<p>下面是使用 dispatch_sync 实现临界区的例子：</p>
-<pre><code>dispatch_sync(my_queue, ^{
+</code></pre><h3 id=同步执行临界区>同步执行临界区</h3><p>如果当前代码必须等到指定任务完成，你可以使用 dispatch_sync 函数同步的提交任务，这个函数将任务添加到dispatch queue，并阻塞当前线程直到任务完成执行。dispatch queue本身可以是串行或并发queue，你可以根据具体的需要来选择使用。由于 dispatch_sync 函数会阻塞当前线程，你只应该在确实需要的时候才使用。</p><p>下面是使用 dispatch_sync 实现临界区的例子：</p><pre><code>dispatch_sync(my_queue, ^{
 
 // Critical section
 
 });
-</code></pre>
-<p>如果你已经使用串行queue保护一个共享资源，同步提交到串行queue，并不能比异步提交提供更多的保护。同步提交的唯一理由是，阻止当前代码在临界区完成之前继续执行。如果当前代码不需要等待临界区完成，或者可以简单的提交接下来的任务到相同的串行queue，就应该使用异步提交。</p>
-<h2 id="改进循环代码">改进循环代码</h2>
-<p>如果循环每次迭代执行的工作互相独立，可以考虑使用 dispatch_apply 或 dispatch_apply_f 函数来重新实现循环。这两个函数将循环的每次迭代提交到dispatch queue进行处理。结合并发queue使用时，可以并发地执行迭代以提高性能。</p>
-<p>dispatch_apply 和 dispatch_apply_f 是同步函数，会阻塞当前线程直到所有循环迭代执行完成。当提交到并发queue时，循环迭代的执行顺序是不确定的。因此你用来执行循环迭代的Block对象(或函数)必须可重入(reentrant)。</p>
-<p>下面例子使用dispatch来替换循环，你传递给 dispatch_apply 或 dispatch_apply_f 的Block或函数必须有一个整数参数，用来标识当前的循环迭代：</p>
-<pre><code>queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+</code></pre><p>如果你已经使用串行queue保护一个共享资源，同步提交到串行queue，并不能比异步提交提供更多的保护。同步提交的唯一理由是，阻止当前代码在临界区完成之前继续执行。如果当前代码不需要等待临界区完成，或者可以简单的提交接下来的任务到相同的串行queue，就应该使用异步提交。</p><h2 id=改进循环代码>改进循环代码</h2><p>如果循环每次迭代执行的工作互相独立，可以考虑使用 dispatch_apply 或 dispatch_apply_f 函数来重新实现循环。这两个函数将循环的每次迭代提交到dispatch queue进行处理。结合并发queue使用时，可以并发地执行迭代以提高性能。</p><p>dispatch_apply 和 dispatch_apply_f 是同步函数，会阻塞当前线程直到所有循环迭代执行完成。当提交到并发queue时，循环迭代的执行顺序是不确定的。因此你用来执行循环迭代的Block对象(或函数)必须可重入(reentrant)。</p><p>下面例子使用dispatch来替换循环，你传递给 dispatch_apply 或 dispatch_apply_f 的Block或函数必须有一个整数参数，用来标识当前的循环迭代：</p><pre><code>queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
 
 dispatch_apply(count, queue, ^(size_t i) {
 
 printf(&quot;%u\n&quot;, i);
 
 });
-</code></pre>
-<p>你需要明智地使用这项技术，因为dispatch queue的开销虽然非常小，但仍然存在，你的循环代码必须拥有足够的工作量，才能忽略掉dispatch queue的这些开销。</p>
-<p>提升每次循环迭代工作量最简单的办法是striding(跨步)，重写block代码执行多个循环迭代。从而减少了 dispatch_apply 函数指定的count值。</p>
-<pre><code>int stride = 137;
+</code></pre><p>你需要明智地使用这项技术，因为dispatch queue的开销虽然非常小，但仍然存在，你的循环代码必须拥有足够的工作量，才能忽略掉dispatch queue的这些开销。</p><p>提升每次循环迭代工作量最简单的办法是striding(跨步)，重写block代码执行多个循环迭代。从而减少了 dispatch_apply 函数指定的count值。</p><pre><code>int stride = 137;
 
 dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
 
@@ -284,208 +69,42 @@ size_t i;
 for (i = count - (count % stride); i &lt; count; i++)
 
 printf(&quot;%u\n&quot;, (unsigned int)i);
-</code></pre>
-<p>如果循环迭代次数非常多，使用stride可以提升性能。</p>
-<h2 id="替换线程join">替换线程Join</h2>
-<p>线程join允许你生成多个线程，然后让当前线程等待所有线程完成。线程创建子线程时指定为joinable，如果父线程在子线程完成之前不能继续处理，就可以join子线程。join会阻塞父线程直到子线程完成任务并退出，这时候父线程可以获得子线程的结果状态，并继续自己的工作。父线程可以一次性join多个子线程。</p>
-<p>Dispatch Group提供了类似于线程join的语义，但拥有更多优点。dispatch group可以让线程阻塞直到一个或多个任务完成。和线程join不一样的是，dispatch goup同时等待所有子任务完成。而且由于dispatch group使用dispatch queue来执行任务，更加高效。</p>
-<p>以下步骤可以使用dispatch group替换线程join：</p>
-<ol>
-<li>使用 dispatch_group_create 函数创建一个新的dispatch group</li>
-<li>使用 dispatch_group_async 或 dispatch_group_async_f 函数添加任务到Group，这些是你要等待完成的任务</li>
-<li>如果当前线程不能继续处理任何工作，调用 dispatch_group_wait 函数等待这个group，会阻塞当前线程直到group中的所有任务执行完成。</li>
-</ol>
-<p>如果你使用Operation对象来实现任务，可以使用依赖来实现线程join。不过这时候不是让父线程等待所有任务完成，而是将父代码移到一个Operation对象，然后设置父Operation对象依赖于所有子Operation对象。这样父Operation对象就会等到所有子Operation执行完成后才开始执行。</p>
-<h2 id="修改生产者-消费者实现">修改“生产者-消费者”实现</h2>
-<p>生产者-消费者 模型可以管理有限数量动态生产的资源。生产者生成新资源，消费者等待并消耗这些资源。实现生产者-消费者模型的典型机制是条件或信号量。</p>
-<p>使用条件(Condition)时，生产者线程通常如下：</p>
-<ol>
-<li>
-<p>锁住与condition关联的mutex(使用pthread_mutex_lock)</p>
-</li>
-<li>
-<p>生产资源(或工作)</p>
-</li>
-<li>
-<p>Signal条件变量，通知有资源(或工作)可以消费(使用pthread_cond_signal)</p>
-</li>
-<li>
-<p>解锁mutex(使用pthread_mutex_unlock)</p>
-</li>
-</ol>
-<p>对应的消费者线程则如下：</p>
-<ol>
-<li>
-<p>锁住condition关联的mutex(使用pthread_mutex_lock)</p>
-</li>
-<li>
-<p>设置一个while循环[list=1]</p>
-<ul>
-<li>检查是否有资源(或工作)</li>
-<li>如果没有资源(或工作)，调用pthread_cond_wait阻塞当前线程，直到相应的condition触发</li>
-</ul>
-</li>
-<li>
-<p>获得生产者提供的资源(或工作)</p>
-</li>
-<li>
-<p>解锁mutex(使用pthread_mutex_unlock)</p>
-</li>
-<li>
-<p>处理资源(或工作)</p>
-</li>
-</ol>
-<p>使用 dispatch queue，你可以简化生产者-消费者为一个调用：</p>
-<pre><code>dispatch_async(queue, ^{
+</code></pre><p>如果循环迭代次数非常多，使用stride可以提升性能。</p><h2 id=替换线程join>替换线程Join</h2><p>线程join允许你生成多个线程，然后让当前线程等待所有线程完成。线程创建子线程时指定为joinable，如果父线程在子线程完成之前不能继续处理，就可以join子线程。join会阻塞父线程直到子线程完成任务并退出，这时候父线程可以获得子线程的结果状态，并继续自己的工作。父线程可以一次性join多个子线程。</p><p>Dispatch Group提供了类似于线程join的语义，但拥有更多优点。dispatch group可以让线程阻塞直到一个或多个任务完成。和线程join不一样的是，dispatch goup同时等待所有子任务完成。而且由于dispatch group使用dispatch queue来执行任务，更加高效。</p><p>以下步骤可以使用dispatch group替换线程join：</p><ol><li>使用 dispatch_group_create 函数创建一个新的dispatch group</li><li>使用 dispatch_group_async 或 dispatch_group_async_f 函数添加任务到Group，这些是你要等待完成的任务</li><li>如果当前线程不能继续处理任何工作，调用 dispatch_group_wait 函数等待这个group，会阻塞当前线程直到group中的所有任务执行完成。</li></ol><p>如果你使用Operation对象来实现任务，可以使用依赖来实现线程join。不过这时候不是让父线程等待所有任务完成，而是将父代码移到一个Operation对象，然后设置父Operation对象依赖于所有子Operation对象。这样父Operation对象就会等到所有子Operation执行完成后才开始执行。</p><h2 id=修改生产者-消费者实现>修改“生产者-消费者”实现</h2><p>生产者-消费者 模型可以管理有限数量动态生产的资源。生产者生成新资源，消费者等待并消耗这些资源。实现生产者-消费者模型的典型机制是条件或信号量。</p><p>使用条件(Condition)时，生产者线程通常如下：</p><ol><li><p>锁住与condition关联的mutex(使用pthread_mutex_lock)</p></li><li><p>生产资源(或工作)</p></li><li><p>Signal条件变量，通知有资源(或工作)可以消费(使用pthread_cond_signal)</p></li><li><p>解锁mutex(使用pthread_mutex_unlock)</p></li></ol><p>对应的消费者线程则如下：</p><ol><li><p>锁住condition关联的mutex(使用pthread_mutex_lock)</p></li><li><p>设置一个while循环[list=1]</p><ul><li>检查是否有资源(或工作)</li><li>如果没有资源(或工作)，调用pthread_cond_wait阻塞当前线程，直到相应的condition触发</li></ul></li><li><p>获得生产者提供的资源(或工作)</p></li><li><p>解锁mutex(使用pthread_mutex_unlock)</p></li><li><p>处理资源(或工作)</p></li></ol><p>使用 dispatch queue，你可以简化生产者-消费者为一个调用：</p><pre><code>dispatch_async(queue, ^{
 
 // Process a work item.
 
 });
-</code></pre>
-<p>当生产者有工作需要做时，只需要将工作添加到queue，并让queue去处理该工作。唯一需要确定的是queue的类型，如果生产者生成的任务需要按特定顺序执行，就使用串行queue;否则使用并发Queue，让系统尽可能多地同时执行任务。</p>
-<h2 id="替换semaphore代码">替换Semaphore代码</h2>
-<p>使用信号量可以限制对共享资源的访问，你应该考虑使用dispatch semaphore来替换普通信号量。传统的信号量需要陷入内核，而dispatch semaphore可以在用户空间快速地测试状态，只有测试失败调用线程需要阻塞时才会陷入内核。这样dispatch semaphore拥有比传统semaphore快得多的性能。两者的行为是一致的。</p>
-<h2 id="替换run-loop代码">替换Run-Loop代码</h2>
-<p>如果你使用run loop来管理一个或多个线程执行的工作，你会发现使用queue来实现和维护任务会简单许多。设置自定义run loop需要同时设置底层线程和run loop本身。run-loop代码则需要设置一个或多个run loop source，并编写回调来处理这些source事件到达。你可以创建一个串行queue，并dispatch任务到queue中，这样一行代码就能够替换原有的run-loop创建代码：</p>
-<pre><code>dispatch_queue_t myNewRunLoop = dispatch_queue_create(&quot;com.apple.MyQueue&quot;, NULL);
-</code></pre>
-<p>由于queue自动执行添加进来的任务，不需要编写额外的代码来管理queue。你也不需要创建和配置线程，更不需要创建或附加任何run-loop source。此外，你可以通过简单地添加任务就能让queue执行其它类型的任务，而run loop要实现这一点，必须修改现有run loop source，或者创建一个新的run loop source。</p>
-<p>run loop的一个常用配置是处理网络socket异步到达的数据，现在你可以附加dispatch source到需要的queue中，来实现这个行为。dispatch source还能提供更多处理数据的选项，支持更多类型的系统事件处理。</p>
-<h2 id="与posix线程的兼容性">与POSIX线程的兼容性</h2>
-<p>Grand Central Dispatch管理了任务和运行线程之间的关系，通常你应该避免在任务代码中使用POSIX线程函数，如果一定要使用，请小心。</p>
-<p>应用不能删除或mutate不是自己创建的数据结构。使用dispatch queue执行的block对象不能调用以下函数：</p>
-<ul>
-<li><code>pthread_detach</code></li>
-<li><code>pthread_cancel</code></li>
-<li><code>pthread_join</code></li>
-<li><code>pthread_kill</code></li>
-<li><code>pthread_exit</code></li>
-</ul>
-<p>任务运行时修改线程状态是可以的，但你必须还原线程原来的状态。只要你记得还原线程的状态，下面函数是安全的：</p>
-<ul>
-<li><code>pthread_setcancelstate</code></li>
-<li><code>pthread_setcanceltype</code></li>
-<li><code>pthread_setschedparam</code></li>
-<li><code>pthread_sigmask</code></li>
-<li><code>pthread_setspecific</code></li>
-</ul>
-<p>特定block的执行线程可以在多次调用间会发生变化，因此应用不应该依赖于以下函数返回的信息：</p>
-<ul>
-<li><code>pthread_self</code></li>
-<li><code>pthread_getschedparam</code></li>
-<li><code>pthread_get_stacksize_np</code></li>
-<li><code>pthread_get_stackaddr_np</code></li>
-<li><code>pthread_mach_thread_np</code></li>
-<li><code>pthread_from_mach_thread_np</code></li>
-<li><code>pthread_getspecific</code></li>
-</ul>
-<p>Block必须捕获和禁止任何语言级的异常，Block执行期间的其它错误也应该由block处理，或者通知应用</p>
-    </div>
-
-    <div class="post-copyright">
-  <p class="copyright-item">
-    <span class="item-title">Author</span>
-    <span class="item-content">Charvel</span>
-  </p>
-  <p class="copyright-item">
-    <span class="item-title">LastMod</span>
-    <span class="item-content">
-        2015-05-12
-        
-    </span>
-  </p>
-  
-  
-</div>
-<footer class="post-footer">
-      <div class="post-tags">
-          <a href="/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/">并发编程</a>
-          <a href="/tags/gcd/">GCD</a>
-          </div>
-      <nav class="post-nav">
-        <a class="prev" href="/post/2017-06-what-new-in-cocoatouch/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">WWDC 2016 Session 205 - What&#39;s new in CocoaTouch 总结</span>
-            <span class="prev-text nav-mobile">Prev</span>
-          </a>
-        <a class="next" href="/post/2015-05-08-ios-bing-fa-bian-cheng-zhi-nan-si-dispatch-sources/">
-            <span class="next-text nav-default">iOS 并发编程指南(四)-Dispatch Sources</span>
-            <span class="next-text nav-mobile">Next</span>
-            <i class="iconfont icon-right"></i>
-          </a>
-      </nav>
-    </footer>
-  </article>
-        </div>
-        
-
-  
-
-  
-
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="social-links">
-      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
-      <a href="http://localhost:1313" class="iconfont icon-stack-overflow" title="stack-overflow"></a>
-      <a href="http://localhost:1313" class="iconfont icon-twitter" title="twitter"></a>
-      <a href="http://localhost:1313" class="iconfont icon-facebook" title="facebook"></a>
-      <a href="http://localhost:1313" class="iconfont icon-linkedin" title="linkedin"></a>
-      <a href="http://localhost:1313" class="iconfont icon-google" title="google"></a>
-      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
-      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
-      <a href="http://localhost:1313" class="iconfont icon-zhihu" title="zhihu"></a>
-      <a href="http://localhost:1313" class="iconfont icon-douban" title="douban"></a>
-      <a href="http://localhost:1313" class="iconfont icon-pocket" title="pocket"></a>
-      <a href="http://localhost:1313" class="iconfont icon-tumblr" title="tumblr"></a>
-      <a href="http://localhost:1313" class="iconfont icon-instagram" title="instagram"></a>
-      <a href="http://localhost:1313" class="iconfont icon-gitlab" title="gitlab"></a>
-      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
-  <a href="http://wellcheng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
-</div>
-
-<div class="copyright">
-  <span class="power-by">
-    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
-  </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-    Theme - 
-    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
-  </span>
-
-  
-
-  <span class="copyright-year">
-    &copy; 
-    2017 - 
-    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>Charvel</span>
-  </span>
-</div>
-
-    </footer>
-
-    <div class="back-to-top" id="back-to-top">
-      <i class="iconfont icon-up"></i>
-    </div>
-  </div>
-  
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
-
-
-
-<script type="text/javascript" src="/js/main.min.4ae89da218555efa0e7093a20b92017d2e1202b66fff9fc2edf4cb8d44b44c6e.js"></script>
-
-
-
-
-
-
-
-
-</body>
-</html>
+</code></pre><p>当生产者有工作需要做时，只需要将工作添加到queue，并让queue去处理该工作。唯一需要确定的是queue的类型，如果生产者生成的任务需要按特定顺序执行，就使用串行queue;否则使用并发Queue，让系统尽可能多地同时执行任务。</p><h2 id=替换semaphore代码>替换Semaphore代码</h2><p>使用信号量可以限制对共享资源的访问，你应该考虑使用dispatch semaphore来替换普通信号量。传统的信号量需要陷入内核，而dispatch semaphore可以在用户空间快速地测试状态，只有测试失败调用线程需要阻塞时才会陷入内核。这样dispatch semaphore拥有比传统semaphore快得多的性能。两者的行为是一致的。</p><h2 id=替换run-loop代码>替换Run-Loop代码</h2><p>如果你使用run loop来管理一个或多个线程执行的工作，你会发现使用queue来实现和维护任务会简单许多。设置自定义run loop需要同时设置底层线程和run loop本身。run-loop代码则需要设置一个或多个run loop source，并编写回调来处理这些source事件到达。你可以创建一个串行queue，并dispatch任务到queue中，这样一行代码就能够替换原有的run-loop创建代码：</p><pre><code>dispatch_queue_t myNewRunLoop = dispatch_queue_create(&quot;com.apple.MyQueue&quot;, NULL);
+</code></pre><p>由于queue自动执行添加进来的任务，不需要编写额外的代码来管理queue。你也不需要创建和配置线程，更不需要创建或附加任何run-loop source。此外，你可以通过简单地添加任务就能让queue执行其它类型的任务，而run loop要实现这一点，必须修改现有run loop source，或者创建一个新的run loop source。</p><p>run loop的一个常用配置是处理网络socket异步到达的数据，现在你可以附加dispatch source到需要的queue中，来实现这个行为。dispatch source还能提供更多处理数据的选项，支持更多类型的系统事件处理。</p><h2 id=与posix线程的兼容性>与POSIX线程的兼容性</h2><p>Grand Central Dispatch管理了任务和运行线程之间的关系，通常你应该避免在任务代码中使用POSIX线程函数，如果一定要使用，请小心。</p><p>应用不能删除或mutate不是自己创建的数据结构。使用dispatch queue执行的block对象不能调用以下函数：</p><ul><li><code>pthread_detach</code></li><li><code>pthread_cancel</code></li><li><code>pthread_join</code></li><li><code>pthread_kill</code></li><li><code>pthread_exit</code></li></ul><p>任务运行时修改线程状态是可以的，但你必须还原线程原来的状态。只要你记得还原线程的状态，下面函数是安全的：</p><ul><li><code>pthread_setcancelstate</code></li><li><code>pthread_setcanceltype</code></li><li><code>pthread_setschedparam</code></li><li><code>pthread_sigmask</code></li><li><code>pthread_setspecific</code></li></ul><p>特定block的执行线程可以在多次调用间会发生变化，因此应用不应该依赖于以下函数返回的信息：</p><ul><li><code>pthread_self</code></li><li><code>pthread_getschedparam</code></li><li><code>pthread_get_stacksize_np</code></li><li><code>pthread_get_stackaddr_np</code></li><li><code>pthread_mach_thread_np</code></li><li><code>pthread_from_mach_thread_np</code></li><li><code>pthread_getspecific</code></li></ul><p>Block必须捕获和禁止任何语言级的异常，Block执行期间的其它错误也应该由block处理，或者通知应用</p></div><div class=post-copyright><p class=copyright-item><span class=item-title>Author</span>
+<span class=item-content>Charvel</span></p><p class=copyright-item><span class=item-title>LastMod</span>
+<span class=item-content>2015-05-12</span></p></div><footer class=post-footer><div class=post-tags><a href=/tags/%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B/>并发编程</a>
+<a href=/tags/gcd/>GCD</a></div><nav class=post-nav><a class=prev href=/post/2017-06-what-new-in-cocoatouch/><i class="iconfont icon-left"></i>
+<span class="prev-text nav-default">WWDC 2016 Session 205 - What's new in CocoaTouch 总结</span>
+<span class="prev-text nav-mobile">Prev</span></a>
+<a class=next href=/post/2015-05-08-ios-bing-fa-bian-cheng-zhi-nan-si-dispatch-sources/><span class="next-text nav-default">iOS 并发编程指南(四)-Dispatch Sources</span>
+<span class="next-text nav-mobile">Next</span>
+<i class="iconfont icon-right"></i></a></nav></footer></article></div></div></main><footer id=footer class=footer><div class=social-links><a href=mailto:your@email.com class="iconfont icon-email" title=email></a>
+<a href=http://localhost:1313 class="iconfont icon-stack-overflow" title=stack-overflow></a>
+<a href=http://localhost:1313 class="iconfont icon-twitter" title=twitter></a>
+<a href=http://localhost:1313 class="iconfont icon-facebook" title=facebook></a>
+<a href=http://localhost:1313 class="iconfont icon-linkedin" title=linkedin></a>
+<a href=http://localhost:1313 class="iconfont icon-google" title=google></a>
+<a href=http://localhost:1313 class="iconfont icon-github" title=github></a>
+<a href=http://localhost:1313 class="iconfont icon-weibo" title=weibo></a>
+<a href=http://localhost:1313 class="iconfont icon-zhihu" title=zhihu></a>
+<a href=http://localhost:1313 class="iconfont icon-douban" title=douban></a>
+<a href=http://localhost:1313 class="iconfont icon-pocket" title=pocket></a>
+<a href=http://localhost:1313 class="iconfont icon-tumblr" title=tumblr></a>
+<a href=http://localhost:1313 class="iconfont icon-instagram" title=instagram></a>
+<a href=http://localhost:1313 class="iconfont icon-gitlab" title=gitlab></a>
+<a href=http://localhost:1313 class="iconfont icon-bilibili" title=bilibili></a>
+<a href=http://wellcheng.github.io/index.xml type=application/rss+xml class="iconfont icon-rss" title=rss></a></div><div class=copyright><span class=power-by>Powered by <a class=hexo-link href=https://gohugo.io>Hugo</a></span>
+<span class=division>|</span>
+<span class=theme-info>Theme -
+<a class=theme-link href=https://github.com/olOwOlo/hugo-theme-even>Even</a></span>
+<span class=copyright-year>&copy;
+2017 -
+2022<span class=heart><i class="iconfont icon-heart"></i></span><span>Charvel</span></span></div></footer><div class=back-to-top id=back-to-top><i class="iconfont icon-up"></i></div></div><script src=https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin=anonymous></script>
+<script src=https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin=anonymous></script>
+<script src=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin=anonymous></script>
+<script type=text/javascript src=/js/main.min.4ae89da218555efa0e7093a20b92017d2e1202b66fff9fc2edf4cb8d44b44c6e.js></script></body></html>

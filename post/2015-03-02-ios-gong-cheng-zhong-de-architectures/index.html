@@ -1,300 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>iOS 工程中的 Architectures - Even - A super concise theme for Hugo</title>
-  <meta name="renderer" content="webkit" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-<meta name="theme-color" content="#f8f5ec" />
-<meta name="msapplication-navbutton-color" content="#f8f5ec">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
-
-
-<meta name="author" content="Charvel" /><meta name="description" content="Arm 是什么 Arm 处理器是 Arm 公司面向市场推出的 RISC(精简指令集) 微处理器，目前手机上的 CPU 都是 RISC 类型，跟传统 PC 端的 CPU(CISC) 相比，具有体积小、低功耗、低成本、高性能的特点，很适合于移动终端。一般电脑上的 CPU 都是 CISC 类型的，iOS 模拟器是将 Arm 指令转换后在 X86 上运行。另外，Apple 本身就是 ARM 最大的股东之一。
-" /><meta name="keywords" content="Hugo, theme, even" />
-
-
-
-
-
-
-<meta name="generator" content="Hugo 0.104.3 with theme even" />
-
-
-<link rel="canonical" href="http://wellcheng.github.io/post/2015-03-02-ios-gong-cheng-zhong-de-architectures/" />
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="manifest" href="/manifest.json">
-<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
-
-
-
-<link href="/sass/main.min.f92fd13721ddf72129410fd8250e73152cc6f2438082b6c0208dc24ee7c13fc4.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
-
-
-<meta property="og:title" content="iOS 工程中的 Architectures" />
-<meta property="og:description" content="Arm 是什么
-Arm 处理器是 Arm 公司面向市场推出的 RISC(精简指令集) 微处理器，目前手机上的 CPU 都是 RISC 类型，跟传统 PC 端的 CPU(CISC) 相比，具有体积小、低功耗、低成本、高性能的特点，很适合于移动终端。一般电脑上的 CPU 都是 CISC 类型的，iOS 模拟器是将 Arm 指令转换后在 X86 上运行。另外，Apple 本身就是 ARM 最大的股东之一。" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="http://wellcheng.github.io/post/2015-03-02-ios-gong-cheng-zhong-de-architectures/" /><meta property="article:section" content="post" />
-<meta property="article:published_time" content="2015-03-02T11:05:58+08:00" />
-<meta property="article:modified_time" content="2015-03-02T11:05:58+08:00" />
-
-<meta itemprop="name" content="iOS 工程中的 Architectures">
-<meta itemprop="description" content="Arm 是什么
-Arm 处理器是 Arm 公司面向市场推出的 RISC(精简指令集) 微处理器，目前手机上的 CPU 都是 RISC 类型，跟传统 PC 端的 CPU(CISC) 相比，具有体积小、低功耗、低成本、高性能的特点，很适合于移动终端。一般电脑上的 CPU 都是 CISC 类型的，iOS 模拟器是将 Arm 指令转换后在 X86 上运行。另外，Apple 本身就是 ARM 最大的股东之一。"><meta itemprop="datePublished" content="2015-03-02T11:05:58+08:00" />
-<meta itemprop="dateModified" content="2015-03-02T11:05:58+08:00" />
-<meta itemprop="wordCount" content="1273">
-<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="iOS 工程中的 Architectures"/>
-<meta name="twitter:description" content="Arm 是什么
-Arm 处理器是 Arm 公司面向市场推出的 RISC(精简指令集) 微处理器，目前手机上的 CPU 都是 RISC 类型，跟传统 PC 端的 CPU(CISC) 相比，具有体积小、低功耗、低成本、高性能的特点，很适合于移动终端。一般电脑上的 CPU 都是 CISC 类型的，iOS 模拟器是将 Arm 指令转换后在 X86 上运行。另外，Apple 本身就是 ARM 最大的股东之一。"/>
-
-<!--[if lte IE 9]>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
-<![endif]-->
-
-<!--[if lt IE 9]>
-  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
-<![endif]-->
-
-</head>
-<body>
-  <div id="mobile-navbar" class="mobile-navbar">
-  <div class="mobile-header-logo">
-    <a href="/" class="logo">Even</a>
-  </div>
-  <div class="mobile-navbar-icon">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
-</div>
-<nav id="mobile-menu" class="mobile-menu slideout-menu">
-  <ul class="mobile-menu-list">
-    <a href="/">
-        <li class="mobile-menu-item">Home</li>
-      </a><a href="/post/">
-        <li class="mobile-menu-item">Archives</li>
-      </a><a href="/tags/">
-        <li class="mobile-menu-item">Tags</li>
-      </a><a href="/categories/">
-        <li class="mobile-menu-item">Categories</li>
-      </a>
-  </ul>
-
-  
-
-
-</nav>
-
-  <div class="container" id="mobile-panel">
-    <header id="header" class="header">
-        <div class="logo-wrapper">
-  <a href="/" class="logo">Even</a>
-</div>
-
-
-
-
-
-<nav class="site-navbar">
-  <ul id="menu" class="menu">
-    <li class="menu-item">
-        <a class="menu-item-link" href="/">Home</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/post/">Archives</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/tags/">Tags</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/categories/">Categories</a>
-      </li>
-  </ul>
-</nav>
-
-    </header>
-
-    <main id="main" class="main">
-      <div class="content-wrapper">
-        <div id="content" class="content">
-          <article class="post">
-    
-    <header class="post-header">
-      <h1 class="post-title">iOS 工程中的 Architectures</h1>
-
-      <div class="post-meta">
-        <span class="post-time"> 2015-03-02 </span>
-        
-        
-      </div>
-    </header>
-
-    <div class="post-toc" id="post-toc">
-  <h2 class="post-toc-title">Contents</h2>
-  <div class="post-toc-content always-active">
-    <nav id="TableOfContents">
-  <ul>
-    <li>
-      <ul>
-        <li><a href="#arm-是什么">Arm 是什么</a></li>
-        <li><a href="#apple-系列产品的-arm-架构">Apple 系列产品的 Arm 架构</a></li>
-        <li><a href="#xcode-中的-architectures-配置">Xcode 中的 Architectures 配置</a>
-          <ul>
-            <li></li>
-          </ul>
-        </li>
-      </ul>
-    </li>
-  </ul>
-</nav>
-  </div>
-</div>
-    <div class="post-content">
-      <h2 id="arm-是什么">Arm 是什么</h2>
-<p>Arm 处理器是 Arm 公司面向市场推出的 RISC(精简指令集) 微处理器，目前手机上的 CPU 都是 RISC 类型，跟传统 PC 端的 CPU(CISC) 相比，具有体积小、低功耗、低成本、高性能的特点，很适合于移动终端。一般电脑上的 CPU 都是 CISC 类型的，iOS 模拟器是将 Arm 指令转换后在 X86 上运行。另外，Apple 本身就是 ARM 最大的股东之一。</p>
-<h2 id="apple-系列产品的-arm-架构">Apple 系列产品的 Arm 架构</h2>
-<p>Armv6 的设备有</p>
-<p><code>iPhone 1,2,3 代</code>、 <code>iPod 1,2 代</code></p>
-<p>Armv7 的设备有</p>
-<p><code>iPhone 3GS</code>、<code>iPhone 4</code>、<code>iPhone 4s</code>、</p>
-<p><code>iPad</code>、<code>iPad 2</code>、<code>(iPad 3)the new iPad</code>、<code>iPad mini</code>、</p>
-<p><code>iPod touch 3G</code>、<code>iPod touch 4</code></p>
-<p>Armv7s 的设备有</p>
-<p><code>iPhone 5</code>、<code>iPhone 5c</code>
-<code>iPad 4</code></p>
-<p>Arm64 的设备有 <code>iPhone 5s</code>、<code>iPhone 6</code>、<code>iPhone 6 plus</code></p>
-<p><code>iPad mini 2</code>、<code>iPad mini 3</code>、<code>iPad Air</code>、<code>iPad Air 2</code></p>
-<p>可以看到，再以后的产品线中，应该全部都是支持 64 位了，如果是这样子，App 如果不支持64位，那么处理器再厉害也是白搭，性能损耗太大，苹果今年（2015）有关新上线 App 必须支持64位的决定也是有一定道理的。有关 App 如何支持64位的博客我会尽快的翻译官方的 GUI。</p>
-<h2 id="xcode-中的-architectures-配置">Xcode 中的 Architectures 配置</h2>
-<p>Xcode 中有关指令集的配置如下图所示：</p>
-<p><img src="http://7vzucb.com1.z0.glb.clouddn.com/blog.Architectures.png" alt="Architectures Xcode 截图"></p>
-<p>####Architectures:</p>
-<p>表示工程将被编译成支持哪些指令集，支持指令集是通过编译生成对应的二进制数据包实现的，如果选择支持多个指令集，会造成编译出的数据包很大。Xcode 6 目前的默认设置为 <code>$(ARCHS_STANDARD)(armv7,arm64) </code> ,armv7 包含了 Apple 的绝大数产品线，不包含的基本上已经被市场淘汰了，但是如果选择 armv7s，那么支持的 iOS 设备将会减少很多，另外 armv7 和 armv7s 性能差异比较小，所以 Apple 选择了 armv7，不排除以后 Xcode 升级修改到 armv7s。还有一个 arm64，这个就是让支持64位的设备全部运行64位数据包，由于64位与32位之间的性能差距比较大，再加上现在所有的 App 都需要支持64位，以后的 Xcode 配置中这一项不用改动，就按这个默认的 <code>$(ARCHS_STANDARD)</code> 来就行了。</p>
-<p>####Build Active Architecture Only:</p>
-<p>这个设置项是一个 BOOL 值，相当于一个开关，其意思是说，如果开关打开的话，我当前选择的设备是什么，我就编译跟设备匹配的二进制包。一般来说 Debug 模式下设置为 YES，这样子在测试 App 的时候，编译器只需要编译一种包，极大的减少了编译时间。Release 模式下设置为 NO，Release 模式主要是指打包为 ipa 分发测试或上线到 AppStore，这个时候你根本不知道安装 App 的设备是什么，当然是选择 NO，让编译起编译你所有想要支持的二进制包啦。</p>
-<p>####Valid Architectures:</p>
-<p>这里选择的是可能要编译的指令集，<code>Valid Architectures</code> 与 <code>Architectures</code> 指令集的交集，才会是 Xcode 最终编译出来的二进制包支持的指令集。如果此项为空，那么 Xcode 将不会编译任何东西。如果对 App 的体积有要求，可以在此项中设置最小的指令支持，但还是必须支持64位哦～</p>
-<p>只要理解了 iOS 设备与指令集的关系，以后如果项目中遇到了指令集编译方面的错误，就可以迎刃而解了，尤其是使用第三方的 .a 静态库时，可能会出各种问题，其中很多问题都是指令集造成的，尤其是那些 <em>年代久远</em> 的库。</p>
-<h4 id="查看指定静态库所支持的指令集">查看指定静态库所支持的指令集</h4>
-<p>比如要查看 libExample.a 这个静态库所支持的指令集，只需要 lipo 一下就好了</p>
-<pre><code>lipo -info libExample.a
-</code></pre>
-<p>我自己在电脑上测试某 SDK 的库，得到的结果如下:</p>
-<pre><code>Architectures in the fat file: output/Libxxx/libxxx.a are: armv7 armv7s i386 x86_64 arm64 
-</code></pre>
-<p>可以见得，在写 SDK 时，最好是 <strong>全部都支持</strong> ，这样子才不会给使用 SDK 的开发者造成麻烦。</p>
-    </div>
-
-    <div class="post-copyright">
-  <p class="copyright-item">
-    <span class="item-title">Author</span>
-    <span class="item-content">Charvel</span>
-  </p>
-  <p class="copyright-item">
-    <span class="item-title">LastMod</span>
-    <span class="item-content">
-        2015-03-02
-        
-    </span>
-  </p>
-  
-  
-</div>
-<footer class="post-footer">
-      
-      <nav class="post-nav">
-        <a class="prev" href="/post/2015-03-05-jiang-ni-de-ios-gong-cheng-zhuan-huan-wei-zhi-chi-64wei-de-ban-ben/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">将你的iOS 工程转换为支持64位的版本</span>
-            <span class="prev-text nav-mobile">Prev</span>
-          </a>
-        <a class="next" href="/post/2015-11-scrollview-%E4%B8%AD%E4%BD%BF%E7%94%A8-autolayout-%E7%9A%84%E5%9D%91%E4%B8%8E%E5%A1%AB%E5%9D%91/">
-            <span class="next-text nav-default"></span>
-            <span class="next-text nav-mobile">Next</span>
-            <i class="iconfont icon-right"></i>
-          </a>
-      </nav>
-    </footer>
-  </article>
-        </div>
-        
-
-  
-
-  
-
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="social-links">
-      <a href="mailto:your@email.com" class="iconfont icon-email" title="email"></a>
-      <a href="http://localhost:1313" class="iconfont icon-stack-overflow" title="stack-overflow"></a>
-      <a href="http://localhost:1313" class="iconfont icon-twitter" title="twitter"></a>
-      <a href="http://localhost:1313" class="iconfont icon-facebook" title="facebook"></a>
-      <a href="http://localhost:1313" class="iconfont icon-linkedin" title="linkedin"></a>
-      <a href="http://localhost:1313" class="iconfont icon-google" title="google"></a>
-      <a href="http://localhost:1313" class="iconfont icon-github" title="github"></a>
-      <a href="http://localhost:1313" class="iconfont icon-weibo" title="weibo"></a>
-      <a href="http://localhost:1313" class="iconfont icon-zhihu" title="zhihu"></a>
-      <a href="http://localhost:1313" class="iconfont icon-douban" title="douban"></a>
-      <a href="http://localhost:1313" class="iconfont icon-pocket" title="pocket"></a>
-      <a href="http://localhost:1313" class="iconfont icon-tumblr" title="tumblr"></a>
-      <a href="http://localhost:1313" class="iconfont icon-instagram" title="instagram"></a>
-      <a href="http://localhost:1313" class="iconfont icon-gitlab" title="gitlab"></a>
-      <a href="http://localhost:1313" class="iconfont icon-bilibili" title="bilibili"></a>
-  <a href="http://wellcheng.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
-</div>
-
-<div class="copyright">
-  <span class="power-by">
-    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
-  </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-    Theme - 
-    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
-  </span>
-
-  
-
-  <span class="copyright-year">
-    &copy; 
-    2017 - 
-    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>Charvel</span>
-  </span>
-</div>
-
-    </footer>
-
-    <div class="back-to-top" id="back-to-top">
-      <i class="iconfont icon-up"></i>
-    </div>
-  </div>
-  
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
-
-
-
-<script type="text/javascript" src="/js/main.min.4ae89da218555efa0e7093a20b92017d2e1202b66fff9fc2edf4cb8d44b44c6e.js"></script>
-
-
-
-
-
-
-
-
-</body>
-</html>
+<!doctype html><html lang=en><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge,chrome=1"><title>iOS 工程中的 Architectures - Even - A super concise theme for Hugo</title><meta name=renderer content="webkit"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta http-equiv=cache-control content="no-transform"><meta http-equiv=cache-control content="no-siteapp"><meta name=theme-color content="#f8f5ec"><meta name=msapplication-navbutton-color content="#f8f5ec"><meta name=apple-mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-status-bar-style content="#f8f5ec"><meta name=author content="Charvel"><meta name=description content="Arm 是什么 Arm 处理器是 Arm 公司面向市场推出的 RISC(精简指令集) 微处理器，目前手机上的 CPU 都是 RISC 类型，跟传统 PC 端的 CPU(CISC) 相比，具有体积小、低功耗、低成本、高性能的特点，很适合于移动终端。一般电脑上的 CPU 都是 CISC 类型的，iOS 模拟器是将 Arm 指令转换后在 X86 上运行。另外，Apple 本身就是 ARM 最大的股东之一。
+"><meta name=keywords content="Hugo,theme,even"><meta name=generator content="Hugo 0.104.3 with theme even"><link rel=canonical href=http://wellcheng.github.io/post/2015-03-02-ios-gong-cheng-zhong-de-architectures/><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/manifest.json><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link href=/sass/main.min.f92fd13721ddf72129410fd8250e73152cc6f2438082b6c0208dc24ee7c13fc4.css rel=stylesheet><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin=anonymous><meta property="og:title" content="iOS 工程中的 Architectures"><meta property="og:description" content="Arm 是什么
+Arm 处理器是 Arm 公司面向市场推出的 RISC(精简指令集) 微处理器，目前手机上的 CPU 都是 RISC 类型，跟传统 PC 端的 CPU(CISC) 相比，具有体积小、低功耗、低成本、高性能的特点，很适合于移动终端。一般电脑上的 CPU 都是 CISC 类型的，iOS 模拟器是将 Arm 指令转换后在 X86 上运行。另外，Apple 本身就是 ARM 最大的股东之一。"><meta property="og:type" content="article"><meta property="og:url" content="http://wellcheng.github.io/post/2015-03-02-ios-gong-cheng-zhong-de-architectures/"><meta property="article:section" content="post"><meta property="article:published_time" content="2015-03-02T11:05:58+08:00"><meta property="article:modified_time" content="2015-03-02T11:05:58+08:00"><meta itemprop=name content="iOS 工程中的 Architectures"><meta itemprop=description content="Arm 是什么
+Arm 处理器是 Arm 公司面向市场推出的 RISC(精简指令集) 微处理器，目前手机上的 CPU 都是 RISC 类型，跟传统 PC 端的 CPU(CISC) 相比，具有体积小、低功耗、低成本、高性能的特点，很适合于移动终端。一般电脑上的 CPU 都是 CISC 类型的，iOS 模拟器是将 Arm 指令转换后在 X86 上运行。另外，Apple 本身就是 ARM 最大的股东之一。"><meta itemprop=datePublished content="2015-03-02T11:05:58+08:00"><meta itemprop=dateModified content="2015-03-02T11:05:58+08:00"><meta itemprop=wordCount content="1273"><meta itemprop=keywords content><meta name=twitter:card content="summary"><meta name=twitter:title content="iOS 工程中的 Architectures"><meta name=twitter:description content="Arm 是什么
+Arm 处理器是 Arm 公司面向市场推出的 RISC(精简指令集) 微处理器，目前手机上的 CPU 都是 RISC 类型，跟传统 PC 端的 CPU(CISC) 相比，具有体积小、低功耗、低成本、高性能的特点，很适合于移动终端。一般电脑上的 CPU 都是 CISC 类型的，iOS 模拟器是将 Arm 指令转换后在 X86 上运行。另外，Apple 本身就是 ARM 最大的股东之一。"><!--[if lte IE 9]><script src=https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js></script><![endif]--><!--[if lt IE 9]><script src=https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js></script>
+<script src=https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js></script><![endif]--></head><body><div id=mobile-navbar class=mobile-navbar><div class=mobile-header-logo><a href=/ class=logo>Even</a></div><div class=mobile-navbar-icon><span></span>
+<span></span>
+<span></span></div></div><nav id=mobile-menu class="mobile-menu slideout-menu"><ul class=mobile-menu-list><a href=/><li class=mobile-menu-item>Home</li></a><a href=/post/><li class=mobile-menu-item>Archives</li></a><a href=/tags/><li class=mobile-menu-item>Tags</li></a><a href=/categories/><li class=mobile-menu-item>Categories</li></a></ul></nav><div class=container id=mobile-panel><header id=header class=header><div class=logo-wrapper><a href=/ class=logo>Even</a></div><nav class=site-navbar><ul id=menu class=menu><li class=menu-item><a class=menu-item-link href=/>Home</a></li><li class=menu-item><a class=menu-item-link href=/post/>Archives</a></li><li class=menu-item><a class=menu-item-link href=/tags/>Tags</a></li><li class=menu-item><a class=menu-item-link href=/categories/>Categories</a></li></ul></nav></header><main id=main class=main><div class=content-wrapper><div id=content class=content><article class=post><header class=post-header><h1 class=post-title>iOS 工程中的 Architectures</h1><div class=post-meta><span class=post-time>2015-03-02</span></div></header><div class=post-toc id=post-toc><h2 class=post-toc-title>Contents</h2><div class="post-toc-content always-active"><nav id=TableOfContents><ul><li><ul><li><a href=#arm-是什么>Arm 是什么</a></li><li><a href=#apple-系列产品的-arm-架构>Apple 系列产品的 Arm 架构</a></li><li><a href=#xcode-中的-architectures-配置>Xcode 中的 Architectures 配置</a><ul><li></li></ul></li></ul></li></ul></nav></div></div><div class=post-content><h2 id=arm-是什么>Arm 是什么</h2><p>Arm 处理器是 Arm 公司面向市场推出的 RISC(精简指令集) 微处理器，目前手机上的 CPU 都是 RISC 类型，跟传统 PC 端的 CPU(CISC) 相比，具有体积小、低功耗、低成本、高性能的特点，很适合于移动终端。一般电脑上的 CPU 都是 CISC 类型的，iOS 模拟器是将 Arm 指令转换后在 X86 上运行。另外，Apple 本身就是 ARM 最大的股东之一。</p><h2 id=apple-系列产品的-arm-架构>Apple 系列产品的 Arm 架构</h2><p>Armv6 的设备有</p><p><code>iPhone 1,2,3 代</code>、 <code>iPod 1,2 代</code></p><p>Armv7 的设备有</p><p><code>iPhone 3GS</code>、<code>iPhone 4</code>、<code>iPhone 4s</code>、</p><p><code>iPad</code>、<code>iPad 2</code>、<code>(iPad 3)the new iPad</code>、<code>iPad mini</code>、</p><p><code>iPod touch 3G</code>、<code>iPod touch 4</code></p><p>Armv7s 的设备有</p><p><code>iPhone 5</code>、<code>iPhone 5c</code>
+<code>iPad 4</code></p><p>Arm64 的设备有 <code>iPhone 5s</code>、<code>iPhone 6</code>、<code>iPhone 6 plus</code></p><p><code>iPad mini 2</code>、<code>iPad mini 3</code>、<code>iPad Air</code>、<code>iPad Air 2</code></p><p>可以看到，再以后的产品线中，应该全部都是支持 64 位了，如果是这样子，App 如果不支持64位，那么处理器再厉害也是白搭，性能损耗太大，苹果今年（2015）有关新上线 App 必须支持64位的决定也是有一定道理的。有关 App 如何支持64位的博客我会尽快的翻译官方的 GUI。</p><h2 id=xcode-中的-architectures-配置>Xcode 中的 Architectures 配置</h2><p>Xcode 中有关指令集的配置如下图所示：</p><p><img src=http://7vzucb.com1.z0.glb.clouddn.com/blog.Architectures.png alt="Architectures Xcode 截图"></p><p>####Architectures:</p><p>表示工程将被编译成支持哪些指令集，支持指令集是通过编译生成对应的二进制数据包实现的，如果选择支持多个指令集，会造成编译出的数据包很大。Xcode 6 目前的默认设置为 <code>$(ARCHS_STANDARD)(armv7,arm64)</code> ,armv7 包含了 Apple 的绝大数产品线，不包含的基本上已经被市场淘汰了，但是如果选择 armv7s，那么支持的 iOS 设备将会减少很多，另外 armv7 和 armv7s 性能差异比较小，所以 Apple 选择了 armv7，不排除以后 Xcode 升级修改到 armv7s。还有一个 arm64，这个就是让支持64位的设备全部运行64位数据包，由于64位与32位之间的性能差距比较大，再加上现在所有的 App 都需要支持64位，以后的 Xcode 配置中这一项不用改动，就按这个默认的 <code>$(ARCHS_STANDARD)</code> 来就行了。</p><p>####Build Active Architecture Only:</p><p>这个设置项是一个 BOOL 值，相当于一个开关，其意思是说，如果开关打开的话，我当前选择的设备是什么，我就编译跟设备匹配的二进制包。一般来说 Debug 模式下设置为 YES，这样子在测试 App 的时候，编译器只需要编译一种包，极大的减少了编译时间。Release 模式下设置为 NO，Release 模式主要是指打包为 ipa 分发测试或上线到 AppStore，这个时候你根本不知道安装 App 的设备是什么，当然是选择 NO，让编译起编译你所有想要支持的二进制包啦。</p><p>####Valid Architectures:</p><p>这里选择的是可能要编译的指令集，<code>Valid Architectures</code> 与 <code>Architectures</code> 指令集的交集，才会是 Xcode 最终编译出来的二进制包支持的指令集。如果此项为空，那么 Xcode 将不会编译任何东西。如果对 App 的体积有要求，可以在此项中设置最小的指令支持，但还是必须支持64位哦～</p><p>只要理解了 iOS 设备与指令集的关系，以后如果项目中遇到了指令集编译方面的错误，就可以迎刃而解了，尤其是使用第三方的 .a 静态库时，可能会出各种问题，其中很多问题都是指令集造成的，尤其是那些 <em>年代久远</em> 的库。</p><h4 id=查看指定静态库所支持的指令集>查看指定静态库所支持的指令集</h4><p>比如要查看 libExample.a 这个静态库所支持的指令集，只需要 lipo 一下就好了</p><pre><code>lipo -info libExample.a
+</code></pre><p>我自己在电脑上测试某 SDK 的库，得到的结果如下:</p><pre><code>Architectures in the fat file: output/Libxxx/libxxx.a are: armv7 armv7s i386 x86_64 arm64 
+</code></pre><p>可以见得，在写 SDK 时，最好是 <strong>全部都支持</strong> ，这样子才不会给使用 SDK 的开发者造成麻烦。</p></div><div class=post-copyright><p class=copyright-item><span class=item-title>Author</span>
+<span class=item-content>Charvel</span></p><p class=copyright-item><span class=item-title>LastMod</span>
+<span class=item-content>2015-03-02</span></p></div><footer class=post-footer><nav class=post-nav><a class=prev href=/post/2015-03-05-jiang-ni-de-ios-gong-cheng-zhuan-huan-wei-zhi-chi-64wei-de-ban-ben/><i class="iconfont icon-left"></i>
+<span class="prev-text nav-default">将你的iOS 工程转换为支持64位的版本</span>
+<span class="prev-text nav-mobile">Prev</span></a>
+<a class=next href=/post/2015-11-scrollview-%E4%B8%AD%E4%BD%BF%E7%94%A8-autolayout-%E7%9A%84%E5%9D%91%E4%B8%8E%E5%A1%AB%E5%9D%91/><span class="next-text nav-default"></span>
+<span class="next-text nav-mobile">Next</span>
+<i class="iconfont icon-right"></i></a></nav></footer></article></div></div></main><footer id=footer class=footer><div class=social-links><a href=mailto:your@email.com class="iconfont icon-email" title=email></a>
+<a href=http://localhost:1313 class="iconfont icon-stack-overflow" title=stack-overflow></a>
+<a href=http://localhost:1313 class="iconfont icon-twitter" title=twitter></a>
+<a href=http://localhost:1313 class="iconfont icon-facebook" title=facebook></a>
+<a href=http://localhost:1313 class="iconfont icon-linkedin" title=linkedin></a>
+<a href=http://localhost:1313 class="iconfont icon-google" title=google></a>
+<a href=http://localhost:1313 class="iconfont icon-github" title=github></a>
+<a href=http://localhost:1313 class="iconfont icon-weibo" title=weibo></a>
+<a href=http://localhost:1313 class="iconfont icon-zhihu" title=zhihu></a>
+<a href=http://localhost:1313 class="iconfont icon-douban" title=douban></a>
+<a href=http://localhost:1313 class="iconfont icon-pocket" title=pocket></a>
+<a href=http://localhost:1313 class="iconfont icon-tumblr" title=tumblr></a>
+<a href=http://localhost:1313 class="iconfont icon-instagram" title=instagram></a>
+<a href=http://localhost:1313 class="iconfont icon-gitlab" title=gitlab></a>
+<a href=http://localhost:1313 class="iconfont icon-bilibili" title=bilibili></a>
+<a href=http://wellcheng.github.io/index.xml type=application/rss+xml class="iconfont icon-rss" title=rss></a></div><div class=copyright><span class=power-by>Powered by <a class=hexo-link href=https://gohugo.io>Hugo</a></span>
+<span class=division>|</span>
+<span class=theme-info>Theme -
+<a class=theme-link href=https://github.com/olOwOlo/hugo-theme-even>Even</a></span>
+<span class=copyright-year>&copy;
+2017 -
+2022<span class=heart><i class="iconfont icon-heart"></i></span><span>Charvel</span></span></div></footer><div class=back-to-top id=back-to-top><i class="iconfont icon-up"></i></div></div><script src=https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin=anonymous></script>
+<script src=https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin=anonymous></script>
+<script src=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin=anonymous></script>
+<script type=text/javascript src=/js/main.min.4ae89da218555efa0e7093a20b92017d2e1202b66fff9fc2edf4cb8d44b44c6e.js></script></body></html>
