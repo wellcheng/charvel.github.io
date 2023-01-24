@@ -20,3 +20,13 @@ https://gohugo.io/hosting-and-deployment/hosting-on-github/#build-hugo-with-gith
 
 大概看了一下，market 市场中的 hugo action 将整个部署过程分为了 build 和 deploy 两个阶段。
 这样在出现错误时，可以单独 rebuild 每个 step，而不是整个重新来过。
+
+使用 GitHub Actions 可以在线编辑 markdown 文件，提交后触发直接部署。
+
+1、进入仓库
+
+2、选择 post 目录 ： https://github.com/wellcheng/wellcheng.github.io/tree/main/content/post
+
+3、新建 markdown 文件，格式为 2023-00-demo.md
+
+4、编辑文本并提交 commit 即可。
